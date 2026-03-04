@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/books")
 @Log4j2
-public class BooksController {
+public class BookRestController {
 
     private static final Map<Integer, String> database = new HashMap<>();
 

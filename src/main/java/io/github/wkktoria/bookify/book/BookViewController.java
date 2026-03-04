@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class BooksViewController {
+public class BookViewController {
 
     private static final Map<Integer, String> database = new HashMap<>();
 
