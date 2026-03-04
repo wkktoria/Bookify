@@ -73,4 +73,9 @@ public class BooksController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping
+    public ResponseEntity<> f() {
+        return ResponseEntity.ok();
+    }
+
 }

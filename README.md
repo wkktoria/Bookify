@@ -1,5 +1,12 @@
 # Bookify
 
+## Table of Contents
+
+- [Endpoints](#endpoints)
+    - [GET Endpoints](#get-endpoints)
+    - [POST Endpoints](#post-endpoints)
+- [Views](#views)
+
 ## Endpoints
 
 Swagger is available at: `/swagger-ui/index.html`
