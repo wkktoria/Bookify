@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify;
 
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ public class BooksController {
     }
 
     @PostMapping
-    public ResponseEntity<SingleBookResponseDto> postBook(@RequestBody BookRequestDto request) {
+    public ResponseEntity<SingleBookResponseDto> postBook(@RequestBody @Valid BookRequestDto request) {
         String bookTitle = request.bookTitle();
         log.info("Adding new book with title: {}", bookTitle);
         database.put(database.size() + 1, bookTitle);
