@@ -34,6 +34,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     client -->|DELETE /books/1| server
+    client -->|DELETE /books?id=1| server
 ```
 
 ## Views

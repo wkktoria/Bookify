@@ -83,4 +83,18 @@ public class BookRestController {
                 .body(new SingleBookResponseDto(bookTitle));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBookByIdUsingPathVariable(@PathVariable Integer id) {
+        log.info("Deleting book with id: {}", id);
+        database.remove(id);
+        return ResponseEntity.ok("Deleted book with id: " + id);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteBookByIdUsingRequestParam(@RequestParam Integer id) {
+        log.info("Deleting book with id: {}", id);
+        database.remove(id);
+        return ResponseEntity.ok("Deleted book with id: " + id);
+    }
+
 }
