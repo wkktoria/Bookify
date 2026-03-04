@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.book;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -84,17 +85,25 @@ public class BookRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBookByIdUsingPathVariable(@PathVariable Integer id) {
-        log.info("Deleting book with id: {}", id);
-        database.remove(id);
-        return ResponseEntity.ok("Deleted book with id: " + id);
+    public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingPathVariable(@PathVariable Integer id) {
+        return deleteBook(id);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteBookByIdUsingRequestParam(@RequestParam Integer id) {
+    public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingRequestParam(@RequestParam Integer id) {
+        return deleteBook(id);
+    }
+
+    private ResponseEntity<DeleteBookResponseDto> deleteBook(@RequestParam Integer id) {
+        if (!database.containsKey(id)) {
+            log.warn("Could not find book with id: {}", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new DeleteBookResponseDto("Could not find book with id: " + id, HttpStatus.NOT_FOUND));
+        }
+
         log.info("Deleting book with id: {}", id);
         database.remove(id);
-        return ResponseEntity.ok("Deleted book with id: " + id);
+        return ResponseEntity.ok(new DeleteBookResponseDto("Deleted book with id: " + id, HttpStatus.OK));
     }
 
 }
