@@ -13,3 +13,8 @@ flowchart TD
     client -->|GET /books?id=100| server
     client -->|GET /books header 'requestId: 1000001'| server
 ```
+
+## Views
+
+- homepage: `/home.html`
+- books: `/view/books`
