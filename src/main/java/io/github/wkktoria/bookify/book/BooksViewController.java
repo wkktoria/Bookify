@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify;
+package io.github.wkktoria.bookify.book;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

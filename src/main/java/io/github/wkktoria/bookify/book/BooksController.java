@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify;
+package io.github.wkktoria.bookify.book;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
