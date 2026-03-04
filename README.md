@@ -25,7 +25,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    client -->|POST /books| server
+    client -->|POST /books body {}| server
 ```
 
 ## Views

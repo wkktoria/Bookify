@@ -74,8 +74,12 @@ public class BooksController {
     }
 
     @PostMapping
-    public ResponseEntity<> f() {
-        return ResponseEntity.ok();
+    public ResponseEntity<SingleBookResponseDto> postBook(@RequestBody BookRequestDto request) {
+        String bookTitle = request.bookTitle();
+        log.info("Adding new book with title: {}", bookTitle);
+        database.put(database.size() + 1, bookTitle);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new SingleBookResponseDto(bookTitle));
     }
 
 }
