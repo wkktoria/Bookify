@@ -14,6 +14,13 @@ flowchart TD
     client -->|GET /books header 'requestId: 1000001'| server
 ```
 
+### POST Endpoints
+
+```mermaid
+flowchart TD
+    client -->|POST /books| server
+```
+
 ## Views
 
 - homepage: `/home.html`
