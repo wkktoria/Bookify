@@ -5,6 +5,7 @@
 - [Endpoints](#endpoints)
     - [GET Endpoints](#get-endpoints)
     - [POST Endpoints](#post-endpoints)
+    - [DELETE Endpoints](#delete-endpoints)
 - [Views](#views)
 
 ## Endpoints
@@ -26,6 +27,13 @@ flowchart TD
 ```mermaid
 flowchart TD
     client -->|POST /books body {}| server
+```
+
+### DELETE Endpoints
+
+```mermaid
+flowchart TD
+    client -->|DELETE /books/1| server
 ```
 
 ## Views
