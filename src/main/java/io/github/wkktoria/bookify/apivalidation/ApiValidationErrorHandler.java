@@ -22,7 +22,7 @@ public class ApiValidationErrorHandler {
     public ApiValidationErrorResponseDto handleValidationException(MethodArgumentNotValidException exception) {
         log.error("Validation exception: {}", exception.getTypeMessageCode());
         List<String> messages = getErrorsFromException(exception);
-        return new ApiValidationErrorResponseDto(messages);
+        return new ApiValidationErrorResponseDto(messages, HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value());
     }
 
     private List<String> getErrorsFromException(MethodArgumentNotValidException exception) {
