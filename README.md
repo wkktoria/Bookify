@@ -2,6 +2,8 @@
 
 ## Endpoints
 
+Swagger is available at: `/swagger-ui/index.html`
+
 ### GET Endpoints
 
 ```mermaid
