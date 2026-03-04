@@ -26,7 +26,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    client -->|POST /books body {}| server
+    client -->|POST /books body JSON| server
 ```
 
 ### DELETE Endpoints
