@@ -20,8 +20,8 @@ public class ApiValidationErrorHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiValidationErrorResponseDto handleValidationException(MethodArgumentNotValidException exception) {
-        log.error("Validation exception: {}", exception.getTypeMessageCode());
         List<String> messages = getErrorsFromException(exception);
+        log.warn("Validation failed: {}", messages);
         return new ApiValidationErrorResponseDto(messages, HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value());
     }
 
