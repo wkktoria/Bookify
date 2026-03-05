@@ -4,6 +4,7 @@ import io.github.wkktoria.bookify.book.dto.BookRequestDto;
 import io.github.wkktoria.bookify.book.dto.BookResponseDto;
 import io.github.wkktoria.bookify.book.dto.DeleteBookResponseDto;
 import io.github.wkktoria.bookify.book.dto.SingleBookResponseDto;
+import io.github.wkktoria.bookify.book.error.BookNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,7 @@ public class BookRestController {
             String book = database.get(id);
 
             if (book == null) {
-                log.warn("Could not find book with id: {}", id);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                throw new BookNotFoundException("Could not find book with id: " + id);
             }
 
             BookResponseDto response = new BookResponseDto(Map.of(id, book));
@@ -70,8 +70,7 @@ public class BookRestController {
         String book = database.get(id);
 
         if (book == null) {
-            log.warn("Could not find book with id: {}", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new BookNotFoundException("Could not find book with id: " + id);
         }
 
         SingleBookResponseDto response = new SingleBookResponseDto(book);
@@ -99,9 +98,7 @@ public class BookRestController {
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
         if (!database.containsKey(id)) {
-            log.warn("Could not find book with id: {}", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new DeleteBookResponseDto("Could not find book with id: " + id, HttpStatus.NOT_FOUND));
+            throw new BookNotFoundException("Could not find book with id: " + id);
         }
 
         log.info("Deleting book with id: {}", id);
