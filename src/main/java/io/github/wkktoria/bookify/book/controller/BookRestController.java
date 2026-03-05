@@ -1,5 +1,9 @@
-package io.github.wkktoria.bookify.book;
+package io.github.wkktoria.bookify.book.controller;
 
+import io.github.wkktoria.bookify.book.dto.BookRequestDto;
+import io.github.wkktoria.bookify.book.dto.BookResponseDto;
+import io.github.wkktoria.bookify.book.dto.DeleteBookResponseDto;
+import io.github.wkktoria.bookify.book.dto.SingleBookResponseDto;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.book;
+package io.github.wkktoria.bookify.book.dto;
 
 import java.util.Map;
 

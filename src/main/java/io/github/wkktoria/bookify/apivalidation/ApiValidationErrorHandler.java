@@ -1,6 +1,6 @@
 package io.github.wkktoria.bookify.apivalidation;
 
-import io.github.wkktoria.bookify.book.BookRestController;
+import io.github.wkktoria.bookify.book.controller.BookRestController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
