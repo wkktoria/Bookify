@@ -1,6 +1,6 @@
 package io.github.wkktoria.bookify.book.controller;
 
-import io.github.wkktoria.bookify.book.dto.request.BookRequestDto;
+import io.github.wkktoria.bookify.book.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.book.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.dto.request.UpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.dto.response.*;
@@ -31,9 +31,9 @@ public class BookRestController {
     }
 
     @GetMapping
-    public ResponseEntity<BookResponseDto> getAllBooks(@RequestParam(required = false) Integer id,
-                                                       @RequestParam(required = false) Integer limit,
-                                                       @RequestHeader(required = false) String requestId) {
+    public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@RequestParam(required = false) Integer id,
+                                                              @RequestParam(required = false) Integer limit,
+                                                              @RequestHeader(required = false) String requestId) {
         if (requestId != null) {
             log.info("Request id {}", requestId);
         }
@@ -46,7 +46,7 @@ public class BookRestController {
                 throw new BookNotFoundException("Could not find book with id " + id);
             }
 
-            BookResponseDto response = new BookResponseDto(Map.of(id, book));
+            GetAllBooksResponseDto response = new GetAllBooksResponseDto(Map.of(id, book));
             return ResponseEntity.ok(response);
         }
 
@@ -55,17 +55,17 @@ public class BookRestController {
             Map<Integer, Book> limitedMap = database.entrySet().stream()
                     .limit(limit)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            BookResponseDto response = new BookResponseDto(limitedMap);
+            GetAllBooksResponseDto response = new GetAllBooksResponseDto(limitedMap);
             return ResponseEntity.ok(response);
         }
 
         log.info("Getting all books");
-        BookResponseDto response = new BookResponseDto(database);
+        GetAllBooksResponseDto response = new GetAllBooksResponseDto(database);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SingleBookResponseDto> getBookById(@PathVariable Integer id) {
+    public ResponseEntity<GetBookResponseDto> getBookById(@PathVariable Integer id) {
         log.info("Getting book with id {}", id);
         Book book = database.get(id);
 
@@ -73,17 +73,17 @@ public class BookRestController {
             throw new BookNotFoundException("Could not find book with id " + id);
         }
 
-        SingleBookResponseDto response = new SingleBookResponseDto(book);
+        GetBookResponseDto response = new GetBookResponseDto(book);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<SingleBookResponseDto> postBook(@RequestBody @Valid BookRequestDto request) {
+    public ResponseEntity<CreateBookResponseDto> createBook(@RequestBody @Valid CreateBookRequestDto request) {
         Book book = new Book(request.bookTitle(), request.author());
         log.info("Adding new book={}", book);
         database.put(database.size() + 1, book);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new SingleBookResponseDto(book));
+                .body(new CreateBookResponseDto(book));
     }
 
     @DeleteMapping("/{id}")
