@@ -1,5 +1,6 @@
-package io.github.wkktoria.bookify.book.controller;
+package io.github.wkktoria.bookify.book.infrastructure.controller;
 
+import io.github.wkktoria.bookify.book.domain.model.Book;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

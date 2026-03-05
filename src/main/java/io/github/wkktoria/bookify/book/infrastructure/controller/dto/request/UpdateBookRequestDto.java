@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.book.dto.request;
+package io.github.wkktoria.bookify.book.infrastructure.controller.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

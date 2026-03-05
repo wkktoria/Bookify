@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.book.controller;
+package io.github.wkktoria.bookify.book.domain.model;
 
 import lombok.Builder;
 

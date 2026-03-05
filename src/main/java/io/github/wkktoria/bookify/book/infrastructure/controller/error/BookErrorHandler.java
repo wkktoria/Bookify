@@ -1,6 +1,7 @@
-package io.github.wkktoria.bookify.book.error;
+package io.github.wkktoria.bookify.book.infrastructure.controller.error;
 
-import io.github.wkktoria.bookify.book.controller.BookRestController;
+import io.github.wkktoria.bookify.book.infrastructure.controller.BookRestController;
+import io.github.wkktoria.bookify.book.domain.model.BookNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

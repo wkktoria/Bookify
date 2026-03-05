@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.book.error;
+package io.github.wkktoria.bookify.book.infrastructure.controller.error;
 
 import org.springframework.http.HttpStatus;
 

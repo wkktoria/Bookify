@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.book.dto.response;
+package io.github.wkktoria.bookify.book.infrastructure.controller.dto.response;
 
 import org.springframework.http.HttpStatus;
 
