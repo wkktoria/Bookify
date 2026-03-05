@@ -7,6 +7,7 @@
     - [POST Endpoints](#post-endpoints)
     - [DELETE Endpoints](#delete-endpoints)
     - [PUT Endpoints](#put-endpoints)
+    - [PATCH Endpoints](#patch-endpoints)
 - [Views](#views)
 
 ## Endpoints
@@ -45,6 +46,15 @@ flowchart TD
 ```mermaid
 flowchart TD
     client -->|PUT /books/1 body JSON| server
+```
+
+### PATCH Endpoints
+
+`PATCH` applies partial updates to a resource, sending only the fields that need to be changed.
+
+```mermaid
+flowchart TD
+    client -->|PATCH /books/1 body JSON| server
 ```
 
 ## Views
