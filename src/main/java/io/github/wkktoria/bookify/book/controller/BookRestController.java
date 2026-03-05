@@ -1,11 +1,9 @@
 package io.github.wkktoria.bookify.book.controller;
 
 import io.github.wkktoria.bookify.book.dto.request.BookRequestDto;
+import io.github.wkktoria.bookify.book.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.dto.request.UpdateBookRequestDto;
-import io.github.wkktoria.bookify.book.dto.response.BookResponseDto;
-import io.github.wkktoria.bookify.book.dto.response.DeleteBookResponseDto;
-import io.github.wkktoria.bookify.book.dto.response.SingleBookResponseDto;
-import io.github.wkktoria.bookify.book.dto.response.UpdateBookResponseDto;
+import io.github.wkktoria.bookify.book.dto.response.*;
 import io.github.wkktoria.bookify.book.error.BookNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -111,6 +109,34 @@ public class BookRestController {
         Book oldBook = database.put(id, new Book(newBookTitle, newAuthor));
         log.info("Updating oldBook={} with id={} to newBook={}", oldBook, id, newBook);
         return ResponseEntity.ok(new UpdateBookResponseDto(newBook));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PartiallyUpdateBookResponseDto> partiallyUpdateBook(@PathVariable Integer id,
+                                                                              @RequestBody PartiallyUpdateBookRequestDto request) {
+        if (!database.containsKey(id)) {
+            throw new BookNotFoundException("Could not find book with id=" + id);
+        }
+
+        Book bookFromDatabase = database.get(id);
+        Book.BookBuilder builder = Book.builder();
+
+        if (request.bookTitle() != null) {
+            builder.title(request.bookTitle());
+        } else {
+            builder.title(bookFromDatabase.title());
+        }
+
+        if (request.author() != null) {
+            builder.author(request.author());
+        } else {
+            builder.author(bookFromDatabase.author());
+        }
+
+        Book updatedBook = builder.build();
+        database.put(id, updatedBook);
+        log.info("Partially updating bookFromDatabase={} with id={} to updatedBook={}", bookFromDatabase, id, updatedBook);
+        return ResponseEntity.ok(new PartiallyUpdateBookResponseDto(updatedBook));
     }
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
