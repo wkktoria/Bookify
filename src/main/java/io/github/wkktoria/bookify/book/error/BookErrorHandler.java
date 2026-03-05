@@ -15,9 +15,9 @@ public class BookErrorHandler {
     @ExceptionHandler(BookNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDeleteBookResponseDto handleException(BookNotFoundException exception) {
-        log.warn("Error while deleting book: {}", exception.getMessage());
-        return new ErrorDeleteBookResponseDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+    public ErrorBookResponseDto handleException(BookNotFoundException exception) {
+        log.warn("Book not found: {}", exception.getMessage());
+        return new ErrorBookResponseDto(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
 }

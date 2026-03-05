@@ -35,15 +35,15 @@ public class BookRestController {
                                                        @RequestParam(required = false) Integer limit,
                                                        @RequestHeader(required = false) String requestId) {
         if (requestId != null) {
-            log.info("Request id: {}", requestId);
+            log.info("Request id {}", requestId);
         }
 
         if (id != null) {
-            log.info("Getting book with id: {}", id);
+            log.info("Getting book with id {}", id);
             String book = database.get(id);
 
             if (book == null) {
-                throw new BookNotFoundException("Could not find book with id: " + id);
+                throw new BookNotFoundException("Could not find book with id " + id);
             }
 
             BookResponseDto response = new BookResponseDto(Map.of(id, book));
@@ -51,7 +51,7 @@ public class BookRestController {
         }
 
         if (limit != null) {
-            log.info("Getting books with limit: {}", limit);
+            log.info("Getting books with limit {}", limit);
             Map<Integer, String> limitedMap = database.entrySet().stream()
                     .limit(limit)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -66,11 +66,11 @@ public class BookRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SingleBookResponseDto> getBookById(@PathVariable Integer id) {
-        log.info("Getting book with id: {}", id);
+        log.info("Getting book with id {}", id);
         String book = database.get(id);
 
         if (book == null) {
-            throw new BookNotFoundException("Could not find book with id: " + id);
+            throw new BookNotFoundException("Could not find book with id " + id);
         }
 
         SingleBookResponseDto response = new SingleBookResponseDto(book);
@@ -80,7 +80,7 @@ public class BookRestController {
     @PostMapping
     public ResponseEntity<SingleBookResponseDto> postBook(@RequestBody @Valid BookRequestDto request) {
         String bookTitle = request.bookTitle();
-        log.info("Adding new book with title: {}", bookTitle);
+        log.info("Adding new book with title {}", bookTitle);
         database.put(database.size() + 1, bookTitle);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new SingleBookResponseDto(bookTitle));
@@ -98,12 +98,12 @@ public class BookRestController {
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
         if (!database.containsKey(id)) {
-            throw new BookNotFoundException("Could not find book with id: " + id);
+            throw new BookNotFoundException("Could not find book with id " + id);
         }
 
-        log.info("Deleting book with id: {}", id);
+        log.info("Deleting book with id {}", id);
         database.remove(id);
-        return ResponseEntity.ok(new DeleteBookResponseDto("Deleted book with id: " + id, HttpStatus.OK));
+        return ResponseEntity.ok(new DeleteBookResponseDto("Deleted book with id " + id, HttpStatus.OK));
     }
 
 }
