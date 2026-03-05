@@ -10,14 +10,14 @@ import java.util.Map;
 @Controller
 public class BookViewController {
 
-    private static final Map<Integer, String> database = new HashMap<>();
+    private static final Map<Integer, Book> database = new HashMap<>();
 
     static {
-        database.put(1, "Clean Code: A Handbook of Agile Software Craftsmanship");
-        database.put(2, "Refactoring: Improving the Design of Existing Code");
-        database.put(3, "Fundamentals of Software Architecture: A Modern Engineering Approach");
-        database.put(4, "Effective Java");
-        database.put(5, "Spring Start Here: Learn what you need and learn it well");
+        database.put(1, new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin"));
+        database.put(2, new Book("Refactoring: Improving the Design of Existing Code", "Martin Fowler"));
+        database.put(3, new Book("Fundamentals of Software Architecture: A Modern Engineering Approach", "Mark Richards & Neal Ford"));
+        database.put(4, new Book("Effective Java", "Joshua Bloch"));
+        database.put(5, new Book("Spring Start Here: Learn what you need and learn it well", "Laurentiu Spilca"));
     }
 
     @GetMapping("/")

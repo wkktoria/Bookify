@@ -4,9 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Jost:wght@200;400&display=swap"
+          rel="stylesheet">
     <title>Bookify - Home Page</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f8f4ee;
+            --ink: #1a1208;
+            --gold: #b5873a;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'Jost', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--serif);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Lined paper texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 28px,
+                    rgba(181, 135, 58, 0.07) 28px,
+                    rgba(181, 135, 58, 0.07) 29px
+            );
+            pointer-events: none;
+        }
+
+        /* Large ghost letter */
+        body::after {
+            content: 'B';
+            position: fixed;
+            font-family: var(--serif);
+            font-size: 55vw;
+            font-weight: 600;
+            color: rgba(181, 135, 58, 0.045);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        main {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 3rem;
+            animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        main::before {
+            content: '— ✦ —';
+            display: block;
+            font-family: var(--sans);
+            font-weight: 200;
+            font-size: 0.72rem;
+            letter-spacing: 0.38em;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            animation: reveal 1.2s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        main::after {
+            content: '— ✦ —';
+            display: block;
+            font-family: var(--sans);
+            font-weight: 200;
+            font-size: 0.72rem;
+            letter-spacing: 0.38em;
+            color: var(--gold);
+            margin-top: 2rem;
+            animation: reveal 1.2s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            animation: reveal 1.2s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        h1 strong {
+            font-weight: 600;
+            font-style: normal;
+            color: var(--gold);
+            display: block;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Bookify!</h1>
+<main>
+    <h1>Welcome to <strong>Bookify!</strong></h1>
+</main>
 </body>
 </html>

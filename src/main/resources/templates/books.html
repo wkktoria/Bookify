@@ -5,13 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bookify - Book List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Jost:wght@200;400&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f4ee;
+            --ink: #1a1208;
+            --gold: #b5873a;
+            --line: #e2d9cc;
+            --muted: #8a7d6b;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'Jost', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--serif);
+            max-width: 600px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: -0.01em;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
+        }
+
+        h1 strong {
+            font-weight: 600;
+            font-style: normal;
+            color: var(--gold);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        li {
+            border-bottom: 1px solid var(--line);
+            padding: 0.85rem 0;
+            font-size: 1.15rem;
+            color: var(--muted);
+            transition: color 0.15s;
+        }
+
+        li:hover {
+            color: var(--ink);
+        }
+    </style>
 </head>
 <body>
-<h1>Book List</h1>
-<ul>
-    <li th:each="book : ${bookMap}">
-        <span th:text="${book.key} + ': ' + ${book.value}"></span>
-    </li>
-</ul>
+<div class="container">
+    <header>
+        <h1>Book <strong>List</strong></h1>
+    </header>
+    <ul>
+        <li th:each="book : ${bookMap}">
+            <span th:text="${book.value.title()} + ' by ' + ${book.value.author()}"></span>
+        </li>
+    </ul>
+</div>
 </body>
 </html>
