@@ -93,7 +93,7 @@ public class BookRestController {
         return deleteBook(id);
     }
 
-    private ResponseEntity<DeleteBookResponseDto> deleteBook(@RequestParam Integer id) {
+    private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
         if (!database.containsKey(id)) {
             log.warn("Could not find book with id: {}", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
