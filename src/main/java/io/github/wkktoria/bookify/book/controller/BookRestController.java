@@ -1,9 +1,11 @@
 package io.github.wkktoria.bookify.book.controller;
 
-import io.github.wkktoria.bookify.book.dto.BookRequestDto;
-import io.github.wkktoria.bookify.book.dto.BookResponseDto;
-import io.github.wkktoria.bookify.book.dto.DeleteBookResponseDto;
-import io.github.wkktoria.bookify.book.dto.SingleBookResponseDto;
+import io.github.wkktoria.bookify.book.dto.request.BookRequestDto;
+import io.github.wkktoria.bookify.book.dto.request.UpdateBookRequestDto;
+import io.github.wkktoria.bookify.book.dto.response.BookResponseDto;
+import io.github.wkktoria.bookify.book.dto.response.DeleteBookResponseDto;
+import io.github.wkktoria.bookify.book.dto.response.SingleBookResponseDto;
+import io.github.wkktoria.bookify.book.dto.response.UpdateBookResponseDto;
 import io.github.wkktoria.bookify.book.error.BookNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -20,14 +22,14 @@ import java.util.stream.Collectors;
 @Log4j2
 public class BookRestController {
 
-    private static final Map<Integer, String> database = new HashMap<>();
+    private static final Map<Integer, Book> database = new HashMap<>();
 
     static {
-        database.put(1, "Clean Code: A Handbook of Agile Software Craftsmanship");
-        database.put(2, "Refactoring: Improving the Design of Existing Code");
-        database.put(3, "Fundamentals of Software Architecture: A Modern Engineering Approach");
-        database.put(4, "Effective Java");
-        database.put(5, "Spring Start Here: Learn what you need and learn it well");
+        database.put(1, new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin"));
+        database.put(2, new Book("Refactoring: Improving the Design of Existing Code", "Martin Fowler"));
+        database.put(3, new Book("Fundamentals of Software Architecture: A Modern Engineering Approach", "Mark Richards & Neal Ford"));
+        database.put(4, new Book("Effective Java", "Joshua Bloch"));
+        database.put(5, new Book("Spring Start Here: Learn what you need and learn it well", "Laurentiu Spilca"));
     }
 
     @GetMapping
@@ -40,7 +42,7 @@ public class BookRestController {
 
         if (id != null) {
             log.info("Getting book with id {}", id);
-            String book = database.get(id);
+            Book book = database.get(id);
 
             if (book == null) {
                 throw new BookNotFoundException("Could not find book with id " + id);
@@ -52,7 +54,7 @@ public class BookRestController {
 
         if (limit != null) {
             log.info("Getting books with limit {}", limit);
-            Map<Integer, String> limitedMap = database.entrySet().stream()
+            Map<Integer, Book> limitedMap = database.entrySet().stream()
                     .limit(limit)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             BookResponseDto response = new BookResponseDto(limitedMap);
@@ -67,7 +69,7 @@ public class BookRestController {
     @GetMapping("/{id}")
     public ResponseEntity<SingleBookResponseDto> getBookById(@PathVariable Integer id) {
         log.info("Getting book with id {}", id);
-        String book = database.get(id);
+        Book book = database.get(id);
 
         if (book == null) {
             throw new BookNotFoundException("Could not find book with id " + id);
@@ -79,11 +81,11 @@ public class BookRestController {
 
     @PostMapping
     public ResponseEntity<SingleBookResponseDto> postBook(@RequestBody @Valid BookRequestDto request) {
-        String bookTitle = request.bookTitle();
-        log.info("Adding new book with title {}", bookTitle);
-        database.put(database.size() + 1, bookTitle);
+        Book book = new Book(request.bookTitle(), request.author());
+        log.info("Adding new book={}", book);
+        database.put(database.size() + 1, book);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new SingleBookResponseDto(bookTitle));
+                .body(new SingleBookResponseDto(book));
     }
 
     @DeleteMapping("/{id}")
@@ -94,6 +96,21 @@ public class BookRestController {
     @DeleteMapping
     public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingRequestParam(@RequestParam Integer id) {
         return deleteBook(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateBookResponseDto> updateBook(@PathVariable Integer id,
+                                                            @RequestBody @Valid UpdateBookRequestDto request) {
+        if (!database.containsKey(id)) {
+            throw new BookNotFoundException("Could not find book with id=" + id);
+        }
+
+        String newBookTitle = request.bookTitle();
+        String newAuthor = request.author();
+        Book newBook = new Book(newBookTitle, newAuthor);
+        Book oldBook = database.put(id, new Book(newBookTitle, newAuthor));
+        log.info("Updating oldBook={} with id={} to newBook={}", oldBook, id, newBook);
+        return ResponseEntity.ok(new UpdateBookResponseDto(newBook));
     }
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
