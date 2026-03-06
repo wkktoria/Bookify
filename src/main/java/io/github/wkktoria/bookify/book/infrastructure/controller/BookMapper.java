@@ -6,12 +6,12 @@ import io.github.wkktoria.bookify.book.infrastructure.controller.dto.response.*;
 import io.github.wkktoria.bookify.book.domain.model.Book;
 import org.springframework.http.HttpStatus;
 
-import java.util.Map;
+import java.util.List;
 
 public class BookMapper {
 
-    public static GetAllBooksResponseDto mapFromMapToGetAllBooksResponseDto(Map<Integer, Book> database) {
-        return new GetAllBooksResponseDto(database);
+    public static GetAllBooksResponseDto mapFromMapToGetAllBooksResponseDto(List<Book> books) {
+        return new GetAllBooksResponseDto(books);
     }
 
     public static GetBookResponseDto mapFromBookToGetBookResponseDto(Book book) {

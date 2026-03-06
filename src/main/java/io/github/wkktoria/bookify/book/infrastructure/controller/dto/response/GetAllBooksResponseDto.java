@@ -2,7 +2,7 @@ package io.github.wkktoria.bookify.book.infrastructure.controller.dto.response;
 
 import io.github.wkktoria.bookify.book.domain.model.Book;
 
-import java.util.Map;
+import java.util.List;
 
-public record GetAllBooksResponseDto(Map<Integer, Book> books) {
+public record GetAllBooksResponseDto(List<Book> books) {
 }

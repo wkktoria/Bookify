@@ -14,8 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import static io.github.wkktoria.bookify.book.infrastructure.controller.BookMapper.*;
 
@@ -48,14 +47,14 @@ public class BookRestController {
                 throw new BookNotFoundException("Could not find book with id=" + id);
             }
 
-            GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(Map.of(id, book));
+            GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(List.of(book));
             return ResponseEntity.ok(body);
         }
 
         if (limit != null) {
             log.info("Getting books with limit={}", limit);
-            Map<Integer, Book> limitedMap = bookRetriever.findAllLimitedBy(limit);
-            GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(limitedMap);
+            List<Book> limitedBooks = bookRetriever.findAllLimitedBy(limit);
+            GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(limitedBooks);
             return ResponseEntity.ok(body);
         }
 
@@ -99,14 +98,14 @@ public class BookRestController {
     @PutMapping("/{id}")
     public ResponseEntity<UpdateBookResponseDto> updateBook(@PathVariable Integer id,
                                                             @RequestBody @Valid UpdateBookRequestDto request) {
-        Map<Integer, Book> allBooks = bookRetriever.findAll();
+        List<Book> allBooks = bookRetriever.findAll();
 
-        if (!allBooks.containsKey(id)) {
+        if (!allBooks.contains(id)) {
             throw new BookNotFoundException("Could not find book with id=" + id);
         }
 
         Book newBook = mapFromUpdateBookRequestDtoToBook(request);
-        Book oldBook = allBooks.put(id, newBook);
+        Book oldBook = bookAdder.addBook(newBook);
         log.info("Updating oldBook={} with id={} to newBook={}", oldBook, id, newBook);
         UpdateBookResponseDto body = mapFromBookToUpdateBookResponseDto(newBook);
         return ResponseEntity.ok(body);
@@ -115,9 +114,9 @@ public class BookRestController {
     @PatchMapping("/{id}")
     public ResponseEntity<PartiallyUpdateBookResponseDto> partiallyUpdateBook(@PathVariable Integer id,
                                                                               @RequestBody PartiallyUpdateBookRequestDto request) {
-        Map<Integer, Book> allBooks = bookRetriever.findAll();
+        List<Book> allBooks = bookRetriever.findAll();
 
-        if (!allBooks.containsKey(id)) {
+        if (!allBooks.contains(id)) {
             throw new BookNotFoundException("Could not find book with id=" + id);
         }
 
@@ -137,16 +136,16 @@ public class BookRestController {
         }
 
         Book updatedBook = builder.build();
-        allBooks.put(id, updatedBook);
+        bookAdder.addBook(updatedBook);
         log.info("Partially updating bookFromDatabase={} with id={} to updatedBook={}", bookFromDatabase, id, updatedBook);
         PartiallyUpdateBookResponseDto body = mapFromBookToPartiallyUpdateBookResponseDto(updatedBook);
         return ResponseEntity.ok(body);
     }
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
-        Map<Integer, Book> allBooks = bookRetriever.findAll();
+        List<Book> allBooks = bookRetriever.findAll();
 
-        if (!allBooks.containsKey(id)) {
+        if (!allBooks.contains(id)) {
             throw new BookNotFoundException("Could not find book with id=" + id);
         }
 

@@ -5,8 +5,7 @@ import io.github.wkktoria.bookify.book.domain.repository.BookRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -18,18 +17,17 @@ public class BookRetriever {
         this.bookRepository = bookRepository;
     }
 
-    public Map<Integer, Book> findAll() {
+    public List<Book> findAll() {
         log.info("Retrieving all books");
         return bookRepository.findAll();
     }
 
-    public Map<Integer, Book> findAllLimitedBy(int limit) {
+    public List<Book> findAllLimitedBy(int limit) {
         log.info("Retrieving books with limit={}", limit);
         return bookRepository.findAll()
-                .entrySet()
                 .stream()
                 .limit(limit)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .toList();
     }
 
 }
