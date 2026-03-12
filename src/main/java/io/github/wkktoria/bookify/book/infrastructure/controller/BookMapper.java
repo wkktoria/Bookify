@@ -26,7 +26,7 @@ public class BookMapper {
         return new CreateBookResponseDto(book);
     }
 
-    public static DeleteBookResponseDto mapFromIdToDeleteBookResponseDto(Integer id) {
+    public static DeleteBookResponseDto mapFromIdToDeleteBookResponseDto(Long id) {
         return new DeleteBookResponseDto("Deleted book with id " + id, HttpStatus.OK);
     }
 

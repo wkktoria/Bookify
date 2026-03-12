@@ -1,6 +1,7 @@
 package io.github.wkktoria.bookify.book.infrastructure.controller;
 
 import io.github.wkktoria.bookify.book.domain.service.BookAdder;
+import io.github.wkktoria.bookify.book.domain.service.BookDeleter;
 import io.github.wkktoria.bookify.book.domain.service.BookRetriever;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.PartiallyUpdateBookRequestDto;
@@ -9,28 +10,25 @@ import io.github.wkktoria.bookify.book.infrastructure.controller.dto.response.*;
 import io.github.wkktoria.bookify.book.domain.model.BookNotFoundException;
 import io.github.wkktoria.bookify.book.domain.model.Book;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static io.github.wkktoria.bookify.book.infrastructure.controller.BookMapper.*;
 
 @RestController
 @RequestMapping("/books")
+@AllArgsConstructor
 @Log4j2
 public class BookRestController {
 
     private final BookAdder bookAdder;
     private final BookRetriever bookRetriever;
-
-    BookRestController(BookAdder bookAdder, BookRetriever bookRetriever) {
-        this.bookAdder = bookAdder;
-        this.bookRetriever = bookRetriever;
-    }
+    private final BookDeleter bookDeleter;
 
     @GetMapping
     public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@RequestParam(required = false) Integer id,
@@ -84,12 +82,12 @@ public class BookRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingPathVariable(@PathVariable Integer id) {
+    public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingPathVariable(@PathVariable Long id) {
         return deleteBook(id);
     }
 
     @DeleteMapping
-    public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingRequestParam(@RequestParam Integer id) {
+    public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingRequestParam(@RequestParam Long id) {
         return deleteBook(id);
     }
 
@@ -140,15 +138,10 @@ public class BookRestController {
         return ResponseEntity.ok(body);
     }
 
-    private ResponseEntity<DeleteBookResponseDto> deleteBook(Integer id) {
-        List<Book> allBooks = bookRetriever.findAll();
-
-        if (!allBooks.contains(id)) {
-            throw new BookNotFoundException("Could not find book with id=" + id);
-        }
-
-        log.info("Deleting book with id {}", id);
-        allBooks.remove(id);
+    private ResponseEntity<DeleteBookResponseDto> deleteBook(Long id) {
+        log.info("Deleting book with id={}", id);
+        bookRetriever.existsById(id);
+        bookDeleter.deleteById(id);
         DeleteBookResponseDto body = mapFromIdToDeleteBookResponseDto(id);
         return ResponseEntity.ok(body);
     }

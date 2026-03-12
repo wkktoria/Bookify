@@ -1,6 +1,7 @@
 package io.github.wkktoria.bookify.book.domain.service;
 
 import io.github.wkktoria.bookify.book.domain.model.Book;
+import io.github.wkktoria.bookify.book.domain.model.BookNotFoundException;
 import io.github.wkktoria.bookify.book.domain.repository.BookRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,11 @@ public class BookRetriever {
     public Optional<Book> findBookById(Long id) {
         log.info("Retrieving book with id={}", id);
         return bookRepository.findById(id);
+    }
+
+    public void existsById(Long id) {
+        findBookById(id)
+                .orElseThrow(() -> new BookNotFoundException("Could not find book with id=" + id));
     }
 
 }

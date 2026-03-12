@@ -14,4 +14,6 @@ public interface BookRepository extends Repository<Book, Long> {
 
     Optional<Book> findById(final Long id);
 
+    void deleteById(final Long id);
+
 }
