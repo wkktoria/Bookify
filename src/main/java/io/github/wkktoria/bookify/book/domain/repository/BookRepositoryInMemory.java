@@ -19,7 +19,7 @@ public class BookRepositoryInMemory implements BookRepository {
     }
 
     @Override
-    public Book saveToDatabase(Book book) {
+    public Book save(Book book) {
         database.put(database.size() + 1, book);
         return book;
     }

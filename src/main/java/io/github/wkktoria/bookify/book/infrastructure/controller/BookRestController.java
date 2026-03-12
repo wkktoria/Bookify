@@ -126,13 +126,13 @@ public class BookRestController {
         if (request.bookTitle() != null) {
             builder.title(request.bookTitle());
         } else {
-            builder.title(bookFromDatabase.title());
+            builder.title(bookFromDatabase.getTitle());
         }
 
         if (request.author() != null) {
             builder.author(request.author());
         } else {
-            builder.author(bookFromDatabase.author());
+            builder.author(bookFromDatabase.getAuthor());
         }
 
         Book updatedBook = builder.build();

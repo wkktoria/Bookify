@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookRepository extends Repository<Book, Long> {
 
-    Book saveToDatabase(Book book);
+    Book save(Book book);
 
     List<Book> findAll();
 
