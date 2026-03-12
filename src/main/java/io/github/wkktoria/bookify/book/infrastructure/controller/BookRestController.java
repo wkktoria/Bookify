@@ -3,6 +3,7 @@ package io.github.wkktoria.bookify.book.infrastructure.controller;
 import io.github.wkktoria.bookify.book.domain.service.BookAdder;
 import io.github.wkktoria.bookify.book.domain.service.BookDeleter;
 import io.github.wkktoria.bookify.book.domain.service.BookRetriever;
+import io.github.wkktoria.bookify.book.domain.service.BookUpdater;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.UpdateBookRequestDto;
@@ -29,6 +30,7 @@ public class BookRestController {
     private final BookAdder bookAdder;
     private final BookRetriever bookRetriever;
     private final BookDeleter bookDeleter;
+    private final BookUpdater bookUpdater;
 
     @GetMapping
     public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@RequestParam(required = false) Integer id,
@@ -92,17 +94,12 @@ public class BookRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateBookResponseDto> updateBook(@PathVariable Integer id,
+    public ResponseEntity<UpdateBookResponseDto> updateBook(@PathVariable Long id,
                                                             @RequestBody @Valid UpdateBookRequestDto request) {
-        List<Book> allBooks = bookRetriever.findAll();
-
-        if (!allBooks.contains(id)) {
-            throw new BookNotFoundException("Could not find book with id=" + id);
-        }
-
+        log.info("Updating book with id={} with request={}", id, request);
+        bookRetriever.existsById(id);
         Book newBook = mapFromUpdateBookRequestDtoToBook(request);
-        Book oldBook = bookAdder.addBook(newBook);
-        log.info("Updating oldBook={} with id={} to newBook={}", oldBook, id, newBook);
+        bookUpdater.updateById(id, newBook);
         UpdateBookResponseDto body = mapFromBookToUpdateBookResponseDto(newBook);
         return ResponseEntity.ok(body);
     }
