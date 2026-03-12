@@ -20,7 +20,7 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "author", nullable = false)
+    @Column(name = "author", nullable = false, length = 100)
     private String author;
 
     public Book(final String title, final String author) {
