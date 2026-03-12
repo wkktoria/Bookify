@@ -25,4 +25,28 @@ public class BookUpdater {
         bookRepository.updateById(id, newBook);
     }
 
+    public Book updatePartiallyById(Long id, Book bookFromRequest) {
+        bookRetriever.existsById(id);
+        log.info("Partially updating book with id={} to bookFromRequest={}", id, bookFromRequest);
+
+        Book bookFromDatabase = bookRetriever.findBookById(id);
+        Book.BookBuilder builder = Book.builder();
+
+        if (bookFromRequest.getTitle() != null) {
+            builder.title(bookFromRequest.getTitle());
+        } else {
+            builder.title(bookFromDatabase.getTitle());
+        }
+
+        if (bookFromRequest.getAuthor() != null) {
+            builder.author(bookFromRequest.getAuthor());
+        } else {
+            builder.author(bookFromDatabase.getAuthor());
+        }
+
+        Book toSave = builder.build();
+        updateById(id, toSave);
+
+        return toSave;
+    }
 }

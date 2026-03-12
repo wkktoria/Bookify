@@ -8,7 +8,6 @@ import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.Cre
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.UpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.response.*;
-import io.github.wkktoria.bookify.book.domain.model.BookNotFoundException;
 import io.github.wkktoria.bookify.book.domain.model.Book;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -98,33 +97,12 @@ public class BookRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PartiallyUpdateBookResponseDto> partiallyUpdateBook(@PathVariable Integer id,
+    public ResponseEntity<PartiallyUpdateBookResponseDto> partiallyUpdateBook(@PathVariable Long id,
                                                                               @RequestBody PartiallyUpdateBookRequestDto request) {
-        List<Book> allBooks = bookRetriever.findAll();
-
-        if (!allBooks.contains(id)) {
-            throw new BookNotFoundException("Could not find book with id=" + id);
-        }
-
-        Book bookFromDatabase = allBooks.get(id);
-        Book.BookBuilder builder = Book.builder();
-
-        if (request.bookTitle() != null) {
-            builder.title(request.bookTitle());
-        } else {
-            builder.title(bookFromDatabase.getTitle());
-        }
-
-        if (request.author() != null) {
-            builder.author(request.author());
-        } else {
-            builder.author(bookFromDatabase.getAuthor());
-        }
-
-        Book updatedBook = builder.build();
-        bookAdder.addBook(updatedBook);
-        log.info("Partially updating bookFromDatabase={} with id={} to updatedBook={}", bookFromDatabase, id, updatedBook);
-        PartiallyUpdateBookResponseDto body = mapFromBookToPartiallyUpdateBookResponseDto(updatedBook);
+        log.info("Partially updating book with id={} with request={}", id, request);
+        Book updatedBook = mapFromPartiallyUpdateBookRequestDtoToBook(request);
+        Book savedBook = bookUpdater.updatePartiallyById(id, updatedBook);
+        PartiallyUpdateBookResponseDto body = mapFromBookToPartiallyUpdateBookResponseDto(savedBook);
         return ResponseEntity.ok(body);
     }
 

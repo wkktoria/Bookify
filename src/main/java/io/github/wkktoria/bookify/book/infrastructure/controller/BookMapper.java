@@ -1,6 +1,7 @@
 package io.github.wkktoria.bookify.book.infrastructure.controller;
 
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.CreateBookRequestDto;
+import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.UpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.response.*;
 import io.github.wkktoria.bookify.book.domain.model.Book;
@@ -28,6 +29,10 @@ public class BookMapper {
 
     public static DeleteBookResponseDto mapFromIdToDeleteBookResponseDto(Long id) {
         return new DeleteBookResponseDto("Deleted book with id " + id, HttpStatus.OK);
+    }
+
+    public static Book mapFromPartiallyUpdateBookRequestDtoToBook(PartiallyUpdateBookRequestDto dto) {
+        return new Book(dto.bookTitle(), dto.author());
     }
 
     public static PartiallyUpdateBookResponseDto mapFromBookToPartiallyUpdateBookResponseDto(Book book) {
