@@ -32,14 +32,17 @@ public class BookRetriever {
                 .toList();
     }
 
-    public Optional<Book> findBookById(Long id) {
+    public Book findBookById(Long id) {
         log.info("Retrieving book with id={}", id);
-        return bookRepository.findById(id);
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("Could not find book with id=" + id));
     }
 
     public void existsById(Long id) {
-        findBookById(id)
-                .orElseThrow(() -> new BookNotFoundException("Could not find book with id=" + id));
+        if (!bookRepository.existsById(id)) {
+            throw new BookNotFoundException("Could not find book with id=" + id);
+
+        }
     }
 
 }

@@ -33,7 +33,7 @@ public class BookRestController {
     private final BookUpdater bookUpdater;
 
     @GetMapping
-    public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@RequestParam(required = false) Integer id,
+    public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@RequestParam(required = false) Long id,
                                                               @RequestParam(required = false) Integer limit,
                                                               @RequestHeader(required = false) String requestId) {
         if (requestId != null) {
@@ -42,12 +42,7 @@ public class BookRestController {
 
         if (id != null) {
             log.info("Getting book with id={}", id);
-            Book book = bookRetriever.findAll().get(id);
-
-            if (book == null) {
-                throw new BookNotFoundException("Could not find book with id=" + id);
-            }
-
+            Book book = bookRetriever.findBookById(id);
             GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(List.of(book));
             return ResponseEntity.ok(body);
         }
@@ -67,8 +62,7 @@ public class BookRestController {
     @GetMapping("/{id}")
     public ResponseEntity<GetBookResponseDto> getBookById(@PathVariable Long id) {
         log.info("Getting book with id={}", id);
-        Book book = bookRetriever.findBookById(id)
-                .orElseThrow(() -> new BookNotFoundException("Could not find book with id=" + id));
+        Book book = bookRetriever.findBookById(id);
         GetBookResponseDto body = mapFromBookToGetBookResponseDto(book);
         return ResponseEntity.ok(body);
     }
@@ -97,7 +91,6 @@ public class BookRestController {
     public ResponseEntity<UpdateBookResponseDto> updateBook(@PathVariable Long id,
                                                             @RequestBody @Valid UpdateBookRequestDto request) {
         log.info("Updating book with id={} with request={}", id, request);
-        bookRetriever.existsById(id);
         Book newBook = mapFromUpdateBookRequestDtoToBook(request);
         bookUpdater.updateById(id, newBook);
         UpdateBookResponseDto body = mapFromBookToUpdateBookResponseDto(newBook);
@@ -137,7 +130,6 @@ public class BookRestController {
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Long id) {
         log.info("Deleting book with id={}", id);
-        bookRetriever.existsById(id);
         bookDeleter.deleteById(id);
         DeleteBookResponseDto body = mapFromIdToDeleteBookResponseDto(id);
         return ResponseEntity.ok(body);

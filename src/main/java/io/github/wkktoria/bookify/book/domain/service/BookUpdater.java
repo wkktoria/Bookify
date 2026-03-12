@@ -12,12 +12,15 @@ import org.springframework.stereotype.Service;
 public class BookUpdater {
 
     private final BookRepository bookRepository;
+    private final BookRetriever bookRetriever;
 
-    BookUpdater(BookRepository bookRepository) {
+    BookUpdater(BookRepository bookRepository, BookRetriever bookRetriever) {
         this.bookRepository = bookRepository;
+        this.bookRetriever = bookRetriever;
     }
 
     public void updateById(Long id, Book newBook) {
+        bookRetriever.existsById(id);
         log.info("Updating book with id={} to newBook={}", id, newBook);
         bookRepository.updateById(id, newBook);
     }

@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 public class BookDeleter {
 
     private final BookRepository bookRepository;
+    private final BookRetriever bookRetriever;
 
-    BookDeleter(BookRepository bookRepository) {
+    BookDeleter(BookRepository bookRepository, BookRetriever bookRetriever) {
         this.bookRepository = bookRepository;
+        this.bookRetriever = bookRetriever;
     }
 
     public void deleteById(final Long id) {
+        bookRetriever.existsById(id);
         log.info("Deleting by id={}", id);
         bookRepository.deleteById(id);
     }

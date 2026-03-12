@@ -22,4 +22,6 @@ public interface BookRepository extends Repository<Book, Long> {
     @Query("UPDATE Book b SET b.title = :#{#newBook.title}, b.author = :#{#newBook.author} WHERE b.id = :id")
     void updateById(final Long id, Book newBook);
 
+    boolean existsById(final Long id);
+
 }
