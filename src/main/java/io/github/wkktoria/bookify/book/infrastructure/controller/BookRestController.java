@@ -75,6 +75,7 @@ public class BookRestController {
 
     @PostMapping
     public ResponseEntity<CreateBookResponseDto> createBook(@RequestBody @Valid CreateBookRequestDto request) {
+        log.info("Creating book from request: {}", request);
         Book book = mapFromCreateBookRequestDtoToBook(request);
         bookAdder.addBook(book);
         CreateBookResponseDto body = mapFromBookToCreateBookResponseDto(book);

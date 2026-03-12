@@ -17,8 +17,7 @@ public class BookAdder {
 
     public Book addBook(Book book) {
         log.info("Adding new book: {}", book);
-        bookRepository.save(book);
-        return book;
+        return bookRepository.save(book);
     }
 
 }

@@ -1,10 +1,7 @@
 package io.github.wkktoria.bookify.book.domain.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "book")
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Book {
 
     @Id
