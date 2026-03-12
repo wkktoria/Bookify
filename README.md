@@ -9,6 +9,8 @@
     - [PUT Endpoints](#put-endpoints)
     - [PATCH Endpoints](#patch-endpoints)
 - [Views](#views)
+- [Database](#database)
+    - [Entity-Relationship Diagram](#entity-relationship-diagram)
 
 ## Endpoints
 
@@ -61,3 +63,9 @@ flowchart TD
 
 - homepage: `/home.html`
 - books: `/view/books`
+
+## Database
+
+### Entity-Relationship Diagram
+
+![ERD](./erd.svg)
