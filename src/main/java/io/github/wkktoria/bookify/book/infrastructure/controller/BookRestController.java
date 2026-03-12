@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static io.github.wkktoria.bookify.book.infrastructure.controller.BookMapper.*;
 
@@ -64,14 +65,10 @@ public class BookRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetBookResponseDto> getBookById(@PathVariable Integer id) {
+    public ResponseEntity<GetBookResponseDto> getBookById(@PathVariable Long id) {
         log.info("Getting book with id={}", id);
-        Book book = bookRetriever.findAll().get(id);
-
-        if (book == null) {
-            throw new BookNotFoundException("Could not find book with id=" + id);
-        }
-
+        Book book = bookRetriever.findBookById(id)
+                .orElseThrow(() -> new BookNotFoundException("Could not find book with id=" + id));
         GetBookResponseDto body = mapFromBookToGetBookResponseDto(book);
         return ResponseEntity.ok(body);
     }
