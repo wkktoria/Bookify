@@ -41,12 +41,28 @@ flowchart TD
     client -->|POST /books body JSON| server
 ```
 
+```mermaid
+flowchart TD
+    client --> controller["BookRestController (controller)"]
+    controller --> service["BookAdder (service)"]
+    service --> repository["BookRepository (repository)"]
+    repository --> database
+```
+
 ### DELETE Endpoints
 
 ```mermaid
 flowchart TD
     client -->|DELETE /books/1| server
     client -->|DELETE /books?id=1| server
+```
+
+```mermaid
+flowchart TD
+    client --> controller["BookRestController (controller)"]
+    controller --> service["BookDeleter (service)"]
+    service --> repository["BookRepository (repository)"]
+    repository --> database
 ```
 
 ### PUT Endpoints
@@ -58,6 +74,14 @@ flowchart TD
     client -->|PUT /books/1 body JSON| server
 ```
 
+```mermaid
+flowchart TD
+    client --> controller["BookRestController (controller)"]
+    controller --> service["BookUpdater (service)"]
+    service --> repository["BookRepository (repository)"]
+    repository --> database
+```
+
 ### PATCH Endpoints
 
 `PATCH` applies partial updates to a resource, sending only the fields that need to be changed.
@@ -65,6 +89,14 @@ flowchart TD
 ```mermaid
 flowchart TD
     client -->|PATCH /books/1 body JSON| server
+```
+
+```mermaid
+flowchart TD
+    client --> controller["BookRestController (controller)"]
+    controller --> service["BookUpdater (service)"]
+    service --> repository["BookRepository (repository)"]
+    repository --> database
 ```
 
 ## Views
