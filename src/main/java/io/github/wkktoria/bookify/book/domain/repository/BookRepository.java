@@ -12,10 +12,14 @@ public interface BookRepository extends Repository<Book, Long> {
 
     Book save(Book book);
 
+    @Query("SELECT b FROM Book b")
     List<Book> findAll();
 
+    @Query("SELECT b FROM Book b WHERE b.id = :id")
     Optional<Book> findById(final Long id);
 
+    @Modifying
+    @Query("DELETE FROM Book b WHERE b.id = :id")
     void deleteById(final Long id);
 
     @Modifying
