@@ -69,8 +69,8 @@
         <h1>Book <strong>List</strong></h1>
     </header>
     <ul>
-        <li th:each="book : ${bookMap}">
-            <span th:text="${book.value.title()} + ' by ' + ${book.value.author()}"></span>
+        <li th:each="book : ${bookList}">
+            <span th:text="${book.title} + ' by ' + ${book.author}"></span>
         </li>
     </ul>
 </div>
