@@ -12,6 +12,8 @@ import io.github.wkktoria.bookify.book.domain.model.Book;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,29 +34,14 @@ public class BookRestController {
     private final BookUpdater bookUpdater;
 
     @GetMapping
-    public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@RequestParam(required = false) Long id,
-                                                              @RequestParam(required = false) Integer limit,
-                                                              @RequestHeader(required = false) String requestId) {
-        if (requestId != null) {
-            log.info("Request id={}", requestId);
-        }
+    public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+        log.info("Received request to retrieve all books");
 
-        if (id != null) {
-            log.info("Getting book with id={}", id);
-            Book book = bookRetriever.findBookById(id);
-            GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(List.of(book));
-            return ResponseEntity.ok(body);
-        }
+        List<Book> allBooks = bookRetriever.findAll(pageable);
+        GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(allBooks);
 
-        if (limit != null) {
-            log.info("Getting books with limit={}", limit);
-            List<Book> limitedBooks = bookRetriever.findAllLimitedBy(limit);
-            GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(limitedBooks);
-            return ResponseEntity.ok(body);
-        }
+        log.debug("Returning {} books", allBooks.size());
 
-        log.info("Getting all books");
-        GetAllBooksResponseDto body = mapFromMapToGetAllBooksResponseDto(bookRetriever.findAll());
         return ResponseEntity.ok(body);
     }
 

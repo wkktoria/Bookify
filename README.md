@@ -21,9 +21,8 @@ Swagger is available at: `/swagger-ui/index.html`
 ```mermaid
 flowchart TD
     client -->|GET /books| server
+    client -->|GET /books?page=0&size=10&sort=title,desc| server
     client -->|GET /books/100| server
-    client -->|GET /books?id=100| server
-    client -->|GET /books header 'requestId: 1000001'| server
 ```
 
 ```mermaid

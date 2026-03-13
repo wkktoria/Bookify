@@ -4,6 +4,7 @@ import io.github.wkktoria.bookify.book.domain.model.Book;
 import io.github.wkktoria.bookify.book.domain.model.BookNotFoundException;
 import io.github.wkktoria.bookify.book.domain.repository.BookRepository;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,17 +20,10 @@ public class BookRetriever {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> findAll() {
-        log.info("Retrieving all books");
-        return bookRepository.findAll();
-    }
-
-    public List<Book> findAllLimitedBy(int limit) {
-        log.info("Retrieving books with limit={}", limit);
-        return bookRepository.findAll()
-                .stream()
-                .limit(limit)
-                .toList();
+    public List<Book> findAll(Pageable pageable) {
+        log.info("Retrieving books: page={}, size={}, sort={}",
+                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        return bookRepository.findAll(pageable);
     }
 
     public Book findBookById(Long id) {
