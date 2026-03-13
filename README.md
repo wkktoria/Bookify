@@ -26,6 +26,14 @@ flowchart TD
     client -->|GET /books header 'requestId: 1000001'| server
 ```
 
+```mermaid
+flowchart TD
+    client --> controller["BookRestController (controller)"]
+    controller --> service["BookRetriever (service)"]
+    service --> repository["BookRepository (repository)"]
+    repository --> database
+```
+
 ### POST Endpoints
 
 ```mermaid
