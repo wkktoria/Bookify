@@ -20,25 +20,32 @@ public class BookUpdater {
     }
 
     public void updateById(Long id, Book newBook) {
+        log.info("Updating book id={} with values: title='{}', author='{}'",
+                id, newBook.getTitle(), newBook.getAuthor());
+
         bookRetriever.existsById(id);
-        log.info("Updating book with id={} to newBook={}", id, newBook);
         bookRepository.updateById(id, newBook);
+
+        log.debug("Book id={} successfully updated", id);
     }
 
     public Book updatePartiallyById(Long id, Book bookFromRequest) {
+        log.info("Partially updating book id={} with provided fields", id);
+
         bookRetriever.existsById(id);
-        log.info("Partially updating book with id={} to bookFromRequest={}", id, bookFromRequest);
 
         Book bookFromDatabase = bookRetriever.findBookById(id);
         Book.BookBuilder builder = Book.builder();
 
         if (bookFromRequest.getTitle() != null) {
+            log.debug("Updating title of book id={} to '{}'", id, bookFromRequest.getTitle());
             builder.title(bookFromRequest.getTitle());
         } else {
             builder.title(bookFromDatabase.getTitle());
         }
 
         if (bookFromRequest.getAuthor() != null) {
+            log.debug("Updating author of book id={} to '{}'", id, bookFromRequest.getAuthor());
             builder.author(bookFromRequest.getAuthor());
         } else {
             builder.author(bookFromDatabase.getAuthor());
@@ -49,4 +56,5 @@ public class BookUpdater {
 
         return toSave;
     }
+    
 }
