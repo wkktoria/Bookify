@@ -12,7 +12,7 @@ spring:
       maximum-pool-size: 5
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
 logging:
   level:
