@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.book.infrastructure.controller;
 
+import io.github.wkktoria.bookify.book.infrastructure.controller.dto.BookDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.UpdateBookRequestDto;
@@ -11,12 +12,20 @@ import java.util.List;
 
 public class BookMapper {
 
-    public static GetAllBooksResponseDto mapFromMapToGetAllBooksResponseDto(List<Book> books) {
-        return new GetAllBooksResponseDto(books);
+    public static BookDto mapFromBookToBookDto(Book book) {
+        return new BookDto(book.getId(), book.getTitle(), book.getAuthor());
+    }
+
+    public static GetAllBooksResponseDto mapFromListToGetAllBooksResponseDto(List<Book> books) {
+        List<BookDto> bookDtos = books.stream()
+                .map(BookMapper::mapFromBookToBookDto)
+                .toList();
+        return new GetAllBooksResponseDto(bookDtos);
     }
 
     public static GetBookResponseDto mapFromBookToGetBookResponseDto(Book book) {
-        return new GetBookResponseDto(book);
+        BookDto bookDto = mapFromBookToBookDto(book);
+        return new GetBookResponseDto(bookDto);
     }
 
     public static Book mapFromCreateBookRequestDtoToBook(CreateBookRequestDto dto) {
@@ -24,7 +33,8 @@ public class BookMapper {
     }
 
     public static CreateBookResponseDto mapFromBookToCreateBookResponseDto(Book book) {
-        return new CreateBookResponseDto(book);
+        BookDto bookDto = mapFromBookToBookDto(book);
+        return new CreateBookResponseDto(bookDto);
     }
 
     public static DeleteBookResponseDto mapFromIdToDeleteBookResponseDto(Long id) {
@@ -36,7 +46,8 @@ public class BookMapper {
     }
 
     public static PartiallyUpdateBookResponseDto mapFromBookToPartiallyUpdateBookResponseDto(Book book) {
-        return new PartiallyUpdateBookResponseDto(book);
+        BookDto bookDto = mapFromBookToBookDto(book);
+        return new PartiallyUpdateBookResponseDto(bookDto);
     }
 
     public static Book mapFromUpdateBookRequestDtoToBook(UpdateBookRequestDto dto) {
@@ -44,7 +55,8 @@ public class BookMapper {
     }
 
     public static UpdateBookResponseDto mapFromBookToUpdateBookResponseDto(Book book) {
-        return new UpdateBookResponseDto(book);
+        BookDto bookDto = mapFromBookToBookDto(book);
+        return new UpdateBookResponseDto(bookDto);
     }
 
 }

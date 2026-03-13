@@ -1,6 +1,6 @@
 package io.github.wkktoria.bookify.book.infrastructure.controller.dto.response;
 
-import io.github.wkktoria.bookify.book.domain.model.Book;
+import io.github.wkktoria.bookify.book.infrastructure.controller.dto.BookDto;
 
-public record UpdateBookResponseDto(Book book) {
+public record UpdateBookResponseDto(BookDto book) {
 }
