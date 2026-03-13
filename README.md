@@ -105,6 +105,36 @@ flowchart TD
 
 ## Database
 
+Table `genre`:
+
+- id
+- uuid
+- name
+- version
+- created_on
+
+Table `series`:
+
+- id
+- uuid
+- name
+- version
+- created_on
+
+Table `author`:
+
+- id
+- uuid
+- firstname
+- lastname
+- version
+- created_on
+
+Table `book_authors`:
+
+- book_id
+- author_id
+
 ### Entity-Relationship Diagram
 
 ![ERD](./erd.svg)
