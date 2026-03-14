@@ -15,7 +15,12 @@ import java.time.Instant;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "book_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "book_id_seq",
+            sequenceName = "book_id_seq",
+            allocationSize = 1
+    )
     @Column(name = "id", nullable = false)
     private Long id;
 
