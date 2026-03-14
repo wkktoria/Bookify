@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.book.infrastructure.controller;
 
+import io.github.wkktoria.bookify.book.domain.model.BookLanguage;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.BookDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.book.infrastructure.controller.dto.request.PartiallyUpdateBookRequestDto;
@@ -8,6 +9,8 @@ import io.github.wkktoria.bookify.book.infrastructure.controller.dto.response.*;
 import io.github.wkktoria.bookify.book.domain.model.Book;
 import org.springframework.http.HttpStatus;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
 
 public class BookMapper {
@@ -29,7 +32,16 @@ public class BookMapper {
     }
 
     public static Book mapFromCreateBookRequestDtoToBook(CreateBookRequestDto dto) {
-        return new Book(dto.bookTitle(), dto.author());
+        return Book.builder()
+                .title(dto.bookTitle())
+                .author(dto.author())
+                .publicationDate(dto.publicationDate()
+                        .atStartOfDay()
+                        .toInstant(ZoneOffset.UTC))
+                .isbn(dto.isbn())
+                .pages(dto.pages())
+                .language(BookLanguage.valueOf(dto.language().toUpperCase()))
+                .build();
     }
 
     public static CreateBookResponseDto mapFromBookToCreateBookResponseDto(Book book) {
