@@ -1,8 +1,10 @@
 package io.github.wkktoria.bookify.book.domain.model;
 
 import jakarta.persistence.MappedSuperclass;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,6 +12,9 @@ import java.util.UUID;
 public abstract class BaseEntity implements Serializable {
 
     public UUID uuid = UUID.randomUUID();
+
+    @CreationTimestamp
+    public Instant createdOn;
 
     @Override
     public boolean equals(Object obj) {
@@ -29,5 +34,5 @@ public abstract class BaseEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(uuid);
     }
-    
+
 }

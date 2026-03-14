@@ -1,0 +1,2 @@
+ALTER TABLE book
+    ADD created_on TIMESTAMP WITH TIME ZONE;
