@@ -12,7 +12,7 @@ import java.time.Instant;
 @Getter
 @Builder
 @ToString
-public class Book {
+public class Book extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "book_id_seq", strategy = GenerationType.SEQUENCE)
