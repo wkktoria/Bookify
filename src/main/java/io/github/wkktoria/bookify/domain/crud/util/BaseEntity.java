@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.domain.crud.util;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,9 +12,11 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
+    @Column(name = "uuid", nullable = false, unique = true)
     public UUID uuid = UUID.randomUUID();
 
     @CreationTimestamp
+    @Column(name = "created_on")
     public Instant createdOn;
 
     @Override

@@ -1,0 +1,37 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+ALTER TABLE book
+    ALTER COLUMN created_on TYPE TIMESTAMP(6) WITH TIME ZONE,
+    ALTER COLUMN created_on SET DEFAULT now();
+
+ALTER TABLE book
+    ALTER COLUMN uuid SET DEFAULT uuid_generate_v4(),
+    ALTER COLUMN uuid SET NOT NULL,
+    ADD UNIQUE (uuid);
+
+ALTER TABLE genre
+    ALTER COLUMN created_on TYPE TIMESTAMP(6) WITH TIME ZONE,
+    ALTER COLUMN created_on SET DEFAULT now();
+
+ALTER TABLE genre
+    ALTER COLUMN uuid SET DEFAULT uuid_generate_v4(),
+    ALTER COLUMN uuid SET NOT NULL,
+    ADD UNIQUE (uuid);
+
+ALTER TABLE author
+    ALTER COLUMN created_on TYPE TIMESTAMP(6) WITH TIME ZONE,
+    ALTER COLUMN created_on SET DEFAULT now();
+
+ALTER TABLE author
+    ALTER COLUMN uuid SET DEFAULT uuid_generate_v4(),
+    ALTER COLUMN uuid SET NOT NULL,
+    ADD UNIQUE (uuid);
+
+ALTER TABLE series
+    ALTER COLUMN created_on TYPE TIMESTAMP(6) WITH TIME ZONE,
+    ALTER COLUMN created_on SET DEFAULT now();
+
+ALTER TABLE series
+    ALTER COLUMN uuid SET DEFAULT uuid_generate_v4(),
+    ALTER COLUMN uuid SET NOT NULL,
+    ADD UNIQUE (uuid);
