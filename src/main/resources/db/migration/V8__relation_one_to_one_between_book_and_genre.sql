@@ -1,0 +1,3 @@
+ALTER TABLE book
+    ADD genre_id BIGINT,
+    ADD CONSTRAINT FK_BOOK_ON_GENRE FOREIGN KEY (genre_id) REFERENCES genre (id);
