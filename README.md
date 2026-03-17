@@ -45,16 +45,17 @@ The system should support the following operations and ensure that all data is *
 13. Assign books to a series.
 14. Assign authors to books (many-to-many relationship).
 15. Assign exactly one genre to each book.
+16. If no genre is assigned to book, it should be displayed as "default".
 
 **Retrieval**
 
-16. View all books.
-17. View all genres.
-18. View all authors.
-19. View all series.
-20. View all series with their books and corresponding authors.
-21. View all genres with their associated books.
-22. View all authors with their books.
+17. View all books.
+18. View all genres.
+19. View all authors.
+20. View all series.
+21. View all series with their books and corresponding authors.
+22. View all genres with their associated books.
+23. View all authors with their books.
 
 ## Happy Path
 
