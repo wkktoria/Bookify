@@ -189,4 +189,4 @@ Table `book_authors`:
 
 ### Entity-Relationship Diagram
 
-![ERD](./erd.svg)
+![ERD](erd.svg)
