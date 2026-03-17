@@ -182,11 +182,6 @@ flowchart TD
 
 ## Database
 
-Table `book_authors`:
-
-- book_id
-- author_id
-
 ### Entity-Relationship Diagram
 
 ![ERD](erd.svg)

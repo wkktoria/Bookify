@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -19,6 +20,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "book")
@@ -61,6 +64,9 @@ public class Book extends BaseEntity {
 
     @OneToOne
     private Genre genre;
+
+    @ManyToMany
+    private Set<Author> authors = new HashSet<>();
 
     public Book(String title, String author) {
         this.title = title;
