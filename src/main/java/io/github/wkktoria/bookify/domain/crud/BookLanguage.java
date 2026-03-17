@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.domain.crud.book;
+package io.github.wkktoria.bookify.domain.crud;
 
 enum BookLanguage {
 

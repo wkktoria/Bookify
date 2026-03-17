@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.domain.crud.author;
+package io.github.wkktoria.bookify.domain.crud;
 
 import io.github.wkktoria.bookify.domain.crud.util.BaseEntity;
 import jakarta.persistence.Column;
@@ -17,29 +17,26 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "author")
+@Table(name = "genre")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
 @Builder
 @ToString
-class Author extends BaseEntity {
+class Genre extends BaseEntity {
 
     @Id
-    @GeneratedValue(generator = "author_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "genre_id_seq", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
-            name = "author_id_seq",
-            sequenceName = "author_id_seq",
+            name = "genre_id_seq",
+            sequenceName = "genre_id_seq",
             allocationSize = 1
     )
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "firstname", nullable = false, length = 15)
-    private String firstname;
-
-    @Column(name = "lastname", nullable = false, length = 30)
-    private String lastname;
+    @Column(name = "name", nullable = false, unique = true, length = 25)
+    private String name;
 
 }

@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.domain.crud.book;
+package io.github.wkktoria.bookify.domain.crud;
 
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;

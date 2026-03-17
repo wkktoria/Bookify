@@ -1,6 +1,6 @@
 package io.github.wkktoria.bookify.infrastructure.crud.book.controller;
 
-import io.github.wkktoria.bookify.domain.crud.book.BookCrudFacade;
+import io.github.wkktoria.bookify.domain.crud.BookCrudFacade;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;

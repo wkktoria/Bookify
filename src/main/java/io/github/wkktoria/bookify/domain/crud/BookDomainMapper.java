@@ -1,6 +1,6 @@
-package io.github.wkktoria.bookify.domain.crud.book;
+package io.github.wkktoria.bookify.domain.crud;
 
-import io.github.wkktoria.bookify.domain.crud.book.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 
 import java.time.ZoneOffset;
 

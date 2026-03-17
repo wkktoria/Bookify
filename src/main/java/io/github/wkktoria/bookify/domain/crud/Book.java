@@ -1,4 +1,4 @@
-package io.github.wkktoria.bookify.domain.crud.book;
+package io.github.wkktoria.bookify.domain.crud;
 
 import io.github.wkktoria.bookify.domain.crud.util.BaseEntity;
 import jakarta.persistence.Column;

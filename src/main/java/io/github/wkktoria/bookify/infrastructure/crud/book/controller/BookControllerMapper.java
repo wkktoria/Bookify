@@ -1,6 +1,6 @@
 package io.github.wkktoria.bookify.infrastructure.crud.book.controller;
 
-import io.github.wkktoria.bookify.domain.crud.book.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.UpdateBookRequestDto;

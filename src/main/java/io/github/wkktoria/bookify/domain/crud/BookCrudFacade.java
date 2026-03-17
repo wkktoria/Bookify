@@ -1,6 +1,6 @@
-package io.github.wkktoria.bookify.domain.crud.book;
+package io.github.wkktoria.bookify.domain.crud;
 
-import io.github.wkktoria.bookify.domain.crud.book.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static io.github.wkktoria.bookify.domain.crud.book.BookDomainMapper.mapFromBookDtoToBook;
-import static io.github.wkktoria.bookify.domain.crud.book.BookDomainMapper.mapFromBookToBookDto;
+import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookDtoToBook;
+import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
