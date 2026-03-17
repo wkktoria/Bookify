@@ -46,10 +46,6 @@ public class Book extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-
-    @Column(name = "author", nullable = false, length = 100)
-    private String author;
-
     @Column(name = "publication_date", nullable = false)
     private Instant publicationDate;
 
@@ -68,9 +64,8 @@ public class Book extends BaseEntity {
     @ManyToMany
     private Set<Author> authors = new HashSet<>();
 
-    public Book(String title, String author) {
+    public Book(String title) {
         this.title = title;
-        this.author = author;
     }
 
 }

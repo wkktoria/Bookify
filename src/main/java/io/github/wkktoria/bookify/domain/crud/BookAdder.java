@@ -15,7 +15,7 @@ class BookAdder {
     private final BookRepository bookRepository;
 
     Book addBook(final Book book) {
-        log.debug("Saving new book: title='{}', author='{}'", book.getTitle(), book.getAuthor());
+        log.debug("Saving new book: title='{}'", book.getTitle());
 
         Book savedBook = bookRepository.save(book);
 

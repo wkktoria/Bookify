@@ -10,7 +10,6 @@ class BookDomainMapper {
         return BookDto.builder()
                 .id(book.getId())
                 .title(book.getTitle())
-                .author(book.getAuthor())
                 .publicationDate(book.getPublicationDate()
                         .atZone(ZoneOffset.UTC)
                         .toLocalDate())
@@ -22,7 +21,6 @@ class BookDomainMapper {
     static Book mapFromBookDtoToBook(final BookDto dto) {
         return Book.builder()
                 .title(dto.title())
-                .author(dto.author())
                 .publicationDate(dto.publicationDate()
                         .atStartOfDay()
                         .toInstant(ZoneOffset.UTC))

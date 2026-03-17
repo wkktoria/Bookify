@@ -48,8 +48,7 @@ public class BookCrudFacade {
     }
 
     public BookDto addBook(final BookDto bookDto) {
-        log.info("Adding new book with title='{}', author='{}'",
-                bookDto.title(), bookDto.author());
+        log.info("Adding new book with title='{}'", bookDto.title());
 
         Book validatedAndReadyToSaveBook = mapFromBookDtoToBook(bookDto);
         Book addedBook = bookAdder.addBook(validatedAndReadyToSaveBook);
@@ -92,11 +91,6 @@ public class BookCrudFacade {
         } else {
             log.debug("Updating author for book id={}", id);
             toSave.setTitle(bookFromDatabase.getTitle());
-        }
-        if (bookToUpdateDto.author() != null) {
-            toSave.setAuthor(bookToUpdateDto.author());
-        } else {
-            toSave.setAuthor(bookFromDatabase.getAuthor());
         }
 
         toSave.setPublicationDate(bookFromDatabase.getPublicationDate());

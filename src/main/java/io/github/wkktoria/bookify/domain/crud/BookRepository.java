@@ -23,7 +23,7 @@ public interface BookRepository extends Repository<Book, Long> {
     void deleteById(final Long id);
 
     @Modifying
-    @Query("UPDATE Book b SET b.title = :#{#newBook.title}, b.author = :#{#newBook.author}, b.publicationDate = :#{#newBook.publicationDate}, b.isbn = :#{#newBook.isbn}, b.pages = :#{#newBook.pages} WHERE b.id = :id")
+    @Query("UPDATE Book b SET b.title = :#{#newBook.title}, b.publicationDate = :#{#newBook.publicationDate}, b.isbn = :#{#newBook.isbn}, b.pages = :#{#newBook.pages} WHERE b.id = :id")
     void updateById(final Long id, Book newBook);
 
     boolean existsById(final Long id);

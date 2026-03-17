@@ -28,7 +28,6 @@ public class BookControllerMapper {
     public static BookDto mapFromCreateBookRequestDtoToBookDto(final CreateBookRequestDto requestDto) {
         return BookDto.builder()
                 .title(requestDto.bookTitle())
-                .author(requestDto.author())
                 .publicationDate(requestDto.publicationDate())
                 .isbn(requestDto.isbn())
                 .pages(requestDto.pages())
@@ -46,7 +45,6 @@ public class BookControllerMapper {
     public static BookDto mapFromUpdateBookRequestDtoToBookDto(final UpdateBookRequestDto requestDto) {
         return BookDto.builder()
                 .title(requestDto.bookTitle())
-                .author(requestDto.author())
                 .publicationDate(requestDto.publicationDate())
                 .isbn(requestDto.isbn())
                 .pages(requestDto.pages())
@@ -60,7 +58,6 @@ public class BookControllerMapper {
     public static BookDto mapFromPartiallyUpdateBookRequestDtoToBookDto(final PartiallyUpdateBookRequestDto requestDto) {
         return BookDto.builder()
                 .title(requestDto.bookTitle())
-                .author(requestDto.author())
                 .build();
     }
 

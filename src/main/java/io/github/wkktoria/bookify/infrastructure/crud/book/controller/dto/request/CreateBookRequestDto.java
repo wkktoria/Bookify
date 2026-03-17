@@ -13,10 +13,6 @@ public record CreateBookRequestDto(
         @NotEmpty(message = "bookTitle must not be empty")
         String bookTitle,
 
-        @NotNull(message = "author must not be null")
-        @NotEmpty(message = "author must not be empty")
-        String author,
-
         @NotNull(message = "publicationDate must not be null")
         LocalDate publicationDate,
 
