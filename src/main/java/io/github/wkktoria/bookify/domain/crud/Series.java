@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -16,6 +18,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "series")
 @NoArgsConstructor
@@ -23,7 +28,6 @@ import lombok.ToString;
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
 @Builder
-@ToString
 class Series extends BaseEntity {
 
     @Id
@@ -38,5 +42,9 @@ class Series extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
+
+    @OneToMany
+    @JoinColumn(name = "series_id")
+    private Set<Book> books = new HashSet<>();
 
 }
