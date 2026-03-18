@@ -1,0 +1,37 @@
+package io.github.wkktoria.bookify.infrastructure.crud.author.controller;
+
+import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
+import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.request.CreateAuthorRequestDto;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/authors")
+@AllArgsConstructor
+@Log4j2
+class AuthorRestController {
+
+    private final BookifyCrudFacade bookifyCrudFacade;
+
+    @PostMapping
+    ResponseEntity<AuthorDto> createAuthor(@RequestBody final CreateAuthorRequestDto requestDto) {
+        log.info("POST /authors request received");
+
+        AuthorDto authorDto = bookifyCrudFacade
+                .addAuthor(new AuthorRequestDto(requestDto.firstname(), requestDto.lastname()));
+
+        log.info("Author created successfully with id={}", authorDto.id());
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authorDto);
+    }
+
+}

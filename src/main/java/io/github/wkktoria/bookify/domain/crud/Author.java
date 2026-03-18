@@ -47,4 +47,9 @@ class Author extends BaseEntity {
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
+    Author(final String firstname, final String lastname) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
 }

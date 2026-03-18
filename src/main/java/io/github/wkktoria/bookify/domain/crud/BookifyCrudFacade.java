@@ -1,5 +1,7 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,12 +17,24 @@ import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBoo
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Log4j2
-public class BookCrudFacade {
+public class BookifyCrudFacade {
 
     private final BookAdder bookAdder;
     private final BookRetriever bookRetriever;
     private final BookDeleter bookDeleter;
     private final BookUpdater bookUpdater;
+    private final AuthorAdder authorAdder;
+
+    public AuthorDto addAuthor(final AuthorRequestDto requestDto) {
+        log.info("Adding new author: firstname='{}', lastname='{}'",
+                requestDto.firstname(), requestDto.lastname());
+
+        AuthorDto addedAuthor = authorAdder.addAuthor(requestDto.firstname(), requestDto.lastname());
+
+        log.info("Author successfully added with id={}", addedAuthor.id());
+
+        return addedAuthor;
+    }
 
     public List<BookDto> findAll(final Pageable pageable) {
         log.debug("Fetching all books with pageable: page={}, size={}, sort={}",

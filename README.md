@@ -21,10 +21,10 @@ The system should support the following operations and ensure that all data is *
 
 **Creation**
 
-1. Add a new author (first name and last name).
-2. Add a new genre (genre name).
-3. Add a new series (series name; must include at least one book).
-4. Add a new book (title, authors, publication date, ISBN, number of pages).
+- [X] Add a new author (first name and last name).
+- [ ] Add a new genre (genre name).
+- [ ] Add a new series (series name; must include at least one book).
+- [ ] Add a new book (title, authors, publication date, ISBN, number of pages).
 
 **Deletion**
 

@@ -1,6 +1,6 @@
 package io.github.wkktoria.bookify.infrastructure.crud.book.controller;
 
-import io.github.wkktoria.bookify.domain.crud.BookCrudFacade;
+import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.PartiallyUpdateBookRequestDto;
@@ -30,7 +30,7 @@ import static io.github.wkktoria.bookify.infrastructure.crud.book.controller.Boo
 @Log4j2
 public class BookRestController {
 
-    private final BookCrudFacade bookFacade;
+    private final BookifyCrudFacade bookFacade;
 
     @GetMapping
     public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@PageableDefault(page = 0, size = 10) Pageable pageable) {
