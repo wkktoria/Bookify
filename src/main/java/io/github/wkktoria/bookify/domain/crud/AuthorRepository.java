@@ -4,10 +4,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 interface AuthorRepository extends Repository<Author, Long> {
 
     Author save(final Author author);
+
+    Set<Author> findAll();
 
     @Query("SELECT a FROM Author a WHERE a.id = :id")
     Optional<Author> findById(final Long id);

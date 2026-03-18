@@ -49,13 +49,13 @@ The system should support the following operations and ensure that all data is *
 
 **Retrieval**
 
-17. View all books.
-18. View all genres.
-19. View all authors.
-20. View all series.
-21. View all series with their books and corresponding authors.
-22. View all genres with their associated books.
-23. View all authors with their books.
+- [ ] Show all books.
+- [ ] Show all genres.
+- [X] Show all authors.
+- [ ] Show all series.
+- [ ] Show all series with their books and corresponding authors.
+- [ ] Show all genres with their associated books.
+- [ ] Show all authors with their books.
 
 ## Happy Path
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookDtoToBook;
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
@@ -30,6 +31,7 @@ public class BookifyCrudFacade {
     private final BookDeleter bookDeleter;
     private final BookUpdater bookUpdater;
     private final AuthorAdder authorAdder;
+    private final AuthorRetriever authorRetriever;
     private final GenreAdder genreAdder;
     private final SeriesAdder seriesAdder;
 
@@ -73,6 +75,16 @@ public class BookifyCrudFacade {
         log.info("Book successfully added with id={}", addedBook.id());
 
         return addedBook;
+    }
+
+    public Set<AuthorDto> findAllAuthors() {
+        log.debug("Fetching all authors");
+
+        Set<AuthorDto> authors = authorRetriever.findAllAuthors();
+
+        log.debug("Fetched {} authors", authors.size());
+
+        return authors;
     }
 
 

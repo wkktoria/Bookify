@@ -4,14 +4,18 @@ import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.request.CreateAuthorRequestDto;
+import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.response.AllAuthorsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/authors")
@@ -20,6 +24,18 @@ import org.springframework.web.bind.annotation.RestController;
 class AuthorRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
+
+    @GetMapping
+    ResponseEntity<AllAuthorsResponseDto> getAuthors() {
+        log.info("GET /authors request received");
+
+        Set<AuthorDto> allAuthors = bookifyCrudFacade.findAllAuthors();
+        AllAuthorsResponseDto body = new AllAuthorsResponseDto(allAuthors);
+
+        log.debug("Returning {} authors", allAuthors.size());
+
+        return ResponseEntity.ok(body);
+    }
 
     @PostMapping
     ResponseEntity<AuthorDto> createAuthor(@RequestBody final CreateAuthorRequestDto requestDto) {
