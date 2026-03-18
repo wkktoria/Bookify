@@ -5,6 +5,9 @@ import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,6 +30,7 @@ public class BookifyCrudFacade {
     private final BookUpdater bookUpdater;
     private final AuthorAdder authorAdder;
     private final GenreAdder genreAdder;
+    private final SeriesAdder seriesAdder;
 
     public AuthorDto addAuthor(final AuthorRequestDto requestDto) {
         log.info("Adding new author: firstname='{}', lastname='{}'",
@@ -47,6 +51,16 @@ public class BookifyCrudFacade {
         log.info("Genre successfully added with id={}", addedGenre.id());
 
         return addedGenre;
+    }
+
+    public SeriesDto addSeriesWithBook(final SeriesRequestDto requestDto) {
+        log.info("Adding new series: name='{}'", requestDto.name());
+
+        SeriesDto addedSeries = seriesAdder.addSeries(requestDto.name(), requestDto.bookId());
+
+        log.info("Series successfully added with id={}", addedSeries.id());
+
+        return addedSeries;
     }
 
     public List<BookDto> findAll(final Pageable pageable) {

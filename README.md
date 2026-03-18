@@ -23,7 +23,7 @@ The system should support the following operations and ensure that all data is *
 
 - [X] Add a new author (first name and last name).
 - [X] Add a new genre (genre name).
-- [ ] Add a new series (series name; must include at least one book).
+- [X] Add a new series (series name; must include at least one book).
 - [ ] Add a new book (title, authors, publication date, ISBN, number of pages).
 
 **Deletion**

@@ -47,4 +47,12 @@ class Series extends BaseEntity {
     @JoinColumn(name = "series_id")
     private Set<Book> books = new HashSet<>();
 
+    Series(final String name) {
+        this.name = name;
+    }
+
+    void addBook(final Book book) {
+        books.add(book);
+    }
+
 }
