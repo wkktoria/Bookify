@@ -13,7 +13,7 @@ public interface BookRepository extends Repository<Book, Long> {
     Book save(Book book);
 
     @Query("SELECT b FROM Book b")
-    List<Book> findAll(Pageable pageable);
+    List<Book> findAll(final Pageable pageable);
 
     @Query("SELECT b FROM Book b WHERE b.id = :id")
     Optional<Book> findById(final Long id);

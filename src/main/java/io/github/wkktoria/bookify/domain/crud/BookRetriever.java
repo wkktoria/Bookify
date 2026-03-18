@@ -1,12 +1,17 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -15,19 +20,26 @@ class BookRetriever {
 
     private final BookRepository bookRepository;
 
-    List<Book> findAll(Pageable pageable) {
-        log.debug("Fetching books from repository with pageable: page={}, size={}, sort={}",
+    Set<BookDto> findAllBooks(final Pageable pageable) {
+        log.debug("Retrieving books with pageable: page={}, size={}, sort={}",
                 pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
 
-        List<Book> books = bookRepository.findAll(pageable);
+        Set<Book> books = new HashSet<>(bookRepository.findAll(pageable));
 
         log.debug("Retrieved {} books from repository", books.size());
 
-        return books;
+        return books.stream()
+                .map(BookDomainMapper::mapFromBookToBookDto)
+                .collect(Collectors.toSet());
     }
 
-    Book findBookById(Long id) {
-        log.debug("Fetching book with id={}", id);
+    BookDto findBookDtoById(final Long id) {
+        Book book = findBookById(id);
+        return mapFromBookToBookDto(book);
+    }
+
+    Book findBookById(final Long id) {
+        log.debug("Retrieving book with id={}", id);
 
         return bookRepository.findById(id)
                 .orElseThrow(() -> {

@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static io.github.wkktoria.bookify.infrastructure.crud.book.controller.BookControllerMapper.*;
 
@@ -38,8 +39,8 @@ public class BookRestController {
     public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         log.debug("GET /books request received");
 
-        List<BookDto> allBooks = bookFacade.findAll(pageable);
-        GetAllBooksResponseDto body = mapFromBookDtoListToGetAllResponseDto(allBooks);
+        Set<BookDto> allBooks = bookFacade.findAllBooks(pageable);
+        GetAllBooksResponseDto body = mapFromBookDtoSetToGetAllResponseDto(allBooks);
 
         log.debug("Returning {} books", allBooks.size());
 
@@ -50,7 +51,7 @@ public class BookRestController {
     public ResponseEntity<GetBookResponseDto> getBookById(@PathVariable Long id) {
         log.debug("GET /books/{} request received", id);
 
-        BookDto book = bookFacade.findById(id);
+        BookDto book = bookFacade.findBookById(id);
         GetBookResponseDto body = mapFromBookDtoGetGetBookResponseDto(book);
 
         log.debug("Book with id={} returned successfully", id);

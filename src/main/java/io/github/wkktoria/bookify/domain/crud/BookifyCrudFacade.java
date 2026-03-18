@@ -8,14 +8,13 @@ import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
-import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.ZoneOffset;
 import java.util.Set;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookDtoToBook;
@@ -88,29 +87,15 @@ public class BookifyCrudFacade {
     }
 
 
-    public List<BookDto> findAll(final Pageable pageable) {
+    public Set<BookDto> findAllBooks(final Pageable pageable) {
         log.debug("Fetching all books with pageable: page={}, size={}, sort={}",
                 pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-
-        List<BookDto> books = bookRetriever.findAll(pageable)
-                .stream()
-                .map(BookDomainMapper::mapFromBookToBookDto)
-                .toList();
-
-        log.debug("Fetched {} books", books.size());
-
-        return books;
+        return bookRetriever.findAllBooks(pageable);
     }
 
-    public BookDto findById(final Long id) {
+    public BookDto findBookById(final Long id) {
         log.debug("Fetching book with id={}", id);
-
-        Book book = bookRetriever.findBookById(id);
-        BookDto result = mapFromBookToBookDto(book);
-
-        log.debug("Book with id={} successfully retrieved", id);
-
-        return result;
+        return bookRetriever.findBookDtoById(id);
     }
 
     public void deleteById(final Long id) {
@@ -136,7 +121,7 @@ public class BookifyCrudFacade {
         log.info("Partially updating book with id={}", id);
 
         bookRetriever.existsById(id);
-        Book bookFromDatabase = bookRetriever.findBookById(id);
+        BookDto bookFromDatabase = bookRetriever.findBookDtoById(id);
 
         Book toSave = new Book();
 
@@ -145,12 +130,12 @@ public class BookifyCrudFacade {
             toSave.setTitle(bookToUpdateDto.title());
         } else {
             log.debug("Updating author for book id={}", id);
-            toSave.setTitle(bookFromDatabase.getTitle());
+            toSave.setTitle(bookFromDatabase.title());
         }
 
-        toSave.setPublicationDate(bookFromDatabase.getPublicationDate());
-        toSave.setIsbn(bookFromDatabase.getIsbn());
-        toSave.setPages(bookFromDatabase.getPages());
+        toSave.setPublicationDate(bookFromDatabase.publicationDate().atStartOfDay().toInstant(ZoneOffset.UTC));
+        toSave.setIsbn(bookFromDatabase.isbn());
+        toSave.setPages(bookFromDatabase.pages());
 
         bookUpdater.updateById(id, toSave);
 
