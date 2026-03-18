@@ -2,6 +2,8 @@ package io.github.wkktoria.bookify.infrastructure.crud.book.controller;
 
 import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.PartiallyUpdateBookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.UpdateBookRequestDto;
@@ -57,17 +59,24 @@ public class BookRestController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateBookResponseDto> createBook(@RequestBody @Valid CreateBookRequestDto request) {
-        log.info("POST /books request received");
+    public ResponseEntity<CreateBookResponseDto> createBook(@RequestBody @Valid final CreateBookRequestDto requestDto) {
+        log.info("POST /books request received with request body: {}", requestDto);
 
-        BookDto book = mapFromCreateBookRequestDtoToBookDto(request);
-        BookDto savedBook = bookFacade.addBook(book);
+        BookDto bookDto = bookFacade
+                .addBookWithAuthor(new BookRequestDto(
+                        requestDto.bookTitle(),
+                        requestDto.publicationDate(),
+                        requestDto.isbn(),
+                        requestDto.pages(),
+                        requestDto.authorId(),
+                        requestDto.language())
+                );
+        CreateBookResponseDto body = mapFromBookDtoToCreateBookResponseDto(bookDto);
 
-        CreateBookResponseDto body = mapFromBookDtoToCreateBookResponseDto(savedBook);
+        log.info("Book created successfully with id={}", bookDto.id());
 
-        log.info("Book created successfully with id={}", savedBook.id());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(body);
     }
 
     @DeleteMapping("/{id}")

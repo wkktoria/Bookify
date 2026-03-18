@@ -1,0 +1,12 @@
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "bookTitle": "Design Patterns: Elements of Reusable Object-Oriented Software",
+  "publicationDate": "1994-10-31",
+  "isbn": "9780201633610",
+  "pages": 416,
+  "authorId": 14,
+  "language": "ENGLISH"
+}
+

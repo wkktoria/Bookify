@@ -1,10 +1,15 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+
+import java.time.ZoneOffset;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -13,15 +18,33 @@ import org.springframework.stereotype.Service;
 class BookAdder {
 
     private final BookRepository bookRepository;
+    private final AuthorRetriever authorRetriever;
 
-    Book addBook(final Book book) {
-        log.debug("Saving new book: title='{}'", book.getTitle());
+    BookDto addBook(final BookRequestDto requestDto) {
+        log.debug("Saving new book: title='{}', publicationDate={}, isbn='{}', pages={}, authorId={}",
+                requestDto.title(), requestDto.publicationDate(), requestDto.isbn(), requestDto.pages(), requestDto.authorId());
+
+        Author authorById = authorRetriever.findAuthorById(requestDto.authorId());
+
+        Book book = new Book(
+                requestDto.title(), requestDto.publicationDate().atStartOfDay().toInstant(ZoneOffset.UTC), requestDto.isbn(), requestDto.pages()
+        );
+        book.setLanguage(BookLanguage.valueOf(requestDto.language().name()));
+        book.addAuthor(authorById);
 
         Book savedBook = bookRepository.save(book);
 
         log.debug("Book saved with id={}", savedBook.getId());
 
-        return savedBook;
+        return BookDto.builder()
+                .id(savedBook.getId())
+                .title(savedBook.getTitle())
+                .publicationDate(savedBook.getPublicationDate()
+                        .atZone(ZoneOffset.UTC)
+                        .toLocalDate())
+                .isbn(savedBook.getIsbn())
+                .pages(savedBook.getPages())
+                .build();
     }
 
 }

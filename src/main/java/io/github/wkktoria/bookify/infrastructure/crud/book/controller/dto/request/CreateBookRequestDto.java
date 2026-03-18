@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request;
 
+import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,9 @@ public record CreateBookRequestDto(
         @Min(1)
         Integer pages,
 
-        String language
+        @NotNull
+        Long authorId,
+
+        BookLanguageDto language
 ) {
 }

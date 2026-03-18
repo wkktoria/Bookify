@@ -3,6 +3,7 @@ package io.github.wkktoria.bookify.domain.crud;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
@@ -63,6 +64,18 @@ public class BookifyCrudFacade {
         return addedSeries;
     }
 
+    public BookDto addBookWithAuthor(final BookRequestDto requestDto) {
+        log.info("Adding new book with title='{}' and authorId={}",
+                requestDto.title(), requestDto.authorId());
+
+        BookDto addedBook = bookAdder.addBook(requestDto);
+
+        log.info("Book successfully added with id={}", addedBook.id());
+
+        return addedBook;
+    }
+
+
     public List<BookDto> findAll(final Pageable pageable) {
         log.debug("Fetching all books with pageable: page={}, size={}, sort={}",
                 pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
@@ -86,17 +99,6 @@ public class BookifyCrudFacade {
         log.debug("Book with id={} successfully retrieved", id);
 
         return result;
-    }
-
-    public BookDto addBook(final BookDto bookDto) {
-        log.info("Adding new book with title='{}'", bookDto.title());
-
-        Book validatedAndReadyToSaveBook = mapFromBookDtoToBook(bookDto);
-        Book addedBook = bookAdder.addBook(validatedAndReadyToSaveBook);
-
-        log.info("Book successfully added with id={}", addedBook.getId());
-
-        return mapFromBookToBookDto(addedBook);
     }
 
     public void deleteById(final Long id) {

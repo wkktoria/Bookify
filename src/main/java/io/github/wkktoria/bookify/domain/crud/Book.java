@@ -17,7 +17,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -30,7 +29,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString
 public class Book extends BaseEntity {
 
     @Id
@@ -64,8 +62,19 @@ public class Book extends BaseEntity {
     @ManyToMany
     private Set<Author> authors = new HashSet<>();
 
-    public Book(String title) {
+    public Book(final String title) {
         this.title = title;
+    }
+
+    Book(final String title, final Instant publicationDate, final String isbn, final Integer pages) {
+        this.title = title;
+        this.publicationDate = publicationDate;
+        this.isbn = isbn;
+        this.pages = pages;
+    }
+
+    void addAuthor(final Author author) {
+        authors.add(author);
     }
 
 }
