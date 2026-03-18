@@ -4,10 +4,10 @@ import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -16,16 +16,11 @@ class AuthorRetriever {
 
     private final AuthorRepository authorRepository;
 
-    Set<AuthorDto> findAllAuthors() {
+    List<AuthorDto> findAllAuthors(final Pageable pageable) {
         log.debug("Retrieving authors");
-
-        Set<Author> authors = authorRepository.findAll();
-
-        log.debug("Retrieved {} authors", authors.size());
-
-        return authors.stream()
+        return authorRepository.findAll(pageable).stream()
                 .map(author -> new AuthorDto(author.getId(), author.getFirstname(), author.getLastname()))
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     Author findAuthorById(final Long id) {

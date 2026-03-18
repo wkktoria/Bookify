@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Set;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookDtoToBook;
@@ -76,14 +77,10 @@ public class BookifyCrudFacade {
         return addedBook;
     }
 
-    public Set<AuthorDto> findAllAuthors() {
-        log.debug("Fetching all authors");
-
-        Set<AuthorDto> authors = authorRetriever.findAllAuthors();
-
-        log.debug("Fetched {} authors", authors.size());
-
-        return authors;
+    public List<AuthorDto> findAllAuthors(final Pageable pageable) {
+        log.debug("Fetching all authors with pageable: page={}, size={}, sort={}",
+                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        return authorRetriever.findAllAuthors(pageable);
     }
 
 

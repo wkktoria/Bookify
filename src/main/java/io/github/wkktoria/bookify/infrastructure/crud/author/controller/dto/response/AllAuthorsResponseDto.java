@@ -2,7 +2,7 @@ package io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.res
 
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 
-import java.util.Set;
+import java.util.List;
 
-public record AllAuthorsResponseDto(Set<AuthorDto> authors) {
+public record AllAuthorsResponseDto(List<AuthorDto> authors) {
 }

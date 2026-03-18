@@ -1,16 +1,17 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 interface AuthorRepository extends Repository<Author, Long> {
 
     Author save(final Author author);
 
-    Set<Author> findAll();
+    List<Author> findAll(final Pageable pageable);
 
     @Query("SELECT a FROM Author a WHERE a.id = :id")
     Optional<Author> findById(final Long id);
