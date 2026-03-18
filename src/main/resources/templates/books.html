@@ -70,7 +70,7 @@
     </header>
     <ul>
         <li th:each="book : ${bookList}">
-            <span th:text="${book.title} + ' by ' + ${book.author}"></span>
+            <span th:text="${book.title}"></span>
         </li>
     </ul>
 </div>
