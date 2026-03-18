@@ -84,7 +84,7 @@ public class BookifyCrudFacade {
     }
 
 
-    public Set<BookDto> findAllBooks(final Pageable pageable) {
+    public List<BookDto> findAllBooks(final Pageable pageable) {
         log.debug("Fetching all books with pageable: page={}, size={}, sort={}",
                 pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         return bookRetriever.findAllBooks(pageable);

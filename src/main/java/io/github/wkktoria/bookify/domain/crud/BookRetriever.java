@@ -7,9 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
 
@@ -20,17 +18,12 @@ class BookRetriever {
 
     private final BookRepository bookRepository;
 
-    Set<BookDto> findAllBooks(final Pageable pageable) {
+    List<BookDto> findAllBooks(final Pageable pageable) {
         log.debug("Retrieving books with pageable: page={}, size={}, sort={}",
                 pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-
-        Set<Book> books = new HashSet<>(bookRepository.findAll(pageable));
-
-        log.debug("Retrieved {} books from repository", books.size());
-
-        return books.stream()
+        return bookRepository.findAll(pageable).stream()
                 .map(BookDomainMapper::mapFromBookToBookDto)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     BookDto findBookDtoById(final Long id) {

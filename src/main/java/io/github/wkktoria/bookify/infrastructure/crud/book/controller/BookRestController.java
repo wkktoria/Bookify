@@ -39,8 +39,8 @@ public class BookRestController {
     public ResponseEntity<GetAllBooksResponseDto> getAllBooks(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         log.debug("GET /books request received");
 
-        Set<BookDto> allBooks = bookFacade.findAllBooks(pageable);
-        GetAllBooksResponseDto body = mapFromBookDtoSetToGetAllResponseDto(allBooks);
+        List<BookDto> allBooks = bookFacade.findAllBooks(pageable);
+        GetAllBooksResponseDto body = mapFromBookDtoListToGetAllResponseDto(allBooks);
 
         log.debug("Returning {} books", allBooks.size());
 

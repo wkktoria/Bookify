@@ -12,11 +12,11 @@ import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.respon
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.response.UpdateBookResponseDto;
 import org.springframework.http.HttpStatus;
 
-import java.util.Set;
+import java.util.List;
 
 public class BookControllerMapper {
 
-    public static GetAllBooksResponseDto mapFromBookDtoSetToGetAllResponseDto(final Set<BookDto> bookDtoList) {
+    public static GetAllBooksResponseDto mapFromBookDtoListToGetAllResponseDto(final List<BookDto> bookDtoList) {
         return new GetAllBooksResponseDto(bookDtoList);
     }
 
