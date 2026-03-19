@@ -79,8 +79,7 @@ public class BookifyCrudFacade {
     }
 
     public List<AuthorDto> findAllAuthors(final Pageable pageable) {
-        log.debug("Fetching all authors with pageable: page={}, size={}, sort={}",
-                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        log.debug("Fetching all authors with pageable");
         return authorRetriever.findAllAuthors(pageable);
     }
 
