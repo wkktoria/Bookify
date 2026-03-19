@@ -8,6 +8,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Set;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookDtoToBook;
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
@@ -34,6 +34,7 @@ public class BookifyCrudFacade {
     private final AuthorRetriever authorRetriever;
     private final GenreAdder genreAdder;
     private final SeriesAdder seriesAdder;
+    private final SeriesRetriever seriesRetriever;
 
     public AuthorDto addAuthor(final AuthorRequestDto requestDto) {
         log.info("Adding new author: firstname='{}', lastname='{}'",
@@ -93,6 +94,11 @@ public class BookifyCrudFacade {
     public BookDto findBookById(final Long id) {
         log.debug("Fetching book with id={}", id);
         return bookRetriever.findBookDtoById(id);
+    }
+
+    public SeriesWithAuthorsAndBooksDto findSeriesByIdWithAuthorsAndBooks(final Long id) {
+        log.debug("Fetching series with id={}", id);
+        return seriesRetriever.findSeriesByIdWithAuthorsAndBooks(id);
     }
 
     public void deleteById(final Long id) {

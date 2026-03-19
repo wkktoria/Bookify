@@ -1,3 +1,6 @@
+GET http://localhost:8080/series/1
+
+###
 POST http://localhost:8080/series
 Content-Type: application/json
 

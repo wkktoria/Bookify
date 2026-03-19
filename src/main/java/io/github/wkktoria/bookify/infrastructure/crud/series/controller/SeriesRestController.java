@@ -3,12 +3,15 @@ package io.github.wkktoria.bookify.infrastructure.crud.series.controller;
 import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
 import io.github.wkktoria.bookify.infrastructure.crud.series.controller.dto.request.CreateSeriesWithBookRequestDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 class SeriesRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
+
+    @GetMapping("/{id}")
+    ResponseEntity<SeriesWithAuthorsAndBooksDto> getSeriesWithAuthorsAndBooks(@PathVariable final Long id) {
+        log.info("GET /series/{} request received", id);
+        return ResponseEntity.ok(
+                bookifyCrudFacade.findSeriesByIdWithAuthorsAndBooks(id)
+        );
+    }
 
     @PostMapping
     ResponseEntity<SeriesDto> createSeries(@RequestBody @Valid final CreateSeriesWithBookRequestDto requestDto) {

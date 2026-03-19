@@ -53,7 +53,7 @@ The system should support the following operations and ensure that all data is *
 - [ ] Show all genres.
 - [X] Show all authors.
 - [ ] Show all series.
-- [ ] Show all series with their books and corresponding authors.
+- [X] Show specific series with their books and corresponding authors.
 - [ ] Show all genres with their associated books.
 - [ ] Show all authors with their books.
 
