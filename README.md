@@ -1,5 +1,11 @@
 # Bookify
 
+**Bookify** is a **RESTful API for managing a book catalog**,
+providing endpoints to handle books, authors, genres, and series.
+
+The API supports full CRUD operations and enables clients to manage relationships between entities,
+such as assigning multiple authors to a book, grouping books into series, and categorizing them by genre.
+
 ## Table of Contents
 
 - [Requirements](#requirements)
