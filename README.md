@@ -95,6 +95,9 @@ Given there is no books, authors, series and genres created before:
 
 ## Endpoints
 
+> [!IMPORTANT]
+> The diagrams must be updated to align with the current system behavior and requirements.
+
 Swagger is available at: `/swagger-ui/index.html`
 
 ### GET Endpoints
