@@ -60,6 +60,9 @@ The system should support the following operations and ensure that all data is *
 
 ## Happy Path
 
+> [!IMPORTANT]
+> The happy path scenario must be updated to align with the current system behavior and requirements.
+
 User creates series "Head First" with books "Head First Java" by Kathy Sierra and Bert Bates (genre: Programming),
 and "Head First Design Patterns" by Eric Freeman and Elisabeth Robson (genre: Software Engineering).
 
