@@ -21,7 +21,7 @@ public class BookViewController {
 
     @GetMapping("/view/books")
     public String books(Model model) {
-        model.addAttribute("bookList", bookFacade.findAllBooks(Pageable.ofSize(Integer.MAX_VALUE)));
+        model.addAttribute("bookList", bookFacade.findAllBooks(Pageable.unpaged()));
         return "books";
     }
 
