@@ -12,14 +12,14 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
-import static io.github.wkktoria.bookify.domain.crud.BookifyCrudFasadeConfiguration.createBookifyCrudFasade;
+import static io.github.wkktoria.bookify.domain.crud.BookifyCrudFacadeConfiguration.createBookifyCrudFacade;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BookifyCrudFacadeTest {
 
-    BookifyCrudFacade bookifyCrudFacade = createBookifyCrudFasade(
+    BookifyCrudFacade bookifyCrudFacade = createBookifyCrudFacade(
             new InMemoryBookRepository(),
             new InMemoryGenreRepository(),
             new InMemoryAuthorRepository(),

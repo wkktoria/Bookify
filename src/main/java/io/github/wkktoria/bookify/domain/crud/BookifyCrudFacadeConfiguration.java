@@ -1,8 +1,8 @@
 package io.github.wkktoria.bookify.domain.crud;
 
-class BookifyCrudFasadeConfiguration {
+class BookifyCrudFacadeConfiguration {
 
-    static BookifyCrudFacade createBookifyCrudFasade(final BookRepository bookRepository,
+    static BookifyCrudFacade createBookifyCrudFacade(final BookRepository bookRepository,
                                                      final GenreRepository genreRepository,
                                                      final AuthorRepository authorRepository,
                                                      final SeriesRepository seriesRepository) {
