@@ -37,7 +37,7 @@ The system should support the following operations and ensure that all data is *
 **Updates**
 
 - [X] Edit author details (first name and last name).
-- [ ] Edit a genre name.
+- [X] Edit a genre name.
 - [ ] Edit a series (rename and manage assigned books).
 - [ ] Edit book details (title, authors, publication date, ISBN, number of pages).
 

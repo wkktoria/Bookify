@@ -5,7 +5,10 @@ import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
+import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.UpdateAuthorRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.UpdateGenreRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
@@ -266,6 +269,39 @@ class BookifyCrudFacadeTest {
         // then
         assertThat(throwable).isInstanceOf(AuthorNotFoundException.class);
         assertThat(throwable.getMessage()).isEqualTo("Could not find author with id=0");
+    }
+
+    @Test
+    @DisplayName("Should update genre by id When new name was sent")
+    void should_update_genre_by_id_when_new_name_was_sent() {
+        // given
+        GenreRequestDto genre = new GenreRequestDto("Genre");
+        Long genreId = bookifyCrudFacade.addGenre(genre).id();
+
+        UpdateGenreRequestDto updateRequest = new UpdateGenreRequestDto("New Genre");
+
+        // when
+        GenreDto result = bookifyCrudFacade.updateGenreById(genreId, updateRequest);
+
+        // then
+        assertThat(result.name()).isEqualTo("New Genre");
+    }
+
+    @Test
+    @DisplayName("Should not update genre by id When new name is null")
+    void should_not_update_genre_by_id_when_new_name_is_null() {
+        // given
+        GenreRequestDto genre = new GenreRequestDto("Genre");
+        Long genreId = bookifyCrudFacade.addGenre(genre).id();
+
+        UpdateGenreRequestDto updateRequest = new UpdateGenreRequestDto(null);
+
+        // when
+        GenreDto result = bookifyCrudFacade.updateGenreById(genreId, updateRequest);
+
+        // then
+        assertThat(result.name()).isNotNull();
+        assertThat(result.name()).isEqualTo("Genre");
     }
 
 }
