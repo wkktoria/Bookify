@@ -5,6 +5,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.UpdateAuthorRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
@@ -184,6 +185,87 @@ class BookifyCrudFacadeTest {
         List<BookDto> allBooks = bookifyCrudFacade.findAllBooks(Pageable.unpaged());
         assertThat(allBooks).extracting(BookDto::id).containsExactly(0L);
         assertThat(bookifyCrudFacade.findBooksByAuthorId(authorId)).containsExactly(result);
+    }
+
+    @Test
+    @DisplayName("Should update author by id When new firstname was sent")
+    void should_update_author_by_id_when_new_firstname_was_sent() {
+        // given
+        AuthorRequestDto author = AuthorRequestDto.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .build();
+        Long authorId = bookifyCrudFacade.addAuthor(author).id();
+
+        UpdateAuthorRequestDto updateRequest = UpdateAuthorRequestDto.builder()
+                .firstname("Johnny")
+                .build();
+
+        // when
+        AuthorDto result = bookifyCrudFacade.updateAuthorById(authorId, updateRequest);
+
+        // then
+        assertThat(result.firstname()).isEqualTo("Johnny");
+        assertThat(result.lastname()).isEqualTo("Doe");
+    }
+
+    @Test
+    @DisplayName("Should update author by id When new firstname and lastname were sent")
+    void should_update_author_by_id_when_new_firstname_and_lastname_were_sent() {
+        // given
+        AuthorRequestDto author = AuthorRequestDto.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .build();
+        Long authorId = bookifyCrudFacade.addAuthor(author).id();
+
+        UpdateAuthorRequestDto updateRequest = UpdateAuthorRequestDto.builder()
+                .firstname("Johnny")
+                .lastname("Deep")
+                .build();
+
+        // when
+        AuthorDto result = bookifyCrudFacade.updateAuthorById(authorId, updateRequest);
+
+        // then
+        assertThat(result.firstname()).isEqualTo("Johnny");
+        assertThat(result.lastname()).isEqualTo("Deep");
+    }
+
+    @Test
+    @DisplayName("Should not update author by id When firstname and lastname were not sent")
+    void should_not_update_author_by_id_when_firstname_and_lastname_were_not_sent() {
+        // given
+        AuthorRequestDto author = AuthorRequestDto.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .build();
+        Long authorId = bookifyCrudFacade.addAuthor(author).id();
+
+        UpdateAuthorRequestDto updateRequest = UpdateAuthorRequestDto.builder()
+                .build();
+
+        // when
+        AuthorDto result = bookifyCrudFacade.updateAuthorById(authorId, updateRequest);
+
+        // then
+        assertThat(result.firstname()).isEqualTo("John");
+        assertThat(result.lastname()).isEqualTo("Doe");
+    }
+
+    @Test
+    @DisplayName("Should throw AuthorNotFoundException When updating author and id:0")
+    void should_throw_author_not_found_exception_when_updating_author_and_id_was_zero() {
+        // given
+        assertThat(bookifyCrudFacade.findAllAuthors(Pageable.unpaged())).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .updateAuthorById(0L, UpdateAuthorRequestDto.builder().build()));
+
+        // then
+        assertThat(throwable).isInstanceOf(AuthorNotFoundException.class);
+        assertThat(throwable.getMessage()).isEqualTo("Could not find author with id=0");
     }
 
 }

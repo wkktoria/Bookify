@@ -4,6 +4,15 @@ GET http://localhost:8080/authors
 GET http://localhost:8080/authors?page=0&size=5&sort=lastname,desc
 
 ###
+PATCH http://localhost:8080/authors/1
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "Doe"
+}
+
+###
 PUT http://localhost:8080/authors/1/books/3
 
 ###

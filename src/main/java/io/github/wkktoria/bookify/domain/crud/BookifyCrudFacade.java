@@ -9,6 +9,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
+import io.github.wkktoria.bookify.domain.crud.dto.UpdateAuthorRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class BookifyCrudFacade {
     private final AuthorAdder authorAdder;
     private final AuthorRetriever authorRetriever;
     private final AuthorDeleter authorDeleter;
+    private final AuthorUpdater authorUpdater;
     private final GenreAdder genreAdder;
     private final SeriesAdder seriesAdder;
     private final SeriesRetriever seriesRetriever;
@@ -175,6 +177,11 @@ public class BookifyCrudFacade {
     public void addAuthorToBook(final Long authorId, final Long bookId) {
         log.info("Adding author with id={} to book with id={}", authorId, bookId);
         authorAdder.addAuthorToBook(authorId, bookId);
+    }
+
+    public AuthorDto updateAuthorById(final Long authorId, final UpdateAuthorRequestDto requestDto) {
+        log.info("Updating author with id={}", authorId);
+        return authorUpdater.updateAuthorById(authorId, requestDto);
     }
 
 }

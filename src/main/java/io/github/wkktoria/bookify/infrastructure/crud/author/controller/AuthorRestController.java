@@ -3,8 +3,10 @@ package io.github.wkktoria.bookify.infrastructure.crud.author.controller;
 import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.UpdateAuthorRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.request.CreateAuthorRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.response.AllAuthorsResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,6 +72,14 @@ class AuthorRestController {
         log.info("PUT /authors/{}/books/{} request received", authorId, bookId);
         bookifyCrudFacade.addAuthorToBook(authorId, bookId);
         return ResponseEntity.ok("Author assigned to book");
+    }
+
+    @PatchMapping("/{id}")
+    ResponseEntity<AuthorDto> updateAuthorById(@PathVariable final Long id,
+                                               @RequestBody @Valid final UpdateAuthorRequestDto requestDto) {
+        log.info("PATCH /authors/{} request received with request body: {}", id, requestDto);
+        AuthorDto authorDto = bookifyCrudFacade.updateAuthorById(id, requestDto);
+        return ResponseEntity.ok(authorDto);
     }
 
 }
