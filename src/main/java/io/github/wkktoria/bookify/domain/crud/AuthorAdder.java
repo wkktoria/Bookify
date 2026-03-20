@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 class AuthorAdder {
 
     private final AuthorRepository authorRepository;
+    private final AuthorRetriever authorRetriever;
+    private final BookRetriever bookRetriever;
 
     AuthorDto addAuthor(final String firstname, final String lastname) {
         log.debug("Saving new author: firstname='{}', lastname='{}'",
@@ -22,6 +24,13 @@ class AuthorAdder {
         log.debug("Author saved with id={}", savedAuthor.getId());
 
         return new AuthorDto(savedAuthor.getId(), savedAuthor.getFirstname(), savedAuthor.getLastname());
+    }
+
+    void addAuthorToBook(final Long authorId, final Long bookId) {
+        log.debug("Adding author with authorId={} to book with bookId={}", authorId, bookId);
+        Author author = authorRetriever.findAuthorById(authorId);
+        Book book = bookRetriever.findBookById(bookId);
+        author.addBook(book);
     }
 
 }

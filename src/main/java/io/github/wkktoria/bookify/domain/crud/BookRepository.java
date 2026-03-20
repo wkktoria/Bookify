@@ -4,9 +4,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface BookRepository extends Repository<Book, Long> {
 
@@ -27,5 +30,16 @@ public interface BookRepository extends Repository<Book, Long> {
     void updateById(final Long id, Book newBook);
 
     boolean existsById(final Long id);
+
+    @Query("""
+            SELECT b FROM Book b
+            INNER JOIN b.authors authors
+            WHERE authors.id = :id
+            """)
+    Set<Book> findAllByAuthorId(@Param("id") final Long id);
+
+    @Modifying
+    @Query("DELETE FROM Book b WHERE b.id IN :ids")
+    void deleteByIdIn(final Collection<Long> ids);
 
 }

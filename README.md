@@ -28,10 +28,11 @@ The system should support the following operations and ensure that all data is *
 
 **Deletion**
 
-5. Delete an author along with all associated books.
-6. Delete a genre only if no books are assigned to it.
-7. Delete a series only if it contains no books.
-8. Delete a book.
+- [X] Delete an author along with all associated books (if a book has only this author, it should be deleted; if a book
+  has multiple authors, only the association with this author should be removed).
+- [ ] Delete a genre only if no books are assigned to it.
+- [ ] Delete a series only if it contains no books.
+- [ ] Delete a book.
 
 **Updates**
 
@@ -42,10 +43,10 @@ The system should support the following operations and ensure that all data is *
 
 **Relationship**
 
-13. Assign books to a series.
-14. Assign authors to books (many-to-many relationship).
-15. Assign exactly one genre to each book.
-16. If no genre is assigned to book, it should be displayed as "default".
+- [ ] Assign books to a series.
+- [X] Assign authors to books (many-to-many relationship).
+- [ ] Assign exactly one genre to each book.
+- [ ] If no genre is assigned to book, it should be displayed as "default".
 
 **Retrieval**
 

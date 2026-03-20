@@ -78,4 +78,9 @@ public class Book extends BaseEntity {
         authors.add(author);
     }
 
+    void removeAuthor(final Author author) {
+        authors.remove(author);
+        author.removeBook(this);
+    }
+
 }

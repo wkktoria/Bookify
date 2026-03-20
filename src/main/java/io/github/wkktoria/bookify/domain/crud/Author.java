@@ -52,4 +52,13 @@ class Author extends BaseEntity {
         this.lastname = lastname;
     }
 
+    void addBook(final Book book) {
+        books.add(book);
+        book.addAuthor(this);
+    }
+
+    void removeBook(final Book book) {
+        books.remove(book);
+    }
+
 }

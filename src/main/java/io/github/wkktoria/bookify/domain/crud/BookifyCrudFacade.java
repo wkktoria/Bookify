@@ -9,6 +9,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,11 +18,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Set;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookDtoToBook;
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
 
 @Service
+@Transactional
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Log4j2
 public class BookifyCrudFacade {
@@ -32,6 +35,7 @@ public class BookifyCrudFacade {
     private final BookUpdater bookUpdater;
     private final AuthorAdder authorAdder;
     private final AuthorRetriever authorRetriever;
+    private final AuthorDeleter authorDeleter;
     private final GenreAdder genreAdder;
     private final SeriesAdder seriesAdder;
     private final SeriesRetriever seriesRetriever;
@@ -45,6 +49,19 @@ public class BookifyCrudFacade {
         log.info("Author successfully added with id={}", addedAuthor.id());
 
         return addedAuthor;
+    }
+
+    public void deleteAuthorByIdWithBooks(final Long authorId) {
+        log.info("Deleting author with id={}", authorId);
+
+        authorDeleter.deleteAuthorByIdWithBooks(authorId);
+
+        log.info("Author with id={} deleted successfully", authorId);
+    }
+
+    public Set<BookDto> findBooksByAuthorId(final Long authorId) {
+        log.info("Finding books by authorId={}", authorId);
+        return bookRetriever.findBookDtosByAuthorId(authorId);
     }
 
     public GenreDto addGenre(final GenreRequestDto requestDto) {
@@ -85,8 +102,7 @@ public class BookifyCrudFacade {
 
 
     public List<BookDto> findAllBooks(final Pageable pageable) {
-        log.debug("Fetching all books with pageable: page={}, size={}, sort={}",
-                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        log.debug("Fetching all books with pageable");
         return bookRetriever.findAllBooks(pageable);
     }
 
@@ -144,6 +160,21 @@ public class BookifyCrudFacade {
         log.info("Book with id={} partially updated", id);
 
         return mapFromBookToBookDto(toSave);
+    }
+
+    long countAuthorsByBookId(final Long bookId) {
+        log.info("Counting authors by bookId={}", bookId);
+        return bookRetriever.countAuthorsByBookId(bookId);
+    }
+
+    Set<AuthorDto> findAuthorsByBookId(final Long bookId) {
+        log.info("Finding authors by bookId={}", bookId);
+        return authorRetriever.findAuthorsByBookId(bookId);
+    }
+
+    public void addAuthorToBook(final Long authorId, final Long bookId) {
+        log.info("Adding author with id={} to book with id={}", authorId, bookId);
+        authorAdder.addAuthorToBook(authorId, bookId);
     }
 
 }

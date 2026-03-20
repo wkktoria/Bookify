@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Transactional
@@ -22,6 +24,12 @@ class BookDeleter {
         bookRepository.deleteById(id);
 
         log.debug("Book with id={} successfully deleted", id);
+    }
+
+    void deleteAllBooksByIds(final Set<Long> bookIds) {
+        log.debug("Deleting books by ids={}", bookIds);
+
+        bookRepository.deleteByIdIn(bookIds);
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
 
@@ -19,8 +21,7 @@ class BookRetriever {
     private final BookRepository bookRepository;
 
     List<BookDto> findAllBooks(final Pageable pageable) {
-        log.debug("Retrieving books with pageable: page={}, size={}, sort={}",
-                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        log.debug("Retrieving books with pageable");
         return bookRepository.findAll(pageable).stream()
                 .map(BookDomainMapper::mapFromBookToBookDto)
                 .toList();
@@ -49,6 +50,20 @@ class BookRetriever {
             throw new BookNotFoundException("Could not find book with id=" + id);
 
         }
+    }
+
+    Set<Book> findBooksByAuthorId(final Long authorId) {
+        return bookRepository.findAllByAuthorId(authorId);
+    }
+
+    Set<BookDto> findBookDtosByAuthorId(final Long authorId) {
+        return findBooksByAuthorId(authorId).stream()
+                .map(BookDomainMapper::mapFromBookToBookDto)
+                .collect(Collectors.toSet());
+    }
+
+    long countAuthorsByBookId(final Long id) {
+        return findBookById(id).getAuthors().size();
     }
 
 }

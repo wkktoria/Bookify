@@ -1,6 +1,7 @@
 package io.github.wkktoria.bookify.domain.crud;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
@@ -15,5 +16,9 @@ interface AuthorRepository extends Repository<Author, Long> {
 
     @Query("SELECT a FROM Author a WHERE a.id = :id")
     Optional<Author> findById(final Long id);
+
+    @Modifying
+    @Query("DELETE FROM Author a WHERE a.id = :id")
+    void deleteById(final Long id);
 
 }

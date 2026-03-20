@@ -28,7 +28,12 @@ class InMemoryAuthorRepository implements AuthorRepository {
 
     @Override
     public Optional<Author> findById(final Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(db.get(id));
+    }
+
+    @Override
+    public void deleteById(final Long id) {
+        db.remove(id);
     }
 
 }

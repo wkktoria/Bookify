@@ -11,8 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +53,22 @@ class AuthorRestController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(authorDto);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<String> deleteAuthorWithAllBooks(@PathVariable final Long id) {
+        log.info("DELETE /authors/{} request received", id);
+
+        bookifyCrudFacade.deleteAuthorByIdWithBooks(id);
+        return ResponseEntity.ok("Author deleted");
+    }
+
+    @PutMapping("/{authorId}/books/{bookId}")
+    ResponseEntity<String> assignAuthorToBook(@PathVariable final Long authorId,
+                                              @PathVariable final Long bookId) {
+        log.info("PUT /authors/{}/books/{} request received", authorId, bookId);
+        bookifyCrudFacade.addAuthorToBook(authorId, bookId);
+        return ResponseEntity.ok("Author assigned to book");
     }
 
 }

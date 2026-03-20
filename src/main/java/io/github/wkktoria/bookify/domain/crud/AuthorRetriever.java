@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -15,6 +17,7 @@ import java.util.List;
 class AuthorRetriever {
 
     private final AuthorRepository authorRepository;
+    private final BookRetriever bookRetriever;
 
     List<AuthorDto> findAllAuthors(final Pageable pageable) {
         log.debug("Retrieving authors");
@@ -31,6 +34,14 @@ class AuthorRetriever {
                     log.warn("Author with id={} not found", id);
                     return new AuthorNotFoundException("Could not find author with id=" + id);
                 });
+    }
+
+    Set<AuthorDto> findAuthorsByBookId(final Long bookId) {
+        log.debug("Retrieving authors of book with id={}", bookId);
+
+        return bookRetriever.findBookById(bookId).getAuthors().stream()
+                .map(author -> new AuthorDto(author.getId(), author.getFirstname(), author.getLastname()))
+                .collect(Collectors.toSet());
     }
 
 }
