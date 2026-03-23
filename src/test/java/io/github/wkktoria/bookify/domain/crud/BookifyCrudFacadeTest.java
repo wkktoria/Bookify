@@ -7,6 +7,9 @@ import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
 import io.github.wkktoria.bookify.domain.crud.dto.UpdateAuthorRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.UpdateGenreRequestDto;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static io.github.wkktoria.bookify.domain.crud.BookifyCrudFacadeConfiguration.createBookifyCrudFacade;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -302,6 +306,44 @@ class BookifyCrudFacadeTest {
         // then
         assertThat(result.name()).isNotNull();
         assertThat(result.name()).isEqualTo("Genre");
+    }
+
+    @Test
+    @DisplayName("Should add series with book")
+    void should_add_series_with_book() {
+        // given
+        AuthorRequestDto author = AuthorRequestDto.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .build();
+        AuthorDto authorDto = bookifyCrudFacade.addAuthor(author);
+
+        BookRequestDto book = BookRequestDto.builder()
+                .title("")
+                .publicationDate(LocalDate.now())
+                .isbn("1234567890123")
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto bookDto = bookifyCrudFacade.addBookWithAuthor(book);
+
+        SeriesRequestDto series = SeriesRequestDto.builder()
+                .bookId(bookDto.id())
+                .name("Series of The Bests")
+                .build();
+
+        assertThat(bookifyCrudFacade.findAllSeries()).isEmpty();
+
+        // when
+        SeriesDto seriesDto = bookifyCrudFacade.addSeriesWithBook(series);
+
+        // then
+        assertThat(bookifyCrudFacade.findAllSeries()).isNotEmpty();
+        SeriesWithAuthorsAndBooksDto seriesWithAuthorsAndBooks = bookifyCrudFacade
+                .findSeriesByIdWithAuthorsAndBooks(seriesDto.id());
+        Set<BookDto> books = seriesWithAuthorsAndBooks.books();
+        assertTrue(books.stream().anyMatch(b -> b.id().equals(bookDto.id())));
     }
 
 }

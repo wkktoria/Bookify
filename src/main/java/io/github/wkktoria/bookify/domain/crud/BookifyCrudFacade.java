@@ -192,4 +192,9 @@ public class BookifyCrudFacade {
         return genreUpdater.updateGenreById(genreId, requestDto);
     }
 
+    public List<SeriesDto> findAllSeries() {
+        log.info("Finding all series");
+        return seriesRetriever.findAll();
+    }
+
 }

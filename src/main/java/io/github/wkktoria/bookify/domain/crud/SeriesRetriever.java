@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,16 @@ import java.util.stream.Collectors;
 class SeriesRetriever {
 
     private final SeriesRepository seriesRepository;
+
+    List<SeriesDto> findAll() {
+        log.debug("Retrieving all series");
+        return seriesRepository.findAll().stream()
+                .map(series -> SeriesDto.builder()
+                        .id(series.getId())
+                        .name(series.getName())
+                        .build())
+                .toList();
+    }
 
     SeriesWithAuthorsAndBooksDto findSeriesByIdWithAuthorsAndBooks(final Long id) {
         log.debug("Retrieving series with id={}", id);
