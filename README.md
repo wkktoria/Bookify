@@ -9,7 +9,9 @@ such as assigning multiple authors to a book, grouping books into series, and ca
 ## Table of Contents
 
 - [Requirements](#requirements)
-- [Happy Path](#happy-path)
+- [Happy Paths](#happy-paths)
+    - [Happy Path v1](#happy-path-v1)
+    - [Happy Path v2](#happy-path-v2)
 - [Endpoints](#endpoints)
     - [GET Endpoints](#get-endpoints)
     - [POST Endpoints](#post-endpoints)
@@ -64,7 +66,9 @@ The system should support the following operations and ensure that all data is *
 - [ ] Show all genres with their associated books.
 - [ ] Show all authors with their books.
 
-## Happy Path
+## Happy Paths
+
+### Happy Path v1
 
 > [!IMPORTANT]
 > The happy path scenario must be updated to align with the current system behavior and requirements.
@@ -98,6 +102,29 @@ Given there is no books, authors, series and genres created before:
 17. When user posts to /authors with author "Kathy Sierra" then author "Kathy Sierra" is returned with id 1.
 18. When user puts to /books/1/authors/1 then author with id 1 ("Kathy Sierra") is added to book with id 1 ("Head First
     Java").
+
+### Happy Path v2
+
+1. When user goes to /authors then user can see no authors.
+2. When user posts to /authors with author "Eric Freeman" then author "Eric Freeman" is returned with id 1.
+3. When user posts to /authors with author "Elisabeth Robson" then author "Elisabeth Robson" is returned with id 2.
+4. When user goes to /genres then user can see no genres.
+5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 1.
+6. When user goes to /books then user can see no books.
+7. When user posts to /books with book "Head First Design Patterns" of author with id 1 ("Eric Freeman") then book "Head
+   First Design Patterns" is returned with id 1.
+8. When user posts to /books with book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head
+   First JavaScript" is returned with id 2.
+9. When user goes to /books/1 then user can see book info and the default genre with id 1 and name default.
+10. When user puts to /books/1/genre/1 then genre with id 1 ("Software Engineering") is added to book with id 1 ("Head
+    First Design Patterns").
+11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
+12. When user goes to /series then user can see no series.
+13. When user posts to /series with series "Head First Series" and book with id 1 then series "Head First Series" is
+    returned with id 1.
+14. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 ("
+    Head First Series").
+15. When user goes to /series/1 then user can see series with 2 books (id1 and id2).
 
 ## Endpoints
 
