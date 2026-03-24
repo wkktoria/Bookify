@@ -71,6 +71,11 @@
     <ul>
         <li th:each="book : ${bookList}">
             <span th:text="${book.title}"></span>
+            by
+            <span th:each="author, iterStat : ${book.authors}">
+                <span th:text="${author.firstname + ' ' + author.lastname}"></span>
+                <span th:if="${!iterStat.last}">, </span>
+            </span>
         </li>
     </ul>
 </div>
