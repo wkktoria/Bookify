@@ -28,6 +28,7 @@ public record CreateBookRequestDto(
         @NotNull
         Long authorId,
 
+        @NotNull
         BookLanguageDto language
 ) {
 }

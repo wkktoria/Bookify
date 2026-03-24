@@ -10,5 +10,6 @@ public record BookDto(
         String title,
         LocalDate publicationDate,
         String isbn,
-        Integer pages) {
+        Integer pages,
+        GenreDto genre) {
 }

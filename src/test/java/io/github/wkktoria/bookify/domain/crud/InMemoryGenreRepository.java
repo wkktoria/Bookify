@@ -8,7 +8,11 @@ import java.util.concurrent.atomic.AtomicLong;
 class InMemoryGenreRepository implements GenreRepository {
 
     Map<Long, Genre> db = new HashMap<>();
-    AtomicLong index = new AtomicLong(0);
+    AtomicLong index = new AtomicLong(1);
+
+    public InMemoryGenreRepository() {
+        save(new Genre(1L, "default"));
+    }
 
     @Override
     public Genre save(final Genre genre) {

@@ -1,6 +1,7 @@
 package io.github.wkktoria.bookify.domain.crud;
 
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 
 import java.time.ZoneOffset;
 
@@ -15,6 +16,7 @@ class BookDomainMapper {
                         .toLocalDate())
                 .isbn(book.getIsbn())
                 .pages(book.getPages())
+                .genre(new GenreDto(book.getGenre().getId(), book.getGenre().getName()))
                 .build();
     }
 
@@ -26,6 +28,7 @@ class BookDomainMapper {
                         .toInstant(ZoneOffset.UTC))
                 .isbn(dto.isbn())
                 .pages(dto.pages())
+                .genre(new Genre(dto.genre().id(), dto.genre().name()))
                 .build();
     }
 

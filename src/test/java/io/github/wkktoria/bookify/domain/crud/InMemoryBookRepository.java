@@ -21,6 +21,7 @@ class InMemoryBookRepository implements BookRepository {
         long index = this.index.getAndIncrement();
         db.put(index, book);
         book.setId(index);
+        book.setGenre(new Genre(1L, "default"));
         return book;
     }
 

@@ -42,6 +42,7 @@ public class BookifyCrudFacade {
     private final GenreRetriever genreRetriever;
     private final GenreAdder genreAdder;
     private final GenreUpdater genreUpdater;
+    private final GenreAssigner genreAssigner;
     private final SeriesAdder seriesAdder;
     private final SeriesRetriever seriesRetriever;
 

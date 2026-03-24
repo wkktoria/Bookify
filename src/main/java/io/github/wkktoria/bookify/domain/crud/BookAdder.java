@@ -3,6 +3,7 @@ package io.github.wkktoria.bookify.domain.crud;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ class BookAdder {
 
     private final BookRepository bookRepository;
     private final AuthorRetriever authorRetriever;
+    private final GenreAssigner genreAssigner;
 
     BookDto addBook(final BookRequestDto requestDto) {
         log.debug("Saving new book: title='{}', publicationDate={}, isbn='{}', pages={}, authorId={}",
@@ -36,6 +38,8 @@ class BookAdder {
 
         log.debug("Book saved with id={}", savedBook.getId());
 
+        genreAssigner.assignDefaultGenreToBook(book.getId());
+
         return BookDto.builder()
                 .id(savedBook.getId())
                 .title(savedBook.getTitle())
@@ -44,6 +48,7 @@ class BookAdder {
                         .toLocalDate())
                 .isbn(savedBook.getIsbn())
                 .pages(savedBook.getPages())
+                .genre(new GenreDto(savedBook.getGenre().getId(), savedBook.getGenre().getName()))
                 .build();
     }
 

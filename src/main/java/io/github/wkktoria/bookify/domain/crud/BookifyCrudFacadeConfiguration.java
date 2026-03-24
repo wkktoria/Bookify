@@ -8,7 +8,6 @@ class BookifyCrudFacadeConfiguration {
                                                      final SeriesRepository seriesRepository) {
         BookRetriever bookRetriever = new BookRetriever(bookRepository);
         AuthorRetriever authorRetriever = new AuthorRetriever(authorRepository, bookRetriever);
-        BookAdder bookAdder = new BookAdder(bookRepository, authorRetriever);
         BookDeleter bookDeleter = new BookDeleter(bookRepository, bookRetriever);
         BookUpdater bookUpdater = new BookUpdater(bookRepository, bookRetriever);
         AuthorAdder authorAdder = new AuthorAdder(authorRepository, authorRetriever, bookRetriever);
@@ -18,6 +17,8 @@ class BookifyCrudFacadeConfiguration {
         GenreRetriever genreRetriever = new GenreRetriever(genreRepository);
         GenreAdder genreAdder = new GenreAdder(genreRepository);
         GenreUpdater genreUpdater = new GenreUpdater(genreRetriever);
+        GenreAssigner genreAssigner = new GenreAssigner(bookRetriever, genreRetriever);
+        BookAdder bookAdder = new BookAdder(bookRepository, authorRetriever, genreAssigner);
         SeriesAdder seriesAdder = new SeriesAdder(seriesRepository, bookRetriever);
         SeriesRetriever seriesRetriever = new SeriesRetriever(seriesRepository);
         return new BookifyCrudFacade(
@@ -32,6 +33,7 @@ class BookifyCrudFacadeConfiguration {
                 genreRetriever,
                 genreAdder,
                 genreUpdater,
+                genreAssigner,
                 seriesAdder,
                 seriesRetriever
         );
