@@ -75,9 +75,9 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.firstname", is("Elisabeth")))
                 .andExpect(jsonPath("$.lastname", is("Robson")));
 
-        // 4. When user goes to /genres then user can see no genres.
+        // 4. When user goes to /genres then user can see only default genre with id 1.
 
-        // 5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 1.
+        // 5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
 
         // 6. When user goes to /books then user can see no books.
 
@@ -87,7 +87,7 @@ class HappyPathIntegrationTest {
 
         // 9. When user goes to /books/1 then user can see book info and the default genre with id 1 and name default.
 
-        // 10. When user puts to /books/1/genre/1 then genre with id 1 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
+        // 10. When user puts to /books/1/genre/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
 
         // 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
 

@@ -108,15 +108,15 @@ Given there is no books, authors, series and genres created before:
 1. When user goes to /authors then user can see no authors.
 2. When user posts to /authors with author "Eric Freeman" then author "Eric Freeman" is returned with id 1.
 3. When user posts to /authors with author "Elisabeth Robson" then author "Elisabeth Robson" is returned with id 2.
-4. When user goes to /genres then user can see no genres.
-5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 1.
+4. When user goes to /genres then user can see only default genre with id 1.
+5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
 6. When user goes to /books then user can see no books.
 7. When user posts to /books with book "Head First Design Patterns" of author with id 1 ("Eric Freeman") then book "Head
    First Design Patterns" is returned with id 1.
 8. When user posts to /books with book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head
    First JavaScript" is returned with id 2.
 9. When user goes to /books/1 then user can see book info and the default genre with id 1 and name default.
-10. When user puts to /books/1/genre/1 then genre with id 1 ("Software Engineering") is added to book with id 1 ("Head
+10. When user puts to /books/1/genre/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head
     First Design Patterns").
 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
 12. When user goes to /series then user can see no series.
