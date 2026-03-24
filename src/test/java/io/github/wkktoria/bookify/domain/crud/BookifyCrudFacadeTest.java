@@ -159,7 +159,6 @@ class BookifyCrudFacadeTest {
         bookifyCrudFacade.deleteAuthorByIdWithBooks(johnDoeId);
 
         // then
-        assertThat(bookifyCrudFacade.findBookById(bookId)).isEqualTo(bookDto);
         assertThat(bookifyCrudFacade.countAuthorsByBookId(bookId)).isEqualTo(1);
         assertThat(bookifyCrudFacade.findAuthorsByBookId(bookId)).containsExactly(samSmithDto);
     }

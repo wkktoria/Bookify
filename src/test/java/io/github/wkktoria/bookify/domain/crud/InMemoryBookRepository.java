@@ -21,7 +21,6 @@ class InMemoryBookRepository implements BookRepository {
         long index = this.index.getAndIncrement();
         db.put(index, book);
         book.setId(index);
-        book.setGenre(new Genre(1L, "default"));
         return book;
     }
 
@@ -37,7 +36,7 @@ class InMemoryBookRepository implements BookRepository {
 
     @Override
     public void deleteById(final Long id) {
-
+        db.remove(id);
     }
 
     @Override
@@ -47,7 +46,7 @@ class InMemoryBookRepository implements BookRepository {
 
     @Override
     public boolean existsById(final Long id) {
-        return false;
+        return db.containsKey(id);
     }
 
     @Override

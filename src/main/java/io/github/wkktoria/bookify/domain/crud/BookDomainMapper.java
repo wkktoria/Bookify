@@ -1,9 +1,11 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 
 import java.time.ZoneOffset;
+import java.util.stream.Collectors;
 
 class BookDomainMapper {
 
@@ -17,6 +19,9 @@ class BookDomainMapper {
                 .isbn(book.getIsbn())
                 .pages(book.getPages())
                 .genre(new GenreDto(book.getGenre().getId(), book.getGenre().getName()))
+                .authors(book.getAuthors().stream()
+                        .map(author -> new AuthorDto(author.getId(), author.getFirstname(), author.getLastname()))
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -29,6 +34,9 @@ class BookDomainMapper {
                 .isbn(dto.isbn())
                 .pages(dto.pages())
                 .genre(new Genre(dto.genre().id(), dto.genre().name()))
+                .authors(dto.authors().stream()
+                        .map(authorDto -> new Author(authorDto.id(), authorDto.firstname(), authorDto.lastname()))
+                        .collect(Collectors.toSet()))
                 .build();
     }
 

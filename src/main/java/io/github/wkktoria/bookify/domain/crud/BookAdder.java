@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
@@ -11,6 +12,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
+import java.util.stream.Collectors;
+
+import static io.github.wkktoria.bookify.domain.crud.BookDomainMapper.mapFromBookToBookDto;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -40,16 +44,7 @@ class BookAdder {
 
         genreAssigner.assignDefaultGenreToBook(book.getId());
 
-        return BookDto.builder()
-                .id(savedBook.getId())
-                .title(savedBook.getTitle())
-                .publicationDate(savedBook.getPublicationDate()
-                        .atZone(ZoneOffset.UTC)
-                        .toLocalDate())
-                .isbn(savedBook.getIsbn())
-                .pages(savedBook.getPages())
-                .genre(new GenreDto(savedBook.getGenre().getId(), savedBook.getGenre().getName()))
-                .build();
+        return mapFromBookToBookDto(savedBook);
     }
 
 }

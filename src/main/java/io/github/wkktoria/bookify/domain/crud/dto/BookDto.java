@@ -3,6 +3,7 @@ package io.github.wkktoria.bookify.domain.crud.dto;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Builder
 public record BookDto(
@@ -11,5 +12,6 @@ public record BookDto(
         LocalDate publicationDate,
         String isbn,
         Integer pages,
-        GenreDto genre) {
+        GenreDto genre,
+        Set<AuthorDto> authors) {
 }

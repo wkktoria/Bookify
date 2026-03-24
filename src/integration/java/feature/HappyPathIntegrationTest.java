@@ -80,10 +80,54 @@ class HappyPathIntegrationTest {
         // 5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
 
         // 6. When user goes to /books then user can see no books.
+        mockMvc.perform(get("/books")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.books", empty()));
 
         // 7. When user posts to /books with book "Head First Design Patterns" of author with id 1 ("Eric Freeman") then book "Head First Design Patterns" is returned with id 1.
+        mockMvc.perform(post("/books")
+                        .content("""
+                                {
+                                    "bookTitle": "Head First Design Patterns",
+                                    "publicationDate": "2004-10-01",
+                                    "isbn": "9780596007126",
+                                    "pages": 692,
+                                    "authorId": 1,
+                                    "language": "ENGLISH"
+                                }
+                                """.trim())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.book.id", is(1)))
+                .andExpect(jsonPath("$.book.title", is("Head First Design Patterns")))
+                .andExpect(jsonPath("$.book.genre.id", is(1)))
+                .andExpect(jsonPath("$.book.genre.name", is("default")))
+                .andExpect(jsonPath("$.book.authors[0].id", is(1)))
+                .andExpect(jsonPath("$.book.authors[0].firstname", is("Eric")))
+                .andExpect(jsonPath("$.book.authors[0].lastname", is("Freeman")));
 
         // 8. When user posts to /books with book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head First JavaScript" is returned with id 2.
+        mockMvc.perform(post("/books")
+                        .content("""
+                                {
+                                    "bookTitle": "Head First JavaScript",
+                                    "publicationDate": "2014-05-06",
+                                    "isbn": "9781449340131",
+                                    "pages": 700,
+                                    "authorId": 1,
+                                    "language": "ENGLISH"
+                                }
+                                """.trim())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.book.id", is(2)))
+                .andExpect(jsonPath("$.book.title", is("Head First JavaScript")))
+                .andExpect(jsonPath("$.book.genre.id", is(1)))
+                .andExpect(jsonPath("$.book.genre.name", is("default")))
+                .andExpect(jsonPath("$.book.authors[0].id", is(1)))
+                .andExpect(jsonPath("$.book.authors[0].firstname", is("Eric")))
+                .andExpect(jsonPath("$.book.authors[0].lastname", is("Freeman")));
 
         // 9. When user goes to /books/1 then user can see book info and the default genre with id 1 and name default.
 
