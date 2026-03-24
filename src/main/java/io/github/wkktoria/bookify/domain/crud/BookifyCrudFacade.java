@@ -198,4 +198,9 @@ public class BookifyCrudFacade {
         return seriesRetriever.findAll();
     }
 
+    public Set<GenreDto> findAllGenres() {
+        log.info("Finding all genres");
+        return genreRetriever.findAll();
+    }
+
 }

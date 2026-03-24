@@ -4,15 +4,19 @@ import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.genre.controller.dto.request.CreateGenreRequestDto;
+import io.github.wkktoria.bookify.infrastructure.crud.genre.controller.dto.response.GetAllGenresResponsesDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static io.github.wkktoria.bookify.infrastructure.crud.genre.controller.GenreControllerMapper.mapFromGenreDtoSetToGetAllGenresResponseDto;
 
 @RestController
 @RequestMapping("/genres")
@@ -21,6 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 class GenreRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
+
+    @GetMapping
+    ResponseEntity<GetAllGenresResponsesDto> getAllGenres() {
+        log.info("GET /genres request received");
+        return ResponseEntity.ok(mapFromGenreDtoSetToGetAllGenresResponseDto(bookifyCrudFacade.findAllGenres()));
+    }
 
     @PostMapping
     ResponseEntity<GenreDto> createGenre(@RequestBody @Valid final CreateGenreRequestDto requestDto) {

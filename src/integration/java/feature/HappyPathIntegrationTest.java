@@ -78,8 +78,23 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.lastname", is("Robson")));
 
         // 4. When user goes to /genres then user can see only default genre with id 1.
+        mockMvc.perform(get("/genres")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.genres[0].id", is(1)))
+                .andExpect(jsonPath("$.genres[0].name", is("default")));
 
         // 5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
+        mockMvc.perform(post("/genres")
+                        .content("""
+                                {
+                                    "name": "Software Engineering"
+                                }
+                                """.trim())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.name", is("Software Engineering")));
 
         // 6. When user goes to /books then user can see no books.
         mockMvc.perform(get("/books")
@@ -132,6 +147,12 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.book.authors[0].lastname", is("Freeman")));
 
         // 9. When user goes to /books/1 then user can see book info and the default genre with id 1 and name default.
+        mockMvc.perform(get("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.book.id", is(1)))
+                .andExpect(jsonPath("$.book.genre.id", is(1)))
+                .andExpect(jsonPath("$.book.genre.name", is("default")));
 
         // 10. When user puts to /books/1/genre/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
 

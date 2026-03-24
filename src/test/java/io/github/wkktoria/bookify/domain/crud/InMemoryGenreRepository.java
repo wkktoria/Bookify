@@ -1,8 +1,10 @@
 package io.github.wkktoria.bookify.domain.crud;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 class InMemoryGenreRepository implements GenreRepository {
@@ -20,6 +22,11 @@ class InMemoryGenreRepository implements GenreRepository {
         db.put(index, genre);
         genre.setId(index);
         return genre;
+    }
+
+    @Override
+    public Set<Genre> findAll() {
+        return new HashSet<>(db.values());
     }
 
     @Override
