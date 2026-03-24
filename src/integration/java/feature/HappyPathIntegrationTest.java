@@ -135,13 +135,17 @@ class HappyPathIntegrationTest {
 
         // 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
 
-        // 12. When user goes to /series then user can see no series.
+        // 12. When user puts to /books/1/authors/2 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head First Design Patterns").
 
-        // 13. When user posts to /series with series "Head First Series" and book with id 1 then series "Head First Series" is returned with id 1.
+        // 13. When user goes to /books/1 then user can see book info and 2 authors (id1 and id2).
 
-        // 14. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
+        // 14. When user goes to /series then user can see no series.
 
-        // 15. When user goes to /series/1 then user can see series with 2 books (id1 and id2).
+        // 15. When user posts to /series with series "Head First Series" and book with id 1 then series "Head First Series" is returned with id 1.
+
+        // 16. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
+
+        // 17. When user goes to /series/1 then user can see series with 2 books (id1 and id2).
 
     }
 
