@@ -119,7 +119,7 @@ Given there is no books, authors, series and genres created before:
 10. When user puts to /books/1/genre/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head
     First Design Patterns").
 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
-12. When user puts to /books/1/authors/2 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head
+12. When user puts to /authors/2/books/1 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head
     First Design Patterns").
 13. When user goes to /books/1 then user can see book info and 2 authors (id1 and id2).
 14. When user goes to /series then user can see no series.
