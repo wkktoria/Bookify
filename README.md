@@ -59,7 +59,7 @@ The system should support the following operations and ensure that all data is *
 **Retrieval**
 
 - [X] Show all books.
-- [ ] Show all genres.
+- [X] Show all genres.
 - [X] Show all authors.
 - [ ] Show all series.
 - [X] Show specific series with their books and corresponding authors.
