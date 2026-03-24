@@ -16,7 +16,7 @@ spring:
     show-sql: true
   flyway:
     enabled: true
-    locations: classpath:db/migration
+    locations: classpath:db.migration/general,classpath:db.migration/inserts
     schemas: public
 logging:
   level:
