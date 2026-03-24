@@ -203,4 +203,9 @@ public class BookifyCrudFacade {
         return genreRetriever.findAll();
     }
 
+    public void assignGenreToBook(final Long genreId, final Long bookId) {
+        log.info("Assigning genre with id={} to book with id={}", genreId, bookId);
+        genreAssigner.assignGenreToBook(genreId, bookId);
+    }
+
 }

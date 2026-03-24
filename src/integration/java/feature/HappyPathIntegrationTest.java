@@ -151,12 +151,24 @@ class HappyPathIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.book.id", is(1)))
+                .andExpect(jsonPath("$.book.title", is("Head First Design Patterns")))
                 .andExpect(jsonPath("$.book.genre.id", is(1)))
                 .andExpect(jsonPath("$.book.genre.name", is("default")));
 
-        // 10. When user puts to /books/1/genre/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
+        // 10. When user puts to /books/1/genres/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
+        mockMvc.perform(put("/books/1/genres/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Genre assigned to book")));
 
         // 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
+        mockMvc.perform(get("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.book.id", is(1)))
+                .andExpect(jsonPath("$.book.title", is("Head First Design Patterns")))
+                .andExpect(jsonPath("$.book.genre.id", is(2)))
+                .andExpect(jsonPath("$.book.genre.name", is("Software Engineering")));
 
         // 12. When user puts to /authors/2/books/1 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head First Design Patterns").
         mockMvc.perform(put("/authors/2/books/1")

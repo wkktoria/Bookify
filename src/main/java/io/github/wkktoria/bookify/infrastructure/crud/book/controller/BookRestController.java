@@ -122,6 +122,16 @@ public class BookRestController {
         return ResponseEntity.ok(body);
     }
 
+    @PutMapping("/{bookId}/genres/{genreId}")
+    public ResponseEntity<String> assignGenreToBook(
+            @PathVariable final Long bookId,
+            @PathVariable final Long genreId
+    ) {
+        log.info("PATH /books/{}/genres/{} request received", bookId, genreId);
+        bookFacade.assignGenreToBook(genreId, bookId);
+        return ResponseEntity.ok("Genre assigned to book");
+    }
+
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Long id) {
         bookFacade.deleteById(id);
 

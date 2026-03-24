@@ -22,4 +22,11 @@ class GenreAssigner {
         book.setGenre(genre);
     }
 
+    void assignGenreToBook(final Long genreId, final Long bookId) {
+        log.debug("Assigning genre with id={} to book with id={}", genreId, bookId);
+        Book book = bookRetriever.findBookById(bookId);
+        Genre genre = genreRetriever.findGenreById(genreId);
+        book.setGenre(genre);
+    }
+
 }

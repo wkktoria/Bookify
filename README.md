@@ -53,8 +53,8 @@ The system should support the following operations and ensure that all data is *
 
 - [ ] Assign books to a series.
 - [X] Assign authors to books (many-to-many relationship).
-- [ ] Assign exactly one genre to each book.
-- [ ] If no genre is assigned to book, it should be displayed as "default".
+- [X] Assign exactly one genre to each book.
+- [X] If no genre is assigned to book, it should be displayed as "default".
 
 **Retrieval**
 
@@ -116,7 +116,7 @@ Given there is no books, authors, series and genres created before:
 8. When user posts to /books with book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head
    First JavaScript" is returned with id 2.
 9. When user goes to /books/1 then user can see book info and the default genre with id 1 and name default.
-10. When user puts to /books/1/genre/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head
+10. When user puts to /books/1/genres/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head
     First Design Patterns").
 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
 12. When user puts to /authors/2/books/1 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head
