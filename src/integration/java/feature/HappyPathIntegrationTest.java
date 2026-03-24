@@ -14,6 +14,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -136,8 +138,18 @@ class HappyPathIntegrationTest {
         // 11. When user goes to /books/1 then user can see book info and "Software Engineering" genre.
 
         // 12. When user puts to /authors/2/books/1 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head First Design Patterns").
+        mockMvc.perform(put("/authors/2/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Author assigned to book")));
 
         // 13. When user goes to /books/1 then user can see book info and 2 authors (id1 and id2).
+        mockMvc.perform(get("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.book.id", is(1)))
+                .andExpect(jsonPath("$.book.title", is("Head First Design Patterns")))
+                .andExpect(jsonPath("$.book.authors[*].id", containsInAnyOrder(1, 2)));
 
         // 14. When user goes to /series then user can see no series.
 
