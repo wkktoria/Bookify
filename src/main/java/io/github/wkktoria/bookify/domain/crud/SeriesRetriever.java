@@ -30,6 +30,15 @@ class SeriesRetriever {
                 .toList();
     }
 
+    Series findSeriesById(final Long id) {
+        log.debug("Retrieving series with id={}", id);
+        return seriesRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.warn("Series with id={} not found", id);
+                    return new SeriesNotFoundException("Could not find series with id=" + id);
+                });
+    }
+
     SeriesWithAuthorsAndBooksDto findSeriesByIdWithAuthorsAndBooks(final Long id) {
         log.debug("Retrieving series with id={}", id);
 

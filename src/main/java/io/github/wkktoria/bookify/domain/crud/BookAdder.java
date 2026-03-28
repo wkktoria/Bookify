@@ -25,6 +25,8 @@ class BookAdder {
     private final BookRepository bookRepository;
     private final AuthorRetriever authorRetriever;
     private final GenreAssigner genreAssigner;
+    private final BookRetriever bookRetriever;
+    private final SeriesRetriever seriesRetriever;
 
     BookDto addBook(final BookRequestDto requestDto) {
         log.debug("Saving new book: title='{}', publicationDate={}, isbn='{}', pages={}, authorId={}",
@@ -45,6 +47,13 @@ class BookAdder {
         genreAssigner.assignDefaultGenreToBook(book.getId());
 
         return mapFromBookToBookDto(savedBook);
+    }
+
+    void addBookToSeries(final Long bookId, final Long seriesId) {
+        log.debug("Adding book with id={} to series with id={}", bookId, seriesId);
+        Book book = bookRetriever.findBookById(bookId);
+        Series series = seriesRetriever.findSeriesById(seriesId);
+        series.addBook(book);
     }
 
 }

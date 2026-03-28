@@ -51,7 +51,7 @@ The system should support the following operations and ensure that all data is *
 
 **Relationship**
 
-- [ ] Assign books to a series.
+- [X] Assign books to a series.
 - [X] Assign authors to books (many-to-many relationship).
 - [X] Assign exactly one genre to each book.
 - [X] If no genre is assigned to book, it should be displayed as "default".

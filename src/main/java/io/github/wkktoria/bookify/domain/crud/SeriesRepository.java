@@ -15,6 +15,12 @@ interface SeriesRepository extends Repository<Series, Long> {
     List<Series> findAll();
 
     @Query("""
+            SELECT s FROM Series s
+            WHERE s.id = :id
+            """)
+    Optional<Series> findById(@Param("id") final Long id);
+
+    @Query("""
             SELECT DISTINCT s FROM Series s
             LEFT JOIN FETCH s.books b
             LEFT JOIN FETCH b.authors

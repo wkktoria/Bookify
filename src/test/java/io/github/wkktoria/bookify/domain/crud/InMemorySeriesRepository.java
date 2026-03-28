@@ -18,6 +18,11 @@ class InMemorySeriesRepository implements SeriesRepository {
     }
 
     @Override
+    public Optional<Series> findById(final Long id) {
+        return Optional.empty();
+    }
+
+    @Override
     public Series save(final Series series) {
         long index = this.index.getAndIncrement();
         db.put(index, series);

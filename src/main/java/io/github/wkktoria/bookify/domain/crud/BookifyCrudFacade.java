@@ -208,4 +208,9 @@ public class BookifyCrudFacade {
         genreAssigner.assignGenreToBook(genreId, bookId);
     }
 
+    public void addBookToSeries(final Long bookId, final Long seriesId) {
+        log.info("Adding book with id={} to series with id={}", bookId, seriesId);
+        bookAdder.addBookToSeries(bookId, seriesId);
+    }
+
 }

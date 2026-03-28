@@ -204,9 +204,18 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.name", is("Head First Series")));
 
         // 16. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
+        mockMvc.perform(put("/series/1/books/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Book added to series")));
 
         // 17. When user goes to /series/1 then user can see series with 2 books (id1 and id2).
-
+        mockMvc.perform(get("/series/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.series.id", is(1)))
+                .andExpect(jsonPath("$.series.name", is("Head First Series")))
+                .andExpect(jsonPath("$.books[*].id", containsInAnyOrder(1, 2)));
     }
 
 }
