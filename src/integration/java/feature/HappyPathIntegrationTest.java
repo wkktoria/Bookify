@@ -185,8 +185,23 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.book.authors[*].id", containsInAnyOrder(1, 2)));
 
         // 14. When user goes to /series then user can see no series.
+        mockMvc.perform(get("/series")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.series", empty()));
 
         // 15. When user posts to /series with series "Head First Series" and book with id 1 then series "Head First Series" is returned with id 1.
+        mockMvc.perform(post("/series")
+                        .content("""
+                                {
+                                    "name": "Head First Series",
+                                    "bookId": 1
+                                }
+                                """.trim())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("Head First Series")));
 
         // 16. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
 
