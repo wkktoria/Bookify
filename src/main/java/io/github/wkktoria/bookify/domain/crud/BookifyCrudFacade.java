@@ -6,6 +6,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.GenreWithBooksDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
@@ -211,6 +212,12 @@ public class BookifyCrudFacade {
     public void addBookToSeries(final Long bookId, final Long seriesId) {
         log.info("Adding book with id={} to series with id={}", bookId, seriesId);
         bookAdder.addBookToSeries(bookId, seriesId);
+    }
+
+    public GenreWithBooksDto findGenreByIdWithBooks(final long genreId) {
+        log.info("Fetching genre with id={} and its books", genreId);
+        return genreRetriever.findGenreByIdWithBooks(genreId);
+
     }
 
 }

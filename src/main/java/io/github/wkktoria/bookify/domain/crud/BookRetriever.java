@@ -56,6 +56,10 @@ class BookRetriever {
         return bookRepository.findAllByAuthorId(authorId);
     }
 
+    Set<Book> findBooksByGenreId(final Long genreId) {
+        return bookRepository.findAllByGenreId(genreId);
+    }
+
     Set<BookDto> findBookDtosByAuthorId(final Long authorId) {
         return findBooksByAuthorId(authorId).stream()
                 .map(BookDomainMapper::mapFromBookToBookDto)

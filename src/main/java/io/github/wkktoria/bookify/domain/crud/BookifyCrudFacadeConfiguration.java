@@ -14,7 +14,7 @@ class BookifyCrudFacadeConfiguration {
         AuthorDeleter authorDeleter = new AuthorDeleter(authorRepository, authorRetriever,
                 bookRetriever, bookDeleter);
         AuthorUpdater authorUpdater = new AuthorUpdater(authorRetriever);
-        GenreRetriever genreRetriever = new GenreRetriever(genreRepository);
+        GenreRetriever genreRetriever = new GenreRetriever(genreRepository, bookRetriever);
         GenreAdder genreAdder = new GenreAdder(genreRepository);
         GenreUpdater genreUpdater = new GenreUpdater(genreRetriever);
         GenreAssigner genreAssigner = new GenreAssigner(bookRetriever, genreRetriever);

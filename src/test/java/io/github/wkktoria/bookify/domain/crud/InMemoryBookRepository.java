@@ -58,6 +58,11 @@ class InMemoryBookRepository implements BookRepository {
     }
 
     @Override
+    public Set<Book> findAllByGenreId(final Long id) {
+        return Set.of();
+    }
+
+    @Override
     public void deleteByIdIn(final Collection<Long> ids) {
         ids.forEach(id -> db.remove(id));
 

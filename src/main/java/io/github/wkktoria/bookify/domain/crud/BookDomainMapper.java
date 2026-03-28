@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.domain.crud;
 
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookSimpleDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 
 import java.time.ZoneOffset;
@@ -22,6 +23,18 @@ class BookDomainMapper {
                 .authors(book.getAuthors().stream()
                         .map(author -> new AuthorDto(author.getId(), author.getFirstname(), author.getLastname()))
                         .collect(Collectors.toSet()))
+                .build();
+    }
+
+    static BookSimpleDto mapFromBookToBookSimpleDto(final Book book) {
+        return BookSimpleDto.builder()
+                .id(book.getId())
+                .title(book.getTitle())
+                .publicationDate(book.getPublicationDate()
+                        .atZone(ZoneOffset.UTC)
+                        .toLocalDate())
+                .isbn(book.getIsbn())
+                .pages(book.getPages())
                 .build();
     }
 

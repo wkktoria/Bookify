@@ -38,6 +38,12 @@ public interface BookRepository extends Repository<Book, Long> {
             """)
     Set<Book> findAllByAuthorId(@Param("id") final Long id);
 
+    @Query("""
+            SELECT DISTINCT b FROM Book b
+            WHERE b.genre.id = :id
+            """)
+    Set<Book> findAllByGenreId(@Param("id") final Long id);
+
     @Modifying
     @Query("DELETE FROM Book b WHERE b.id IN :ids")
     void deleteByIdIn(final Collection<Long> ids);
