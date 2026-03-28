@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.domain.crud;
 
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorWithBooksDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
@@ -217,7 +218,11 @@ public class BookifyCrudFacade {
     public GenreWithBooksDto findGenreByIdWithBooks(final long genreId) {
         log.info("Fetching genre with id={} and its books", genreId);
         return genreRetriever.findGenreByIdWithBooks(genreId);
+    }
 
+    public AuthorWithBooksDto findAuthorByIdWithBooks(final Long authorId) {
+        log.info("Fetching author with id={} and their books", authorId);
+        return authorRetriever.findAuthorByIdWithBooks(authorId);
     }
 
 }

@@ -3,6 +3,7 @@ package io.github.wkktoria.bookify.infrastructure.crud.author.controller;
 import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorRequestDto;
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorWithBooksDto;
 import io.github.wkktoria.bookify.domain.crud.dto.UpdateAuthorRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.request.CreateAuthorRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.dto.response.AllAuthorsResponseDto;
@@ -43,6 +44,12 @@ class AuthorRestController {
         log.debug("Returning {} authors", allAuthors.size());
 
         return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<AuthorWithBooksDto> getAuthorWithBooks(@PathVariable final Long id) {
+        log.info("GET /authors/{} request received", id);
+        return ResponseEntity.ok(bookifyCrudFacade.findAuthorByIdWithBooks(id));
     }
 
     @PostMapping

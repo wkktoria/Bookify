@@ -1,6 +1,8 @@
 package io.github.wkktoria.bookify.domain.crud;
 
 import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
+import io.github.wkktoria.bookify.domain.crud.dto.AuthorWithBooksDto;
+import io.github.wkktoria.bookify.domain.crud.dto.BookSimpleDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -42,6 +44,20 @@ class AuthorRetriever {
         return bookRetriever.findBookById(bookId).getAuthors().stream()
                 .map(author -> new AuthorDto(author.getId(), author.getFirstname(), author.getLastname()))
                 .collect(Collectors.toSet());
+    }
+
+    AuthorWithBooksDto findAuthorByIdWithBooks(final Long id) {
+        log.debug("Retrieving author with id={} and their books", id);
+
+        Author author = findAuthorById(id);
+        Set<Book> books = author.getBooks();
+
+        AuthorDto authorDto = new AuthorDto(author.getId(), author.getFirstname(), author.getLastname());
+        Set<BookSimpleDto> booksDto = books.stream()
+                .map(BookDomainMapper::mapFromBookToBookSimpleDto)
+                .collect(Collectors.toSet());
+
+        return new AuthorWithBooksDto(authorDto, booksDto);
     }
 
 }

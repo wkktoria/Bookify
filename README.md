@@ -64,7 +64,7 @@ The system should support the following operations and ensure that all data is *
 - [X] Show all series.
 - [X] Show specific series with their books and corresponding authors.
 - [X] Show specific genre with its corresponding books.
-- [ ] Show all authors with their books.
+- [X] Show specific author with their books.
 
 ## Happy Paths
 
