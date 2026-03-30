@@ -10,18 +10,19 @@ class BookifyCrudFacadeConfiguration {
         AuthorRetriever authorRetriever = new AuthorRetriever(authorRepository, bookRetriever);
         BookDeleter bookDeleter = new BookDeleter(bookRepository, bookRetriever);
         BookUpdater bookUpdater = new BookUpdater(bookRepository, bookRetriever);
-        AuthorAdder authorAdder = new AuthorAdder(authorRepository, authorRetriever, bookRetriever);
+        SeriesAdder seriesAdder = new SeriesAdder(seriesRepository, bookRetriever);
+        SeriesRetriever seriesRetriever = new SeriesRetriever(seriesRepository);
+        GenreRetriever genreRetriever = new GenreRetriever(genreRepository, bookRetriever);
+        GenreAssigner genreAssigner = new GenreAssigner(bookRetriever, genreRetriever);
+        BookAdder bookAdder = new BookAdder(bookRepository, authorRetriever, genreAssigner,
+                bookRetriever, seriesRetriever);
+        AuthorAdder authorAdder = new AuthorAdder(authorRepository, authorRetriever, bookRetriever, seriesAdder, bookAdder);
         AuthorDeleter authorDeleter = new AuthorDeleter(authorRepository, authorRetriever,
                 bookRetriever, bookDeleter);
         AuthorUpdater authorUpdater = new AuthorUpdater(authorRetriever);
-        GenreRetriever genreRetriever = new GenreRetriever(genreRepository, bookRetriever);
         GenreAdder genreAdder = new GenreAdder(genreRepository);
         GenreUpdater genreUpdater = new GenreUpdater(genreRetriever);
-        GenreAssigner genreAssigner = new GenreAssigner(bookRetriever, genreRetriever);
-        SeriesRetriever seriesRetriever = new SeriesRetriever(seriesRepository);
-        BookAdder bookAdder = new BookAdder(bookRepository, authorRetriever, genreAssigner,
-                bookRetriever, seriesRetriever);
-        SeriesAdder seriesAdder = new SeriesAdder(seriesRepository, bookRetriever);
+
         return new BookifyCrudFacade(
                 bookAdder,
                 bookRetriever,

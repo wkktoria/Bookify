@@ -30,6 +30,7 @@ The system should support the following operations and ensure that all data is *
 **Creation**
 
 - [X] Add a new author (first name and last name).
+- [X] Add a new author with default series and book.
 - [X] Add a new genre (genre name).
 - [X] Add a new series (series name; must include at least one book).
 - [X] Add a new book (title, author, publication date, ISBN, number of pages, language).

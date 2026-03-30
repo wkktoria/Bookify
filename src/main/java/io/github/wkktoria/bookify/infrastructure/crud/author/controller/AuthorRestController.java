@@ -89,4 +89,11 @@ class AuthorRestController {
         return ResponseEntity.ok(authorDto);
     }
 
+    @PostMapping("/series/book")
+    ResponseEntity<AuthorDto> addAuthorWithDefaultSeriesAndBook(@RequestBody @Valid final AuthorRequestDto requestDto) {
+        log.info("POST /authors/series/book request received");
+        AuthorDto authorDto = bookifyCrudFacade.addAuthorWithDefaultSeriesAndBook(requestDto);
+        return ResponseEntity.ok(authorDto);
+    }
+
 }

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,23 @@ class BookAdder {
         genreAssigner.assignDefaultGenreToBook(book.getId());
 
         return mapFromBookToBookDto(savedBook);
+    }
+
+    Book addBook(final String title, final Instant publicationDate,
+                 final String isbn, final Integer pages, final BookLanguage language) {
+        log.debug("Saving new book: title='{}', publicationDate={}, isbn='{}', pages={}",
+                title, publicationDate, isbn, pages);
+
+        Book book = new Book(
+                title, publicationDate, isbn, pages
+        );
+        book.setLanguage(language);
+
+        Book savedBook = bookRepository.save(book);
+
+        genreAssigner.assignDefaultGenreToBook(savedBook.getId());
+
+        return savedBook;
     }
 
     void addBookToSeries(final Long bookId, final Long seriesId) {

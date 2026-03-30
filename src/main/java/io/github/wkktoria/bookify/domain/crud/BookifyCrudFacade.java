@@ -225,4 +225,9 @@ public class BookifyCrudFacade {
         return authorRetriever.findAuthorByIdWithBooks(authorId);
     }
 
+    public AuthorDto addAuthorWithDefaultSeriesAndBook(final AuthorRequestDto requestDto) {
+        log.info("Adding author with default series and book");
+        return authorAdder.addAuthorWithDefaultSeriesAndBook(requestDto);
+    }
+
 }

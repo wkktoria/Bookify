@@ -28,4 +28,13 @@ class SeriesAdder {
         return new SeriesDto(savedSeries.getId(), savedSeries.getName());
     }
 
+    Series addSeries(final String name) {
+        log.debug("Saving new series: name='{}'", name);
+
+        Series series = new Series();
+        series.setName(name);
+
+        return seriesRepository.save(series);
+    }
+
 }
