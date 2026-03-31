@@ -2,7 +2,6 @@ package io.github.wkktoria.bookify.infrastructure.crud.book.controller;
 
 import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
-import io.github.wkktoria.bookify.domain.crud.dto.BookLanguageDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.CreateBookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.dto.request.PartiallyUpdateBookRequestDto;
@@ -23,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 import static io.github.wkktoria.bookify.infrastructure.crud.book.controller.BookControllerMapper.*;
 
@@ -92,6 +90,14 @@ public class BookRestController {
         return deleteBook(id);
     }
 
+    @DeleteMapping("/{bookId}/genre")
+    ResponseEntity<DeleteBookResponseDto> deleteBookWithGenre(@PathVariable final Long bookId) {
+        log.info("DELETE /books/{} request received", bookId);
+        bookFacade.deleteBookAndGenreById(bookId);
+        DeleteBookResponseDto body = mapFromLongIdToDeleteBookResponseDto(bookId);
+        return ResponseEntity.ok(body);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UpdateBookResponseDto> updateBook(@PathVariable Long id,
                                                             @RequestBody @Valid UpdateBookRequestDto request) {
@@ -133,7 +139,7 @@ public class BookRestController {
     }
 
     private ResponseEntity<DeleteBookResponseDto> deleteBook(Long id) {
-        bookFacade.deleteById(id);
+        bookFacade.deleteBookById(id);
 
         DeleteBookResponseDto body = mapFromLongIdToDeleteBookResponseDto(id);
 

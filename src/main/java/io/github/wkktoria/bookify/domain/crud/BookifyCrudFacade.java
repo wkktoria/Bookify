@@ -124,13 +124,20 @@ public class BookifyCrudFacade {
         return seriesRetriever.findSeriesByIdWithAuthorsAndBooks(id);
     }
 
-    public void deleteById(final Long id) {
+    public void deleteBookById(final Long id) {
         log.info("Deleting book with id={}", id);
 
-        bookRetriever.existsById(id);
         bookDeleter.deleteById(id);
 
         log.info("Book with id={} deleted successfully", id);
+    }
+
+    public void deleteBookAndGenreById(final Long bookId) {
+        log.info("Deleting book with id={} and its genre", bookId);
+
+        bookDeleter.deleteBookAndGenreById(bookId);
+
+        log.info("Book with id={} and its genre deleted successfully", bookId);
     }
 
     public void updateById(final Long id, final BookDto newBookDto) {

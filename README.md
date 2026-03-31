@@ -41,7 +41,9 @@ The system should support the following operations and ensure that all data is *
   has multiple authors, only the association with this author should be removed).
 - [ ] Delete a genre only if no books are assigned to it.
 - [ ] Delete a series only if it contains no books.
-- [ ] Delete a book.
+- [X] Delete a book, but do not delete series and authors.
+- [X] Delete book and the assigned genre. The other books with this genre are not deleted and have the default genre
+  assigned.
 
 **Updates**
 
