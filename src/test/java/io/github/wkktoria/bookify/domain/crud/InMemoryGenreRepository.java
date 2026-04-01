@@ -34,4 +34,9 @@ class InMemoryGenreRepository implements GenreRepository {
         return Optional.ofNullable(db.get(id));
     }
 
+    @Override
+    public int deleteById(final Long id) {
+        return 0;
+    }
+
 }
