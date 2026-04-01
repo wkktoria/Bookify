@@ -81,8 +81,8 @@ The system should support the following operations and ensure that all data is *
 - [ ] User can see books, but cannot manage them.
 - [ ] Only admin can change state of application (delete, add, edit books, series, etc.).
 - [ ] HTTPS encryption, certificate generated with OpenSSL.
-- [ ] CORS.
-- [ ] CSRF.
+- [ ] CORS - requests from frontend domain.
+- [ ] CSRF protection.
 - [ ] E-mail confirmation.
 
 ## Happy Paths
