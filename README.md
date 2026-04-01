@@ -9,6 +9,7 @@ such as assigning multiple authors to a book, grouping books into series, and ca
 ## Table of Contents
 
 - [Requirements](#requirements)
+    - [Security](#security)
 - [Happy Paths](#happy-paths)
     - [Happy Path v1](#happy-path-v1)
     - [Happy Path v2](#happy-path-v2)
@@ -68,6 +69,21 @@ The system should support the following operations and ensure that all data is *
 - [X] Show specific series with their books and corresponding authors.
 - [X] Show specific genre with its corresponding books.
 - [X] Show specific author with their books.
+
+### Security
+
+- [ ] It is possible to see books, series, etc. without authentication.
+- [ ] Two roles: ROLE_USER and ROLE_ADMIN.
+- [ ] Use JWT token - own implementation and Google OAuth.
+- [ ] Only admin can see usernames and roles of users - /users endpoint.
+- [ ] Register to be user - own implementation and Google.
+- [ ] Save users and admin to database.
+- [ ] User can see books, but cannot manage them.
+- [ ] Only admin can change state of application (delete, add, edit books, series, etc.).
+- [ ] HTTPS encryption, certificate generated with OpenSSL.
+- [ ] CORS.
+- [ ] CSRF.
+- [ ] E-mail confirmation.
 
 ## Happy Paths
 
