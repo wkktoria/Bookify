@@ -1,3 +1,3 @@
 INSERT INTO users(email, password, authorities, enabled)
-VALUES ('user', 'user', '{ROLE_USER}', true),
-       ('admin', 'admin', '{ROLE_ADMIN, ROLE_USER}', true);
+VALUES ('user', '$2a$10$j0GARHDw68BU9ercXrP2NueYShKkHqU/VpRW2S9KAJh3Vi5W7Suni', '{ROLE_USER}', true),
+       ('admin', '$2a$10$VEFh0QiiotS8PZzRMdj6VeZ/kJU5hf4r1SUue9JZRcR/Z35Sk9.rm', '{ROLE_ADMIN, ROLE_USER}', true);
