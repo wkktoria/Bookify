@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.domain.crud.util;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
@@ -18,6 +19,10 @@ public abstract class BaseEntity implements Serializable {
     @CreationTimestamp
     @Column(name = "created_on")
     public Instant createdOn;
+
+    @Version
+    @Column(name = "version", nullable = false)
+    public long version;
 
     @Override
     public boolean equals(Object obj) {

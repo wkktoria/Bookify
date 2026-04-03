@@ -1,0 +1,29 @@
+ALTER TABLE author
+    ADD version BIGINT DEFAULT 0;
+
+ALTER TABLE author
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE book
+    ADD version BIGINT DEFAULT 0;
+
+ALTER TABLE book
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE genre
+    ADD version BIGINT DEFAULT 0;
+
+ALTER TABLE genre
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE series
+    ADD version BIGINT DEFAULT 0;
+
+ALTER TABLE series
+    ALTER COLUMN version SET NOT NULL;
+
+ALTER TABLE users
+    ADD version BIGINT DEFAULT 0;
+
+ALTER TABLE users
+    ALTER COLUMN version SET NOT NULL;
