@@ -41,11 +41,11 @@ public class User extends BaseEntity {
 
     private boolean enabled = true;
 
-    User(final Collection<String> authorities, final String password, final String email, final boolean enabled) {
-        this.authorities = authorities;
-        this.password = password;
+    public User(final String email, final String password, final boolean enabled, final Collection<String> authorities) {
         this.email = email;
+        this.password = password;
         this.enabled = enabled;
+        this.authorities = authorities;
     }
 
 }
