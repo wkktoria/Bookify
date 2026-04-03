@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.domain.usercrud;
 
+import io.github.wkktoria.bookify.domain.crud.util.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import java.util.HashSet;
 @NoArgsConstructor
 @Getter
 @Setter
-class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "users_id_seq", strategy = GenerationType.SEQUENCE)
@@ -46,5 +47,5 @@ class User {
         this.email = email;
         this.enabled = enabled;
     }
-    
+
 }
