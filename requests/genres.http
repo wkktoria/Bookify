@@ -1,3 +1,6 @@
+GET https://localhost:8080/genres
+
+###
 POST http://localhost:8080/genres
 Content-Type: application/json
 

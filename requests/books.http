@@ -1,10 +1,10 @@
-GET http://localhost:8080/books
+GET https://localhost:8080/books
 
 ###
-GET http://localhost:8080/books?page=0&size=5&sort=title,desc
+GET https://localhost:8080/books?page=0&size=5&sort=title,desc
 
 ###
-GET http://localhost:8080/books/1
+GET https://localhost:8080/books/1
 
 ###
 POST http://localhost:8080/books

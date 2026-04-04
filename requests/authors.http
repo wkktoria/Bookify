@@ -1,7 +1,7 @@
-GET http://localhost:8080/authors
+GET https://localhost:8080/authors
 
 ###
-GET http://localhost:8080/authors?page=0&size=5&sort=lastname,desc
+GET https://localhost:8080/authors?page=0&size=5&sort=lastname,desc
 
 ###
 PATCH http://localhost:8080/authors/1
