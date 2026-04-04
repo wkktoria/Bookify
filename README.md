@@ -79,7 +79,7 @@ The system should support the following operations and ensure that all data is *
 - [ ] Register to be user - own implementation and Google.
 - [ ] Save users and admin to database.
 - [ ] User can see books, but cannot manage them.
-- [ ] Only admin can change state of application (delete, add, edit books, series, etc.).
+- [X] Only admin can change state of application (delete, add, edit books, series, etc.).
 - [X] HTTPS encryption, certificate generated with OpenSSL.
 - [ ] CORS - requests from frontend domain.
 - [ ] CSRF protection.
