@@ -6,9 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
-class SecurityUser implements UserDetails {
+public class SecurityUser implements UserDetails {
 
     private final User user;
 
@@ -47,6 +48,10 @@ class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public List<String> getAuthoritiesAsString() {
+        return user.getAuthorities().stream().toList();
     }
 
 }
