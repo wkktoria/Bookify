@@ -47,6 +47,7 @@ class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/token/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/authors/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/series/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/genres/**").permitAll()
