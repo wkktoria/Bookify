@@ -60,6 +60,7 @@ class SecurityConfig {
                 .requestMatchers("/users/register/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/token/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/authors/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/series/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/genres/**").permitAll()
@@ -85,12 +86,13 @@ class SecurityConfig {
             CorsConfigurationSource source = request -> {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowedOrigins(
-                        List.of("http://localhost:5173")
+                        List.of("https://localhost:5173")
                 );
                 config.setAllowedMethods(
                         List.of("GET", "POST", "PUT", "DELETE", "PATCH")
                 );
                 config.setAllowedHeaders(List.of("*"));
+                config.setAllowCredentials(true);
                 return config;
             };
             c.configurationSource(source);
