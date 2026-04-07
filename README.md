@@ -14,11 +14,11 @@ such as assigning multiple authors to a book, grouping books into series, and ca
     - [Happy Path v1](#happy-path-v1)
     - [Happy Path v2](#happy-path-v2)
 - [Endpoints](#endpoints)
-    - [GET Endpoints](#get-endpoints)
-    - [POST Endpoints](#post-endpoints)
-    - [DELETE Endpoints](#delete-endpoints)
-    - [PUT Endpoints](#put-endpoints)
-    - [PATCH Endpoints](#patch-endpoints)
+    - [Books](#books)
+    - [Authors](#authors)
+    - [Series](#series)
+    - [Genres](#genres)
+    - [Auth](#auth)
 - [Views](#views)
 - [Database](#database)
     - [Entity-Relationship Diagram](#entity-relationship-diagram)
@@ -155,86 +155,61 @@ Given there is no books, authors, series and genres created before:
 
 Swagger is available at: `/swagger-ui/index.html`
 
-### GET Endpoints
+### Books
 
 ```mermaid
 flowchart TD
     client -->|GET /books| server
     client -->|GET /books?page=0&size=10&sort=title,desc| server
-    client -->|GET /books/100| server
-```
-
-```mermaid
-flowchart TD
-    client --> controller["BookRestController (controller)"]
-    controller --> service["BookRetriever (service)"]
-    service --> repository["BookRepository (repository)"]
-    repository --> database
-```
-
-### POST Endpoints
-
-```mermaid
-flowchart TD
+    client -->|GET /books/{id}| server
     client -->|POST /books body JSON| server
+    client -->|PUT /books/{id} body JSON| server
+    client -->|PUT /books/{bookId}/genres/{genreId}| server
+    client -->|PATCH /books/{id} body JSON| server
+    client -->|DELETE /books/{id}| server
+    client -->|DELETE /books?id={id}| server
+    client -->|DELETE /books/{bookId}/genre| server
 ```
 
+### Authors
+
 ```mermaid
-flowchart TD
-    client --> controller["BookRestController (controller)"]
-    controller --> service["BookAdder (service)"]
-    service --> repository["BookRepository (repository)"]
-    repository --> database
+    flowchart TD
+    client -->|GET /authors| server
+    client -->|GET /authors?page=0&size=10&sort=lastname,desc| server
+    client -->|GET /authors/{id}| server
+    client -->|POST /authors body JSON| server
+    client -->|POST /authors/series/book body JSON| server
+    client -->|PUT /authors/{authorId}/books/{bookId}| server
+    client -->|PATCH /authors/{id} body JSON| server
+    client -->|DELETE /authors/{id}| server
 ```
 
-### DELETE Endpoints
+### Series
 
 ```mermaid
-flowchart TD
-    client -->|DELETE /books/1| server
-    client -->|DELETE /books?id=1| server
+    flowchart TD
+    client -->|GET /series| server
+    client -->|GET /series/{id}| server
+    client -->|POST /series body JSON| server
+    client -->|PUT /series/{seriesId}/books/{bookId}| server
 ```
 
+### Genres
+
 ```mermaid
-flowchart TD
-    client --> controller["BookRestController (controller)"]
-    controller --> service["BookDeleter (service)"]
-    service --> repository["BookRepository (repository)"]
-    repository --> database
+    flowchart TD
+    client -->|GET /genres| server
+    client -->|GET /genres/{id}| server
+    client -->|POST /genres body JSON| server
 ```
 
-### PUT Endpoints
-
-`PUT` replaces the entire resource with the data provided in the request.
+### Auth
 
 ```mermaid
-flowchart TD
-    client -->|PUT /books/1 body JSON| server
-```
-
-```mermaid
-flowchart TD
-    client --> controller["BookRestController (controller)"]
-    controller --> service["BookUpdater (service)"]
-    service --> repository["BookRepository (repository)"]
-    repository --> database
-```
-
-### PATCH Endpoints
-
-`PATCH` applies partial updates to a resource, sending only the fields that need to be changed.
-
-```mermaid
-flowchart TD
-    client -->|PATCH /books/1 body JSON| server
-```
-
-```mermaid
-flowchart TD
-    client --> controller["BookRestController (controller)"]
-    controller --> service["BookUpdater (service)"]
-    service --> repository["BookRepository (repository)"]
-    repository --> database
+    flowchart TD
+    client -->|POST /users/register body JSON| server
+    client -->|POST /token body JSON| server
 ```
 
 ## Views
