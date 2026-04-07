@@ -161,14 +161,14 @@ Swagger is available at: `/swagger-ui/index.html`
 flowchart TD
     client -->|GET /books| server
     client -->|GET /books?page=0&size=10&sort=title,desc| server
-    client -->|GET /books/{id}| server
+    client -->|GET /books/1| server
     client -->|POST /books body JSON| server
-    client -->|PUT /books/{id} body JSON| server
-    client -->|PUT /books/{bookId}/genres/{genreId}| server
-    client -->|PATCH /books/{id} body JSON| server
-    client -->|DELETE /books/{id}| server
-    client -->|DELETE /books?id={id}| server
-    client -->|DELETE /books/{bookId}/genre| server
+    client -->|PUT /books/1 body JSON| server
+    client -->|PUT /books/1/genres/1| server
+    client -->|PATCH /books/1 body JSON| server
+    client -->|DELETE /books/1| server
+    client -->|DELETE /books?id=1| server
+    client -->|DELETE /books/1/genre| server
 ```
 
 ### Authors
@@ -177,12 +177,12 @@ flowchart TD
     flowchart TD
     client -->|GET /authors| server
     client -->|GET /authors?page=0&size=10&sort=lastname,desc| server
-    client -->|GET /authors/{id}| server
+    client -->|GET /authors/1| server
     client -->|POST /authors body JSON| server
     client -->|POST /authors/series/book body JSON| server
-    client -->|PUT /authors/{authorId}/books/{bookId}| server
-    client -->|PATCH /authors/{id} body JSON| server
-    client -->|DELETE /authors/{id}| server
+    client -->|PUT /authors/1/books/1| server
+    client -->|PATCH /authors/1 body JSON| server
+    client -->|DELETE /authors/1| server
 ```
 
 ### Series
@@ -190,9 +190,9 @@ flowchart TD
 ```mermaid
     flowchart TD
     client -->|GET /series| server
-    client -->|GET /series/{id}| server
+    client -->|GET /series/1| server
     client -->|POST /series body JSON| server
-    client -->|PUT /series/{seriesId}/books/{bookId}| server
+    client -->|PUT /series/1/books/1| server
 ```
 
 ### Genres
@@ -200,7 +200,7 @@ flowchart TD
 ```mermaid
     flowchart TD
     client -->|GET /genres| server
-    client -->|GET /genres/{id}| server
+    client -->|GET /genres/1| server
     client -->|POST /genres body JSON| server
 ```
 
