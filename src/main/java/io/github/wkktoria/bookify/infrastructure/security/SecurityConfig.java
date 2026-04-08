@@ -50,8 +50,9 @@ class SecurityConfig {
         http.cors(corsConfigurerCustomizer());
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
-        http.sessionManagement(c ->
-                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.oauth2Login(Customizer.withDefaults());
+//        http.sessionManagement(c ->
+//                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/swagger-ui/**").permitAll()
