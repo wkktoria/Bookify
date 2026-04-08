@@ -77,7 +77,7 @@ The system should support the following operations and ensure that all data is *
 - [ ] Use JWT token:
     - [X] Own implementation.
     - [ ] Google OAuth.
-- [ ] Only admin can see usernames and roles of users - /users endpoint.
+- [X] Only admin can see usernames and roles of users - /users endpoint.
 - [ ] Register to be user:
     - [X] Own implementation.
     - [ ] Google.

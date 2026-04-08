@@ -58,7 +58,6 @@ class SecurityConfig {
                 .requestMatchers("/swagger-resources/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
-                .requestMatchers("/users/register/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/token/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/authors/**").permitAll()
@@ -75,6 +74,7 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/series/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/series/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/genres/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/actuator/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
