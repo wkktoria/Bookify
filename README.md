@@ -74,11 +74,15 @@ The system should support the following operations and ensure that all data is *
 
 - [X] It is possible to see books, series, etc. without authentication.
 - [X] Two roles: ROLE_USER and ROLE_ADMIN.
-- [ ] Use JWT token - own implementation and Google OAuth.
+- [ ] Use JWT token:
+    - [X] Own implementation.
+    - [ ] Google OAuth.
 - [ ] Only admin can see usernames and roles of users - /users endpoint.
-- [ ] Register to be user - own implementation and Google.
-- [ ] Save users and admin to database.
-- [ ] User can see books, but cannot manage them.
+- [ ] Register to be user:
+    - [X] Own implementation.
+    - [ ] Google.
+- [X] Save users and admin to database.
+- [X] User can see books, but cannot manage them.
 - [X] Only admin can change state of application (delete, add, edit books, series, etc.).
 - [X] HTTPS encryption, certificate generated with OpenSSL.
 - [X] CORS - requests from frontend domain.
