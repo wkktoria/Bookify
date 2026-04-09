@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -46,13 +45,18 @@ class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtAuthFilter jwtAuthFilter,
-                                                   final AuthenticationSuccessHandler successHandler)
+                                                   final AuthenticationSuccessHandler successHandler,
+                                                   final CustomOidcUserService customOidcUserService)
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(corsConfigurerCustomizer());
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
-        http.oauth2Login(c -> c.successHandler(successHandler));
+        http.oauth2Login(c -> c
+                .successHandler(successHandler)
+                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                        .oidcUserService(customOidcUserService))
+        );
 //        http.sessionManagement(c ->
 //                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -62,7 +66,7 @@ class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/token/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/books/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/authors/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/series/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/genres/**").permitAll()
@@ -80,6 +84,7 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/actuator/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/message").hasRole("ADMIN")
                 .anyRequest().authenticated());
         return http.build();
     }
