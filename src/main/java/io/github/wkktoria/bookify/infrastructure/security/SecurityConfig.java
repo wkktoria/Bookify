@@ -1,6 +1,5 @@
 package io.github.wkktoria.bookify.infrastructure.security;
 
-import io.github.wkktoria.bookify.domain.usercrud.UserRepository;
 import io.github.wkktoria.bookify.infrastructure.security.jwt.JwtAuthConverter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configurers.CorsConfig
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -42,7 +40,8 @@ class SecurityConfig {
     public SecurityFilterChain securityFilterChain(final HttpSecurity http,
                                                    final AuthenticationSuccessHandler successHandler,
                                                    final JwtAuthConverter jwtAuthConverter,
-                                                   final CookieTokenResolver cookieTokenResolver)
+                                                   final CookieTokenResolver cookieTokenResolver,
+                                                   final CookieClearingLogoutHandler cookieClearingLogoutHandler)
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(corsConfigurerCustomizer());
@@ -80,6 +79,12 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/actuator/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/message").hasRole("ADMIN")
                 .anyRequest().authenticated());
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .addLogoutHandler(cookieClearingLogoutHandler)
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+        );
         return http.build();
     }
 
