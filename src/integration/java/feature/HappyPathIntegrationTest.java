@@ -1,11 +1,14 @@
 package feature;
 
 import io.github.wkktoria.bookify.BookifyApplication;
+import io.github.wkktoria.bookify.infrastructure.security.jwt.JwtAuthConverter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -14,10 +17,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -32,6 +36,8 @@ class HappyPathIntegrationTest {
 
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:18-alpine");
+    @Autowired
+    private JwtAuthConverter jwtAuthConverter;
 
     @DynamicPropertySource
     public static void propertyOverride(final DynamicPropertyRegistry registry) {
@@ -51,6 +57,7 @@ class HappyPathIntegrationTest {
 
         // 2. When user posts to /authors with author "Eric Freeman" then author "Eric Freeman" is returned with id 1.
         mockMvc.perform(post("/authors")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .content("""
                                 {
                                     "firstname": "Eric",
@@ -65,6 +72,7 @@ class HappyPathIntegrationTest {
 
         // 3. When user posts to /authors with author "Elisabeth Robson" then author "Elisabeth Robson" is returned with id 2.
         mockMvc.perform(post("/authors")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .content("""
                                 {
                                     "firstname": "Elisabeth",
@@ -86,6 +94,7 @@ class HappyPathIntegrationTest {
 
         // 5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
         mockMvc.perform(post("/genres")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .content("""
                                 {
                                     "name": "Software Engineering"
@@ -104,6 +113,7 @@ class HappyPathIntegrationTest {
 
         // 7. When user posts to /books with book "Head First Design Patterns" of author with id 1 ("Eric Freeman") then book "Head First Design Patterns" is returned with id 1.
         mockMvc.perform(post("/books")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .content("""
                                 {
                                     "bookTitle": "Head First Design Patterns",
@@ -126,6 +136,7 @@ class HappyPathIntegrationTest {
 
         // 8. When user posts to /books with book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head First JavaScript" is returned with id 2.
         mockMvc.perform(post("/books")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .content("""
                                 {
                                     "bookTitle": "Head First JavaScript",
@@ -157,6 +168,7 @@ class HappyPathIntegrationTest {
 
         // 10. When user puts to /books/1/genres/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
         mockMvc.perform(put("/books/1/genres/2")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Genre assigned to book")));
@@ -172,6 +184,7 @@ class HappyPathIntegrationTest {
 
         // 12. When user puts to /authors/2/books/1 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head First Design Patterns").
         mockMvc.perform(put("/authors/2/books/1")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Author assigned to book")));
@@ -192,6 +205,7 @@ class HappyPathIntegrationTest {
 
         // 15. When user posts to /series with series "Head First Series" and book with id 1 then series "Head First Series" is returned with id 1.
         mockMvc.perform(post("/series")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .content("""
                                 {
                                     "name": "Head First Series",
@@ -205,6 +219,7 @@ class HappyPathIntegrationTest {
 
         // 16. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
         mockMvc.perform(put("/series/1/books/2")
+                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Book added to series")));

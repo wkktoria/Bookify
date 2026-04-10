@@ -4,3 +4,10 @@ spring:
     password: test
   flyway:
     locations: classpath:db.migration/general
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: abc
+            client-secret: abc
