@@ -22,7 +22,6 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
 @Log4j2
 public class JwtAuthFilter extends OncePerRequestFilter {

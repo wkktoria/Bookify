@@ -1,7 +1,7 @@
 package io.github.wkktoria.bookify.infrastructure.security;
 
 import io.github.wkktoria.bookify.domain.usercrud.UserRepository;
-import io.github.wkktoria.bookify.infrastructure.security.jwt.JwtAuthFilter;
+import io.github.wkktoria.bookify.infrastructure.security.jwt.JwtAuthConverter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +12,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -44,29 +44,27 @@ class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtAuthFilter jwtAuthFilter,
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http,
                                                    final AuthenticationSuccessHandler successHandler,
-                                                   final CustomOidcUserService customOidcUserService)
+                                                   final JwtAuthConverter jwtAuthConverter,
+                                                   final CookieTokenResolver cookieTokenResolver)
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(corsConfigurerCustomizer());
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
-        http.oauth2Login(c -> c
-                .successHandler(successHandler)
-                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                        .oidcUserService(customOidcUserService))
-        );
-//        http.sessionManagement(c ->
-//                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http.oauth2Login(c -> c.successHandler(successHandler));
+        http.oauth2ResourceServer(c -> c
+                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
+                .bearerTokenResolver(cookieTokenResolver));
+        http.sessionManagement(c ->
+                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/swagger-resources/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/token/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/books/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/authors/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/series/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/genres/**").permitAll()
