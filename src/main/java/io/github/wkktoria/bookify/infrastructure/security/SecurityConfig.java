@@ -57,6 +57,7 @@ class SecurityConfig {
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/swagger-resources/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
+                .requestMatchers("/oauth2/callback").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
                 .requestMatchers("/users/confirm/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
