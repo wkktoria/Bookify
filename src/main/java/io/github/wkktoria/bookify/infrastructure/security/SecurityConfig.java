@@ -34,11 +34,6 @@ class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsManager userDetailsService(final UserRepository userRepository) {
-        return new UserDetailsServiceImpl(userRepository, passwordEncoder());
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -64,7 +59,8 @@ class SecurityConfig {
                 .requestMatchers("/swagger-resources/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/users/register/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/books/**").authenticated()
+                .requestMatchers("/users/confirm/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/authors/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/series/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/genres/**").permitAll()

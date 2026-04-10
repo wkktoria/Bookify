@@ -13,6 +13,8 @@ public interface UserRepository extends Repository<User, Long> {
 
     Optional<User> findFirstByEmail(final String email);
 
+    Optional<User> findByConfirmationToken(final String confirmationToken);
+
     User save(final User user);
 
     boolean existsByEmail(final String email);

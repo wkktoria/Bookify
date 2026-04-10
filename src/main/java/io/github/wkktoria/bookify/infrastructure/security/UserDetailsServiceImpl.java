@@ -1,17 +1,23 @@
 package io.github.wkktoria.bookify.infrastructure.security;
 
 import io.github.wkktoria.bookify.domain.usercrud.User;
+import io.github.wkktoria.bookify.domain.usercrud.UserConformer;
 import io.github.wkktoria.bookify.domain.usercrud.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
+@Component
 @AllArgsConstructor
+@Transactional
 @Log4j2
 class UserDetailsServiceImpl implements UserDetailsManager {
 
@@ -19,6 +25,7 @@ class UserDetailsServiceImpl implements UserDetailsManager {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserConformer userConformer;
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
@@ -35,16 +42,17 @@ class UserDetailsServiceImpl implements UserDetailsManager {
         }
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
+        String confirmationToken = UUID.randomUUID().toString();
+
         User createdUser = new User(
                 user.getUsername(),
                 encodedPassword,
-                true,
-                List.of(DEFAULT_USER_ROLE)
+                List.of(DEFAULT_USER_ROLE),
+                confirmationToken
         );
         User savedUser = userRepository.save(createdUser);
         log.info("User saved with id={}", savedUser.getId());
-
-        // todo send email confirmation
+        userConformer.sendConfirmationEmail(createdUser);
     }
 
     @Override

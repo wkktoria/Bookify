@@ -29,11 +29,23 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://accounts.google.com
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: wkktoria2002@gmail.com
+    password: ${MAIL_SENDER_PWD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enabled: true
+            required: true
 logging:
   level:
     org:
       springframework:
-        security: trace
+        security: debug
     root: ${LOG_LEVEL:debug}
 server:
   ssl:

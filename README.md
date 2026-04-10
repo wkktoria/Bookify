@@ -77,7 +77,7 @@ The system should support the following operations and ensure that all data is *
 - [ ] Use JWT token:
     - [X] Google OAuth.
 - [X] Only admin can see usernames and roles of users - /users endpoint.
-- [ ] Register to be user:
+- [X] Register to be user:
     - [X] Own implementation.
     - [ ] Google.
 - [X] Save users and admin to database.
@@ -86,7 +86,7 @@ The system should support the following operations and ensure that all data is *
 - [X] HTTPS encryption, certificate generated with OpenSSL.
 - [X] CORS - requests from frontend domain.
 - [X] CSRF protection.
-- [ ] E-mail confirmation.
+- [X] E-mail confirmation.
 
 ## Happy Paths
 
