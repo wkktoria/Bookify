@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -55,9 +54,16 @@ class HappyPathIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.authors", empty()));
 
-        // 2. When user posts to /authors with author "Eric Freeman" then author "Eric Freeman" is returned with id 1.
+        // SECURITY STEP - When user goes to /authors with JWT then user can see no authors.
+        mockMvc.perform(get("/authors")
+                        .with(authentication(createJwtWithUserRole()))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.authors", empty()));
+
+        // 2. When user posts to /authors with admin role and author "Eric Freeman" then author "Eric Freeman" is returned with id 1.
         mockMvc.perform(post("/authors")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .content("""
                                 {
                                     "firstname": "Eric",
@@ -70,9 +76,25 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.firstname", is("Eric")))
                 .andExpect(jsonPath("$.lastname", is("Freeman")));
 
-        // 3. When user posts to /authors with author "Elisabeth Robson" then author "Elisabeth Robson" is returned with id 2.
+        // SECURITY STEP - When user posts to /authors without JWT then 401 Unauthorized is returned.
+        mockMvc.perform(post("/authors"))
+                .andExpect(status().isUnauthorized());
+
+        // SECURITY STEP - When user posts to /authors with user role and author "Eric Freeman" then 403 Forbidden is returned.
         mockMvc.perform(post("/authors")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithUserRole()))
+                        .content("""
+                                {
+                                    "firstname": "Eric",
+                                    "lastname": "Freeman"
+                                }
+                                """.trim())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+
+        // 3. When user posts to /authors with admin role and author "Elisabeth Robson" then author "Elisabeth Robson" is returned with id 2.
+        mockMvc.perform(post("/authors")
+                        .with(authentication(createJwtWithAdminRole()))
                         .content("""
                                 {
                                     "firstname": "Elisabeth",
@@ -92,9 +114,9 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.genres[0].id", is(1)))
                 .andExpect(jsonPath("$.genres[0].name", is("default")));
 
-        // 5. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
+        // 5. When user posts to /genres with admin role and genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
         mockMvc.perform(post("/genres")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .content("""
                                 {
                                     "name": "Software Engineering"
@@ -111,9 +133,9 @@ class HappyPathIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.books", empty()));
 
-        // 7. When user posts to /books with book "Head First Design Patterns" of author with id 1 ("Eric Freeman") then book "Head First Design Patterns" is returned with id 1.
+        // 7. When user posts to /books with admin role and book "Head First Design Patterns" of author with id 1 ("Eric Freeman") then book "Head First Design Patterns" is returned with id 1.
         mockMvc.perform(post("/books")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .content("""
                                 {
                                     "bookTitle": "Head First Design Patterns",
@@ -134,9 +156,9 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.book.authors[0].firstname", is("Eric")))
                 .andExpect(jsonPath("$.book.authors[0].lastname", is("Freeman")));
 
-        // 8. When user posts to /books with book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head First JavaScript" is returned with id 2.
+        // 8. When user posts to /books with admin role and book "Head First JavaScript" of author with id 1 ("Eric Freeman") then book "Head First JavaScript" is returned with id 2.
         mockMvc.perform(post("/books")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .content("""
                                 {
                                     "bookTitle": "Head First JavaScript",
@@ -166,9 +188,9 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.book.genre.id", is(1)))
                 .andExpect(jsonPath("$.book.genre.name", is("default")));
 
-        // 10. When user puts to /books/1/genres/2 then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
+        // 10. When user puts to /books/1/genres/2 with admin role then genre with id 2 ("Software Engineering") is added to book with id 1 ("Head First Design Patterns").
         mockMvc.perform(put("/books/1/genres/2")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Genre assigned to book")));
@@ -182,9 +204,9 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.book.genre.id", is(2)))
                 .andExpect(jsonPath("$.book.genre.name", is("Software Engineering")));
 
-        // 12. When user puts to /authors/2/books/1 then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head First Design Patterns").
+        // 12. When user puts to /authors/2/books/1 with admin role then author with id 2 ("Elisabeth Robson") is added to book with id 1 ("Head First Design Patterns").
         mockMvc.perform(put("/authors/2/books/1")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Author assigned to book")));
@@ -203,9 +225,9 @@ class HappyPathIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.series", empty()));
 
-        // 15. When user posts to /series with series "Head First Series" and book with id 1 then series "Head First Series" is returned with id 1.
+        // 15. When user posts to /series with admin role and series "Head First Series" and book with id 1 then series "Head First Series" is returned with id 1.
         mockMvc.perform(post("/series")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .content("""
                                 {
                                     "name": "Head First Series",
@@ -217,9 +239,9 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Head First Series")));
 
-        // 16. When users puts to /series/1/books/2 then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
+        // 16. When users puts to /series/1/books/2 with admin role then book with id 2 ("Head First JavaScript") is added to series with id 1 (" Head First Series").
         mockMvc.perform(put("/series/1/books/2")
-                        .with(jwt().authorities(() -> "ROLE_ADMIN"))
+                        .with(authentication(createJwtWithAdminRole()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Book added to series")));
@@ -231,6 +253,22 @@ class HappyPathIntegrationTest {
                 .andExpect(jsonPath("$.series.id", is(1)))
                 .andExpect(jsonPath("$.series.name", is("Head First Series")))
                 .andExpect(jsonPath("$.books[*].id", containsInAnyOrder(1, 2)));
+    }
+
+    private JwtAuthenticationToken createJwtWithAdminRole() {
+        Jwt jwt = Jwt.withTokenValue("123")
+                .claim("email", "admin@bookify.com")
+                .header("alg", "none")
+                .build();
+        return jwtAuthConverter.convert(jwt);
+    }
+
+    private JwtAuthenticationToken createJwtWithUserRole() {
+        Jwt jwt = Jwt.withTokenValue("123")
+                .claim("email", "user@bookify.com")
+                .header("alg", "none")
+                .build();
+        return jwtAuthConverter.convert(jwt);
     }
 
 }

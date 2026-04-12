@@ -3,7 +3,7 @@ spring:
     username: test
     password: test
   flyway:
-    locations: classpath:db.migration/general
+    locations: classpath:db.migration/general,classpath:db.migration/integration
   security:
     oauth2:
       client:
