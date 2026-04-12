@@ -74,7 +74,7 @@ The system should support the following operations and ensure that all data is *
 
 - [X] It is possible to see books, series, etc. without authentication.
 - [X] Two roles: ROLE_USER and ROLE_ADMIN.
-- [ ] Use JWT token:
+- [X] Use JWT token:
     - [X] Google OAuth.
 - [X] Only admin can see usernames and roles of users - /users endpoint.
 - [X] Register to be user:
@@ -93,7 +93,7 @@ The system should support the following operations and ensure that all data is *
 ### Happy Path v1
 
 > [!IMPORTANT]
-> The happy path scenario must be updated to align with the current system behavior and requirements.
+> The happy path scenario is to aligned with the current system behavior and requirements.
 
 User creates series "Head First" with books "Head First Java" by Kathy Sierra and Bert Bates (genre: Programming),
 and "Head First Design Patterns" by Eric Freeman and Elisabeth Robson (genre: Software Engineering).
@@ -152,9 +152,6 @@ Given there is no books, authors, series and genres created before:
 17. When user goes to /series/1 then user can see series with 2 books (id1 and id2).
 
 ## Endpoints
-
-> [!IMPORTANT]
-> The diagrams must be updated to align with the current system behavior and requirements.
 
 Swagger is available at: `/swagger-ui/index.html`
 
