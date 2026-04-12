@@ -93,7 +93,7 @@ The system should support the following operations and ensure that all data is *
 ### Happy Path v1
 
 > [!IMPORTANT]
-> The happy path scenario is to aligned with the current system behavior and requirements.
+> The happy path scenario is not aligned with the current system behavior and requirements.
 
 User creates series "Head First" with books "Head First Java" by Kathy Sierra and Bert Bates (genre: Programming),
 and "Head First Design Patterns" by Eric Freeman and Elisabeth Robson (genre: Software Engineering).
