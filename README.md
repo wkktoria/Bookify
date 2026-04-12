@@ -9,6 +9,11 @@ such as assigning multiple authors to a book, grouping books into series, and ca
 ## Table of Contents
 
 - [Requirements](#requirements)
+    - [Creation](#creation)
+    - [Deletion](#deletion)
+    - [Updates](#updates)
+    - [Relationships](#relationships)
+    - [Retrieval](#retrieval)
     - [Security](#security)
 - [Happy Paths](#happy-paths)
     - [Happy Path v1](#happy-path-v1)
@@ -25,50 +30,49 @@ such as assigning multiple authors to a book, grouping books into series, and ca
 
 ## Requirements
 
-The system should support the following operations and ensure that all data is **persisted in a database**
-(i.e., data must be stored permanently and remain available between application restarts).
+All data must be **persisted in a database** (i.e., stored permanently and available across application restarts).
 
-**Creation**
+### Creation
 
-- [X] Add a new author (first name and last name).
-- [X] Add a new author with default series and book.
-- [X] Add a new genre (genre name).
-- [X] Add a new series (series name; must include at least one book).
-- [X] Add a new book (title, author, publication date, ISBN, number of pages, language).
+- [X] Add a new author (first name, last name).
+- [X] Add a new author with a default series and book pre-assigned.
+- [X] Add a new genre (name).
+- [X] Add a new series (name), which must include at least one book upon creation.
+- [X] Add a new book (title, author, publication date, ISBN, page count, language).
 
-**Deletion**
+### Deletion
 
-- [X] Delete an author along with all associated books (if a book has only this author, it should be deleted; if a book
-  has multiple authors, only the association with this author should be removed).
-- [ ] Delete a genre only if no books are assigned to it.
+- [X] Delete an author and all solely-owned books. If a book has multiple authors, only the association is removed (the
+  book itself is retained).
+- [ ] Delete a genre only if no books are currently assigned to it.
 - [ ] Delete a series only if it contains no books.
-- [X] Delete a book, but do not delete series and authors.
-- [X] Delete book and the assigned genre. The other books with this genre are not deleted and have the default genre
-  assigned.
+- [X] Delete a book without deleting its associated series or authors.
+- [X] Delete a book along with its assigned genre. Other books that shared the genre are reassigned to the default genre
+  rather than deleted.
 
-**Updates**
+### Updates
 
-- [X] Edit author details (first name and last name).
+- [X] Edit author details (first name, last name).
 - [X] Edit a genre name.
-- [ ] Edit a series (rename and manage assigned books).
-- [ ] Edit book details (title, authors, publication date, ISBN, number of pages).
+- [ ] Edit a series (rename it and manage assigned books).
+- [ ] Edit book details (title, authors, publication date, ISBN, page count).
 
-**Relationship**
+### Relationships
 
-- [X] Assign books to a series.
-- [X] Assign authors to books (many-to-many relationship).
+- [X] Assign a book to a series.
+- [X] Assign multiple authors to a book (many-to-many).
 - [X] Assign exactly one genre to each book.
-- [X] If no genre is assigned to book, it should be displayed as "default".
+- [X] Books with no genre assigned to the default genre.
 
-**Retrieval**
+### Retrieval
 
-- [X] Show all books.
-- [X] Show all genres.
-- [X] Show all authors.
-- [X] Show all series.
-- [X] Show specific series with their books and corresponding authors.
-- [X] Show specific genre with its corresponding books.
-- [X] Show specific author with their books.
+- [X] List all books.
+- [X] List all genres.
+- [X] List all authors.
+- [X] List all series.
+- [X] View a specific series with its books and their authors.
+- [X] View a specific genre with its associated books.
+- [X] View a specific author with their books.
 
 ### Security
 
