@@ -34,7 +34,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     private Collection<String> authorities = new HashSet<>();
