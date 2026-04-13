@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -49,6 +51,12 @@ public class User extends BaseEntity {
         this.password = password;
         this.authorities = authorities;
         this.confirmationToken = confirmationToken;
+    }
+
+    public User(final String email, final Collection<String> authorities, final Instant createdOn) {
+        this.email = email;
+        this.authorities = authorities;
+        this.createdOn = createdOn;
     }
 
     public boolean confirm() {

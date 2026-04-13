@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -30,7 +31,7 @@ class OAuth2UserServiceImpl implements OAuth2UserService<OidcUserRequest, OidcUs
         String email = oidcUser.getEmail();
 
         if (!userRepository.existsByEmail(email)) {
-            User newUser = new User(email, null, List.of("ROLE_USER"), null);
+            User newUser = new User(email, List.of("ROLE_USER"), Instant.now());
             User savedUser = userRepository.save(newUser);
             savedUser.confirm();
             log.info("Created new OAuth2 user: {}", email);
