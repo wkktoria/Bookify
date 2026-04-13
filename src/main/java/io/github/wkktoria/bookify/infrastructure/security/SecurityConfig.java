@@ -41,13 +41,15 @@ class SecurityConfig {
                                                    final AuthenticationSuccessHandler successHandler,
                                                    final JwtAuthConverter jwtAuthConverter,
                                                    final CookieTokenResolver cookieTokenResolver,
-                                                   final CookieClearingLogoutHandler cookieClearingLogoutHandler)
+                                                   final CookieClearingLogoutHandler cookieClearingLogoutHandler,
+                                                   final OAuth2UserServiceImpl oAuth2UserServiceImpl)
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(corsConfigurerCustomizer());
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
-        http.oauth2Login(c -> c.successHandler(successHandler));
+        http.oauth2Login(c -> c.successHandler(successHandler)
+                .userInfoEndpoint(u -> u.oidcUserService(oAuth2UserServiceImpl)));
         http.oauth2ResourceServer(c -> c
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
                 .bearerTokenResolver(cookieTokenResolver));

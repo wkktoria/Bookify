@@ -83,7 +83,7 @@ All data must be **persisted in a database** (i.e., stored permanently and avail
 - [X] Only admin can see usernames and roles of users - /users endpoint.
 - [X] Register to be user:
     - [X] Own implementation.
-    - [ ] Google.
+    - [X] Google.
 - [X] Save users and admin to database.
 - [X] User can see books, but cannot manage them.
 - [X] Only admin can change state of application (delete, add, edit books, series, etc.).
