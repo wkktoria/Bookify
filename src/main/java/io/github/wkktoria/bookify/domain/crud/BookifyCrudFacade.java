@@ -48,6 +48,7 @@ public class BookifyCrudFacade {
     private final GenreDeleter genreDeleter;
     private final SeriesAdder seriesAdder;
     private final SeriesRetriever seriesRetriever;
+    private final SeriesDeleter seriesDeleter;
 
     public AuthorDto addAuthor(final AuthorRequestDto requestDto) {
         log.info("Adding new author: firstname='{}', lastname='{}'",
@@ -241,6 +242,11 @@ public class BookifyCrudFacade {
     public void deleteGenre(final Long id) {
         log.info("Deleting genre with id={}", id);
         genreDeleter.deleteById(id);
+    }
+
+    public void deleteSeries(final Long id) {
+        log.info("Deleting series with id={}", id);
+        seriesDeleter.deleteById(id);
     }
 
 }
