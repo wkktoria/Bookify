@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,13 @@ class GenreRestController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(genreDto);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteGenre(@PathVariable final Long id) {
+        log.info("DELETE /genres/{} request received", id);
+        bookifyCrudFacade.deleteGenre(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
