@@ -45,6 +45,7 @@ public class BookifyCrudFacade {
     private final GenreAdder genreAdder;
     private final GenreUpdater genreUpdater;
     private final GenreAssigner genreAssigner;
+    private final GenreDeleter genreDeleter;
     private final SeriesAdder seriesAdder;
     private final SeriesRetriever seriesRetriever;
 
@@ -235,6 +236,11 @@ public class BookifyCrudFacade {
     public AuthorDto addAuthorWithDefaultSeriesAndBook(final AuthorRequestDto requestDto) {
         log.info("Adding author with default series and book");
         return authorAdder.addAuthorWithDefaultSeriesAndBook(requestDto);
+    }
+
+    public void deleteGenre(final Long id) {
+        log.info("Deleting genre with id={}", id);
+        genreDeleter.deleteById(id);
     }
 
 }
