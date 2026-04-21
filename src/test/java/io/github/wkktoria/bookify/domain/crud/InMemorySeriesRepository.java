@@ -37,4 +37,9 @@ class InMemorySeriesRepository implements SeriesRepository {
                 .findFirst();
     }
 
+    @Override
+    public void deleteById(final Long id) {
+
+    }
+
 }

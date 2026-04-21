@@ -1,5 +1,6 @@
 package io.github.wkktoria.bookify.domain.crud;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -27,5 +28,9 @@ interface SeriesRepository extends Repository<Series, Long> {
             WHERE s.id = :id
             """)
     Optional<Series> findByIdWithBooksAndAuthors(@Param("id") final Long id);
+
+    @Modifying
+    @Query("DELETE FROM Series s WHERE s.id = :id")
+    void deleteById(final Long id);
 
 }
