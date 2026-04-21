@@ -308,6 +308,39 @@ class BookifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("Should throw GenreNotDeletedException When deleting genre with assigned books")
+    void should_throw_genere_not_deleted_exception_when_deleting_genre_with_assigned_books() {
+        // given
+        GenreRequestDto genreRequest = new GenreRequestDto("Programming");
+        GenreDto genre = bookifyCrudFacade.addGenre(genreRequest);
+
+        AuthorRequestDto authorRequest = AuthorRequestDto.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .build();
+        AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
+
+        BookRequestDto bookRequest = BookRequestDto.builder()
+                .title("Programming Bbook")
+                .publicationDate(LocalDate.now())
+                .isbn("123456789123")
+                .pages(100)
+                .authorId(author.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto book = bookifyCrudFacade.addBookWithAuthor(bookRequest);
+
+        bookifyCrudFacade.assignGenreToBook(genre.id(), book.id());
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade.deleteGenre(genre.id()));
+
+        // then
+        assertThat(throwable).isInstanceOf(GenreNotDeletedException.class)
+                .hasMessageContaining(genre.id().toString());
+    }
+
+    @Test
     @DisplayName("Should add series with book")
     void should_add_series_with_book() {
         // given

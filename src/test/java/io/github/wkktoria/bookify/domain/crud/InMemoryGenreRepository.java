@@ -9,6 +9,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class InMemoryGenreRepository implements GenreRepository {
 
+    private final BookRepository bookRepository = new InMemoryBookRepository();
+
     Map<Long, Genre> db = new HashMap<>();
     AtomicLong index = new AtomicLong(1);
 
@@ -35,8 +37,12 @@ class InMemoryGenreRepository implements GenreRepository {
     }
 
     @Override
-    public int deleteById(final Long id) {
-        return 0;
+    public void deleteById(final Long id) {
+        Set<Book> booksByGenreId = bookRepository.findAllByGenreId(id);
+        if (!booksByGenreId.isEmpty()) {
+            throw new GenreNotDeletedException("Could not delelete genre with id=" + id);
+        }
+        db.remove(id);
     }
 
 }

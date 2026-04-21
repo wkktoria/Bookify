@@ -59,7 +59,9 @@ class InMemoryBookRepository implements BookRepository {
 
     @Override
     public Set<Book> findAllByGenreId(final Long id) {
-        return Set.of();
+        return db.values().stream()
+                .filter(book -> book.getGenre().getId().equals(id))
+                .collect(Collectors.toSet());
     }
 
     @Override
