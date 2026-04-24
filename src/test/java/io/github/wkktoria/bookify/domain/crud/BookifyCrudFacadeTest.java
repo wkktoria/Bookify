@@ -378,4 +378,35 @@ class BookifyCrudFacadeTest {
         assertTrue(books.stream().anyMatch(b -> b.id().equals(bookDto.id())));
     }
 
+    @Test
+    @DisplayName("Should throw SeriesNotDeletedException When deleting series with assigned books")
+    void should_throw_series_not_deleted_exception_when_deleting_series_with_assigned_books() {
+        // given
+        AuthorRequestDto authorRequest = AuthorRequestDto.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .build();
+        AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
+
+        BookRequestDto bookRequest = BookRequestDto.builder()
+                .title("Programming Book")
+                .publicationDate(LocalDate.now())
+                .isbn("123456789123")
+                .pages(100)
+                .authorId(author.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto book = bookifyCrudFacade.addBookWithAuthor(bookRequest);
+
+        SeriesRequestDto seriesRequest = new SeriesRequestDto(book.id(), "Programming Series");
+        SeriesDto series = bookifyCrudFacade.addSeriesWithBook(seriesRequest);
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade.deleteSeries(series.id()));
+
+        // then
+        assertThat(throwable).isInstanceOf(SeriesNotDeletedException.class)
+                .hasMessageContaining(series.id().toString());
+    }
+
 }

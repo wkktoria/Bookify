@@ -20,7 +20,8 @@ class SeriesDeleter {
         Series series = seriesRetriever.findSeriesById(id);
 
         if (!series.getBooks().isEmpty()) {
-            // todo throw exception
+            log.warn("Cannot delete series, there are books assigned to it");
+            throw new SeriesNotDeletedException("Could not delete series with id=" + id);
         }
 
         seriesRepository.deleteById(series.getId());
