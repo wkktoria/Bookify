@@ -21,7 +21,7 @@ class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void should_return_bad_request_when_blanks_and_nulls_in_create_book_request() throws Exception {
+    void should_return_bad_request_when_empty_and_null_in_create_book_request() throws Exception {
         ResultActions perform = mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON + ";charset=UTF-8")
                 .content("""
