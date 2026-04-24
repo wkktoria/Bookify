@@ -1,10 +1,8 @@
 package io.github.wkktoria.bookify.apivalidationerror;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.wkktoria.bookify.BaseIntegrationTest;
 import io.github.wkktoria.bookify.infrastructure.apivalidation.ApiValidationErrorResponseDto;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
@@ -16,9 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WithMockUser(roles = "ADMIN")
 class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     void should_return_bad_request_when_empty_and_null_in_create_book_request() throws Exception {
