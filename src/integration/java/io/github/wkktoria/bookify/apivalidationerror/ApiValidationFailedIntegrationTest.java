@@ -37,7 +37,6 @@ class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
 
         MvcResult mvcResult = perform.andExpect(status().isBadRequest()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        System.out.println(json);
         ApiValidationErrorResponseDto result = objectMapper.readValue(json, ApiValidationErrorResponseDto.class);
         assertThat(result.errors()).containsExactlyInAnyOrder(
                 "bookTitle must not be empty",
@@ -62,7 +61,6 @@ class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
 
         MvcResult mvcResult = perform.andExpect(status().isBadRequest()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        System.out.println(json);
         ApiValidationErrorResponseDto result = objectMapper.readValue(json, ApiValidationErrorResponseDto.class);
         assertThat(result.errors()).containsExactlyInAnyOrder(
                 "firstname must not be empty",
