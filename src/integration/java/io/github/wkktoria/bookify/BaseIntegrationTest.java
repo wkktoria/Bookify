@@ -8,7 +8,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(classes = BookifyApplication.class)
@@ -17,8 +16,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @ActiveProfiles("integration")
 public class BaseIntegrationTest {
 
-    @Container
-    public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:18-alpine");
+    public final static PostgreSQLContainer<?> postgreSQLContainer;
+
+    static {
+        postgreSQLContainer = new PostgreSQLContainer<>("postgres:18-alpine");
+        postgreSQLContainer.start();
+    }
 
     @DynamicPropertySource
     public static void propertyOverride(final DynamicPropertyRegistry registry) {
