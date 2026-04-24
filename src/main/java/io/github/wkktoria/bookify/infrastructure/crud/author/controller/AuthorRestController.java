@@ -53,7 +53,7 @@ public class AuthorRestController {
     }
 
     @PostMapping
-    ResponseEntity<AuthorDto> createAuthor(@RequestBody final CreateAuthorRequestDto requestDto) {
+    ResponseEntity<AuthorDto> createAuthor(@RequestBody @Valid final CreateAuthorRequestDto requestDto) {
         log.info("POST /authors request received");
 
         AuthorDto authorDto = bookifyCrudFacade

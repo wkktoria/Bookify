@@ -49,4 +49,25 @@ class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
         );
     }
 
+    @Test
+    void should_return_bad_request_when_empty_and_null_in_create_author_request() throws Exception {
+        ResultActions perform = mockMvc.perform(post("/authors")
+                .contentType(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+                .content("""
+                        {
+                            "firstname": "",
+                            "lastname": ""
+                        }
+                        """));
+
+        MvcResult mvcResult = perform.andExpect(status().isBadRequest()).andReturn();
+        String json = mvcResult.getResponse().getContentAsString();
+        System.out.println(json);
+        ApiValidationErrorResponseDto result = objectMapper.readValue(json, ApiValidationErrorResponseDto.class);
+        assertThat(result.errors()).containsExactlyInAnyOrder(
+                "firstname must not be empty",
+                "lastname must not be empty"
+        );
+    }
+
 }
