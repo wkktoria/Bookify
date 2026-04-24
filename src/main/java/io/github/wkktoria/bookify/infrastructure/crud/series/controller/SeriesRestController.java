@@ -30,7 +30,7 @@ import static io.github.wkktoria.bookify.infrastructure.crud.series.controller.S
 @RequestMapping("/series")
 @AllArgsConstructor
 @Log4j2
-class SeriesRestController {
+public class SeriesRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
 

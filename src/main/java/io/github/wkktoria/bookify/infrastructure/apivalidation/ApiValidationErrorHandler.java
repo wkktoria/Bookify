@@ -3,6 +3,7 @@ package io.github.wkktoria.bookify.infrastructure.apivalidation;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.AuthorRestController;
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.BookRestController;
 import io.github.wkktoria.bookify.infrastructure.crud.genre.controller.GenreRestController;
+import io.github.wkktoria.bookify.infrastructure.crud.series.controller.SeriesRestController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,8 @@ import java.util.List;
 @ControllerAdvice(assignableTypes = {
         BookRestController.class,
         AuthorRestController.class,
-        GenreRestController.class
+        GenreRestController.class,
+        SeriesRestController.class
 })
 @Log4j2
 class ApiValidationErrorHandler {
