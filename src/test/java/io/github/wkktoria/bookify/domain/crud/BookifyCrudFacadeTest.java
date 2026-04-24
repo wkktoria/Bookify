@@ -321,7 +321,7 @@ class BookifyCrudFacadeTest {
         AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
 
         BookRequestDto bookRequest = BookRequestDto.builder()
-                .title("Programming Bbook")
+                .title("Programming Book")
                 .publicationDate(LocalDate.now())
                 .isbn("123456789123")
                 .pages(100)
