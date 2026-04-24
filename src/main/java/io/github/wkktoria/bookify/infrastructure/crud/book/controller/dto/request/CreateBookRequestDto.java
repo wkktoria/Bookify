@@ -25,10 +25,10 @@ public record CreateBookRequestDto(
         @Min(1)
         Integer pages,
 
-        @NotNull
+        @NotNull(message = "authorId must not be null")
         Long authorId,
 
-        @NotNull
+        @NotNull(message = "language must not be null")
         BookLanguageDto language
 ) {
 }

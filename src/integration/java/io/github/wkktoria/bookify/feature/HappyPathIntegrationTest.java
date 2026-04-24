@@ -1,21 +1,12 @@
-package feature;
+package io.github.wkktoria.bookify.feature;
 
-import io.github.wkktoria.bookify.BookifyApplication;
+import io.github.wkktoria.bookify.BaseIntegrationTest;
 import io.github.wkktoria.bookify.infrastructure.security.jwt.JwtAuthConverter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
@@ -27,24 +18,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = BookifyApplication.class)
-@AutoConfigureMockMvc
-@Testcontainers
-@ActiveProfiles("integration")
-class HappyPathIntegrationTest {
+class HappyPathIntegrationTest extends BaseIntegrationTest {
 
-    @Container
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:18-alpine");
     @Autowired
     private JwtAuthConverter jwtAuthConverter;
-
-    @DynamicPropertySource
-    public static void propertyOverride(final DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-    }
-
-    @Autowired
-    public MockMvc mockMvc;
 
     @Test
     void happy_path() throws Exception {

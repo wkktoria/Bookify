@@ -25,7 +25,7 @@ import static io.github.wkktoria.bookify.infrastructure.crud.genre.controller.Ge
 @RequestMapping("/genres")
 @AllArgsConstructor
 @Log4j2
-class GenreRestController {
+public class GenreRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
 

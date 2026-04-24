@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("/authors")
 @AllArgsConstructor
 @Log4j2
-class AuthorRestController {
+public class AuthorRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
 
@@ -53,7 +53,7 @@ class AuthorRestController {
     }
 
     @PostMapping
-    ResponseEntity<AuthorDto> createAuthor(@RequestBody final CreateAuthorRequestDto requestDto) {
+    ResponseEntity<AuthorDto> createAuthor(@RequestBody @Valid final CreateAuthorRequestDto requestDto) {
         log.info("POST /authors request received");
 
         AuthorDto authorDto = bookifyCrudFacade
