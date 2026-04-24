@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,9 +68,16 @@ class SeriesRestController {
     @PutMapping("/{seriesId}/books/{bookId}")
     ResponseEntity<String> addBookToSeries(@PathVariable final Long seriesId,
                                            @PathVariable final Long bookId) {
-        log.info("PUT /series/{}/books/{} request reeceived", seriesId, bookId);
+        log.info("PUT /series/{}/books/{} request received", seriesId, bookId);
         bookifyCrudFacade.addBookToSeries(bookId, seriesId);
         return ResponseEntity.ok("Book added to series");
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteSeries(@PathVariable final Long id) {
+        log.info("DELETE /series/{} request received", id);
+        bookifyCrudFacade.deleteSeries(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
