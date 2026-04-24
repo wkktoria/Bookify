@@ -19,7 +19,7 @@ class InMemorySeriesRepository implements SeriesRepository {
 
     @Override
     public Optional<Series> findById(final Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(db.get(id));
     }
 
     @Override
@@ -35,6 +35,15 @@ class InMemorySeriesRepository implements SeriesRepository {
         return db.values().stream()
                 .filter(series -> series.getId().equals(id))
                 .findFirst();
+    }
+
+    @Override
+    public void deleteById(final Long id) {
+        Series series = db.get(id);
+        if (!series.getBooks().isEmpty()) {
+            throw new SeriesNotDeletedException("Could not delete series with id=" + id);
+        }
+        db.remove(id);
     }
 
 }

@@ -23,6 +23,7 @@ class BookifyCrudFacadeConfiguration {
         AuthorUpdater authorUpdater = new AuthorUpdater(authorRetriever);
         GenreAdder genreAdder = new GenreAdder(genreRepository);
         GenreUpdater genreUpdater = new GenreUpdater(genreRetriever);
+        SeriesDeleter seriesDeleter = new SeriesDeleter(seriesRetriever, seriesRepository);
 
         return new BookifyCrudFacade(
                 bookAdder,
@@ -39,7 +40,8 @@ class BookifyCrudFacadeConfiguration {
                 genreAssigner,
                 genreDeleter,
                 seriesAdder,
-                seriesRetriever
+                seriesRetriever,
+                seriesDeleter
         );
     }
 
