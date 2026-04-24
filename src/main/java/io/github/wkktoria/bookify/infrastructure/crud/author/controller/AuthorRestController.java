@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("/authors")
 @AllArgsConstructor
 @Log4j2
-class AuthorRestController {
+public class AuthorRestController {
 
     private final BookifyCrudFacade bookifyCrudFacade;
 
