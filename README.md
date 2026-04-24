@@ -197,6 +197,7 @@ flowchart TD
     client -->|GET /series/1| server
     client -->|POST /series body JSON| server
     client -->|PUT /series/1/books/1| server
+    client -->|DELETE /series/1| server
 ```
 
 ### Genres
@@ -206,6 +207,7 @@ flowchart TD
     client -->|GET /genres| server
     client -->|GET /genres/1| server
     client -->|POST /genres body JSON| server
+    client -->|DELETE /genres/1| server
 ```
 
 ### Auth
