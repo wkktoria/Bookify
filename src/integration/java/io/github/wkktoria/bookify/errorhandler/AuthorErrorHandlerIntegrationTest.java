@@ -2,7 +2,6 @@ package io.github.wkktoria.bookify.errorhandler;
 
 import io.github.wkktoria.bookify.BaseIntegrationTest;
 import io.github.wkktoria.bookify.infrastructure.crud.author.controller.error.ErrorAuthorResponseDto;
-import io.github.wkktoria.bookify.infrastructure.crud.book.controller.error.ErrorBookResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
