@@ -40,7 +40,7 @@ class InMemoryGenreRepository implements GenreRepository {
     public void deleteById(final Long id) {
         Set<Book> booksByGenreId = bookRepository.findAllByGenreId(id);
         if (!booksByGenreId.isEmpty()) {
-            throw new GenreNotDeletedException("Could not delelete genre with id=" + id);
+            throw new GenreNotDeletedException("Could not delete genre with id=" + id);
         }
         db.remove(id);
     }
