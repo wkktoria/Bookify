@@ -45,7 +45,7 @@ All data must be **persisted in a database** (i.e., stored permanently and avail
 - [X] Delete an author and all solely-owned books. If a book has multiple authors, only the association is removed (the
   book itself is retained).
 - [X] Delete a genre only if no books are currently assigned to it.
-- [X] Delete a series only if it contains no books.
+- [X] Delete a series only if it conqtains no books.
 - [X] Delete a book without deleting its associated series or authors.
 - [X] Delete a book along with its assigned genre. Other books that shared the genre are reassigned to the default genre
   rather than deleted.
@@ -54,7 +54,7 @@ All data must be **persisted in a database** (i.e., stored permanently and avail
 
 - [X] Edit author details (first name, last name).
 - [X] Edit a genre name.
-- [ ] Edit a series (rename it and manage assigned books).
+- [X] Edit a series (rename it and assign books).
 - [ ] Edit book details (title, authors, publication date, ISBN, page count).
 
 ### Relationships
@@ -196,6 +196,7 @@ flowchart TD
     client -->|GET /series| server
     client -->|GET /series/1| server
     client -->|POST /series body JSON| server
+    client -->|PUT /series/1 body JSON| server
     client -->|PUT /series/1/books/1| server
     client -->|DELETE /series/1| server
 ```

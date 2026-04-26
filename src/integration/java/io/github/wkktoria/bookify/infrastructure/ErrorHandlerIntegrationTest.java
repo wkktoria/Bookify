@@ -23,11 +23,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
@@ -140,6 +143,39 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
         String json = mvcResult.getResponse().getContentAsString();
         ErrorSeriesResponseDto result = objectMapper.readValue(json, ErrorSeriesResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not delete series with id=" + seriesDto.id());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void should_return_conflict_when_updating_series_to_existing_name() throws Exception {
+        // given
+        AuthorDto authorDto = bookifyCrudFacade.addAuthor(AuthorRequestDto.builder()
+                .firstname(randomString(5))
+                .lastname(randomString(5))
+                .build());
+        BookDto bookDto = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
+                .title(randomString(10))
+                .publicationDate(LocalDate.now())
+                .isbn(randomString(13))
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build());
+        SeriesDto seriesDto1 = bookifyCrudFacade.addSeriesWithBook(new SeriesRequestDto(bookDto.id(), randomString(6)));
+        SeriesDto seriesDto2 = bookifyCrudFacade.addSeriesWithBook(new SeriesRequestDto(bookDto.id(), randomString(6)));
+
+        // when
+        Map<String, Object> request = new HashMap<>();
+        request.put("name", seriesDto2.name());
+        ResultActions perform = mockMvc.perform(put("/series/{id}", seriesDto1.id())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)));
+
+        // then
+        MvcResult mvcResult = perform.andExpect(status().isConflict()).andReturn();
+        String json = mvcResult.getResponse().getContentAsString();
+        ErrorSeriesResponseDto result = objectMapper.readValue(json, ErrorSeriesResponseDto.class);
+        assertThat(result.message()).isEqualTo("Could not update series with id=" + seriesDto1.id());
     }
 
     static String randomString(final int length) {

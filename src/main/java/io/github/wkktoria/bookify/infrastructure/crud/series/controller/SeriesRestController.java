@@ -5,6 +5,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesWithAuthorsAndBooksDto;
 import io.github.wkktoria.bookify.infrastructure.crud.series.controller.dto.request.CreateSeriesWithBookRequestDto;
+import io.github.wkktoria.bookify.infrastructure.crud.series.controller.dto.request.UpdateSeriesRequestDto;
 import io.github.wkktoria.bookify.infrastructure.crud.series.controller.dto.response.GetAllSeriesResponseDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -63,6 +64,13 @@ public class SeriesRestController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(seriesDto);
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<SeriesDto> updateSeries(@PathVariable final Long id, @RequestBody @Valid final UpdateSeriesRequestDto requestDto) {
+        log.info("PUT /series/{} request received with request body: {}", id, requestDto);
+        SeriesDto seriesDto = bookifyCrudFacade.updateSeries(id, requestDto.name());
+        return ResponseEntity.ok(seriesDto);
     }
 
     @PutMapping("/{seriesId}/books/{bookId}")
