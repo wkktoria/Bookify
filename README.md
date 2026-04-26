@@ -196,6 +196,7 @@ flowchart TD
     client -->|GET /series| server
     client -->|GET /series/1| server
     client -->|POST /series body JSON| server
+    client -->|PUT /series/1 body JSON| server
     client -->|PUT /series/1/books/1| server
     client -->|DELETE /series/1| server
 ```
