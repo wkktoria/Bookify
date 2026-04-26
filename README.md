@@ -15,7 +15,8 @@ such as assigning multiple authors to a book, grouping books into series, and ca
     - [Relationships](#relationships)
     - [Retrieval](#retrieval)
     - [Security](#security)
-- [Happy Paths](#happy-paths)
+- [Scenarios](#scenarios)
+    - [Secured Endpoints](#secured-endpoints)
     - [Happy Path v1](#happy-path-v1)
     - [Happy Path v2](#happy-path-v2)
 - [Endpoints](#endpoints)
@@ -92,7 +93,22 @@ All data must be **persisted in a database** (i.e., stored permanently and avail
 - [X] CSRF protection.
 - [X] E-mail confirmation.
 
-## Happy Paths
+## Scenarios
+
+### Secured Endpoints
+
+User wants to create entities, but endpoints are secured.
+
+Typical path:
+
+- Step 1: When user posts to /authors without JWT then 401 Unauthorized is returned.
+- Step 2: When user goes to /authors then user can see no authors.
+- Step 3: When user posts to /books without JWT then 401 Unauthorized is returned.
+- Step 4: When user goes to /books then user can see no books.
+- Step 5: When user posts to /genres without JWT then 401 Unauthorized is returned.
+- Step 6: When user goes to /genres then user can see the default genre.
+- Step 7: When user posts to /series without JWT then 401 Unauthorized is returned.
+- Step 8: When user goes to /series then user can see no series.
 
 ### Happy Path v1
 
