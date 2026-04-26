@@ -15,9 +15,9 @@ such as assigning multiple authors to a book, grouping books into series, and ca
     - [Relationships](#relationships)
     - [Retrieval](#retrieval)
     - [Security](#security)
-- [Happy Paths](#happy-paths)
-    - [Happy Path v1](#happy-path-v1)
-    - [Happy Path v2](#happy-path-v2)
+- [Scenarios](#scenarios)
+    - [Secured Endpoints](#secured-endpoints)
+    - [Happy Path](#happy-path)
 - [Endpoints](#endpoints)
     - [Books](#books)
     - [Authors](#authors)
@@ -92,44 +92,20 @@ All data must be **persisted in a database** (i.e., stored permanently and avail
 - [X] CSRF protection.
 - [X] E-mail confirmation.
 
-## Happy Paths
+## Scenarios
 
-### Happy Path v1
+### Secured Endpoints
 
-> [!IMPORTANT]
-> The happy path scenario is not aligned with the current system behavior and requirements.
+User wants to create entities, but endpoints are secured.
 
-User creates series "Head First" with books "Head First Java" by Kathy Sierra and Bert Bates (genre: Programming),
-and "Head First Design Patterns" by Eric Freeman and Elisabeth Robson (genre: Software Engineering).
+Typical path:
 
-Given there is no books, authors, series and genres created before:
+- Step 1: When user posts to /authors without JWT then 401 Unauthorized is returned.
+- Step 2: When user posts to /books without JWT then 401 Unauthorized is returned.
+- Step 3: When user posts to /genres without JWT then 401 Unauthorized is returned.
+- Step 4: When user posts to /series without JWT then 401 Unauthorized is returned.
 
-1. When user goes to /books then they can see no books.
-2. When user posts to /books with book "Head First Java" then book "Head First Java" is returned with id 1.
-3. When user posts to /books with book "Head First Design Patterns" then book "Head First Design Patterns" is returned
-   with id 2.
-4. When user goes to /genres then user can see no genres.
-5. When user posts to /genres with genre "Programming" then genre "Programming" is returned with id 1.
-6. When user posts to /genres with genre "Software Engineering" then genre "Software Engineering" is returned with id 2.
-7. When uses goes to /books/1 then user can see default genre.
-8. When user puts to /books/1/genres/1 then genre with id 1 ("Programming") is added to book with id 1 ("Head First
-   Java").
-9. When user goes to /books/1 then user can see "Programming" genre.
-10. When user puts to /books/2/genres/2 then genre with id 2 ("Software Engineering") is added to book with id 2 ("Head
-    First Design Patterns").
-11. When user goes to /series then user can see no series.
-12. When user posts to /series with series "Head First" then series "Head First" is returned with id 1.
-13. When user goes to /series/1 then user can see no books added to series.
-14. When user puts to /series/1/books/1 then book with id 1 ("Head First Java") is added to series with id 1 ("Head
-    First").
-15. When user puts to /series/1/books/2 then book with id 2 ("Head First Design Patterns") is added to series with id
-    1 ("Head First").
-16. When user goes to /series/1/books then user can see 2 books (id 1, id 2).
-17. When user posts to /authors with author "Kathy Sierra" then author "Kathy Sierra" is returned with id 1.
-18. When user puts to /books/1/authors/1 then author with id 1 ("Kathy Sierra") is added to book with id 1 ("Head First
-    Java").
-
-### Happy Path v2
+### Happy Path
 
 1. When user goes to /authors then user can see no authors.
 2. When user posts to /authors with author "Eric Freeman" then author "Eric Freeman" is returned with id 1.
