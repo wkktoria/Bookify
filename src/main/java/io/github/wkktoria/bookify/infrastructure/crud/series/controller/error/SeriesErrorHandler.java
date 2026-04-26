@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.infrastructure.crud.series.controller.error;
 
 import io.github.wkktoria.bookify.domain.crud.SeriesNotDeletedException;
 import io.github.wkktoria.bookify.domain.crud.SeriesNotFoundException;
+import io.github.wkktoria.bookify.domain.crud.SeriesNotUpdatedException;
 import io.github.wkktoria.bookify.infrastructure.crud.series.controller.SeriesRestController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,14 @@ class SeriesErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     ErrorSeriesResponseDto handleSeriesNotDeletedException(final SeriesNotDeletedException exception) {
         log.error("Series not deleted: {}", exception.getMessage());
+        return new ErrorSeriesResponseDto(exception.getMessage());
+    }
+
+    @ExceptionHandler(SeriesNotUpdatedException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    ErrorSeriesResponseDto handleSeriesNotUpdatedException(final SeriesNotUpdatedException exception) {
+        log.error("Series not updated: {}", exception.getMessage());
         return new ErrorSeriesResponseDto(exception.getMessage());
     }
 
