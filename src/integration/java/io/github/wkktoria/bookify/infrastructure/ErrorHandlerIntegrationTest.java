@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -74,15 +75,15 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
     @WithMockUser(roles = "ADMIN")
     void should_return_conflict_when_deleting_genre_with_assigned_books() throws Exception {
         // given
-        GenreDto genreDto = bookifyCrudFacade.addGenre(new GenreRequestDto("TEST"));
+        GenreDto genreDto = bookifyCrudFacade.addGenre(new GenreRequestDto(randomString(6)));
         AuthorDto authorDto = bookifyCrudFacade.addAuthor(AuthorRequestDto.builder()
-                .firstname("John")
-                .lastname("Doe")
+                .firstname(randomString(5))
+                .lastname(randomString(5))
                 .build());
         BookDto bookDto = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
-                .title("Test Book")
+                .title(randomString(10))
                 .publicationDate(LocalDate.now())
-                .isbn("1234567890123")
+                .isbn(randomString(13))
                 .pages(100)
                 .authorId(authorDto.id())
                 .language(BookLanguageDto.ENGLISH)
@@ -117,18 +118,18 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
     void should_return_conflict_when_deleting_series_with_assigned_books() throws Exception {
         // given
         AuthorDto authorDto = bookifyCrudFacade.addAuthor(AuthorRequestDto.builder()
-                .firstname("John")
-                .lastname("Doe")
+                .firstname(randomString(5))
+                .lastname(randomString(5))
                 .build());
         BookDto bookDto = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
-                .title("Test Book")
+                .title(randomString(10))
                 .publicationDate(LocalDate.now())
-                .isbn("1234567890123")
+                .isbn(randomString(13))
                 .pages(100)
                 .authorId(authorDto.id())
                 .language(BookLanguageDto.ENGLISH)
                 .build());
-        SeriesDto seriesDto = bookifyCrudFacade.addSeriesWithBook(new SeriesRequestDto(bookDto.id(), "TEST"));
+        SeriesDto seriesDto = bookifyCrudFacade.addSeriesWithBook(new SeriesRequestDto(bookDto.id(), randomString(6)));
 
         // when
         ResultActions perform = mockMvc.perform(delete("/series/{id}", seriesDto.id())
@@ -139,6 +140,18 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
         String json = mvcResult.getResponse().getContentAsString();
         ErrorSeriesResponseDto result = objectMapper.readValue(json, ErrorSeriesResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not delete series with id=" + seriesDto.id());
+    }
+
+    static String randomString(final int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+
+        return sb.toString();
     }
 
 }
