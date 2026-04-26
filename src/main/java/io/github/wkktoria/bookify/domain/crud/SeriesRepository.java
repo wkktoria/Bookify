@@ -33,4 +33,6 @@ interface SeriesRepository extends Repository<Series, Long> {
     @Query("DELETE FROM Series s WHERE s.id = :id")
     void deleteById(final Long id);
 
+    boolean existsByName(final String name);
+
 }

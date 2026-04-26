@@ -409,4 +409,60 @@ class BookifyCrudFacadeTest {
                 .hasMessageContaining(series.id().toString());
     }
 
+    @Test
+    @DisplayName("Should throw SeriesNoUpdatedException When updating series name to existing name")
+    void should_throw_series_not_updated_exception_when_updating_series_name_to_existing_name() {
+        // given
+        AuthorDto authorDto = bookifyCrudFacade.addAuthor(new AuthorRequestDto("John", "Doe"));
+        BookDto bookDto = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
+                .title("Programming Book")
+                .publicationDate(LocalDate.now())
+                .isbn("123456789123")
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build());
+        SeriesDto seriesDto = bookifyCrudFacade.addSeriesWithBook(SeriesRequestDto.builder()
+                .bookId(bookDto.id())
+                .name("test1")
+                .build());
+        bookifyCrudFacade.addSeriesWithBook(SeriesRequestDto.builder()
+                .bookId(bookDto.id())
+                .name("test2")
+                .build());
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade.updateSeries(seriesDto.id(), "test2"));
+
+
+        // then
+        assertThat(throwable).isInstanceOf(SeriesNotUpdatedException.class)
+                .hasMessageContaining(seriesDto.id().toString());
+    }
+
+    @Test
+    @DisplayName("Should update series name")
+    void should_update_series_name() {
+        // given
+        AuthorDto authorDto = bookifyCrudFacade.addAuthor(new AuthorRequestDto("John", "Doe"));
+        BookDto bookDto = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
+                .title("Programming Book")
+                .publicationDate(LocalDate.now())
+                .isbn("123456789123")
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build());
+        SeriesDto seriesDto = bookifyCrudFacade.addSeriesWithBook(SeriesRequestDto.builder()
+                .bookId(bookDto.id())
+                .name("test1")
+                .build());
+
+        // when
+        SeriesDto result = bookifyCrudFacade.updateSeries(seriesDto.id(), "updated");
+
+        // then
+        assertThat(result.name()).isEqualTo("updated");
+    }
+
 }

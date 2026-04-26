@@ -46,4 +46,9 @@ class InMemorySeriesRepository implements SeriesRepository {
         db.remove(id);
     }
 
+    @Override
+    public boolean existsByName(final String name) {
+        return db.values().stream().anyMatch(series -> name.equals(series.getName()));
+    }
+
 }

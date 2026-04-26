@@ -71,4 +71,8 @@ class SeriesRetriever {
         );
     }
 
+    boolean existsByName(final String name) {
+        return seriesRepository.existsByName(name);
+    }
+
 }
