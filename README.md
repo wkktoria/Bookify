@@ -102,13 +102,9 @@ User wants to create entities, but endpoints are secured.
 Typical path:
 
 - Step 1: When user posts to /authors without JWT then 401 Unauthorized is returned.
-- Step 2: When user goes to /authors then user can see no authors.
-- Step 3: When user posts to /books without JWT then 401 Unauthorized is returned.
-- Step 4: When user goes to /books then user can see no books.
-- Step 5: When user posts to /genres without JWT then 401 Unauthorized is returned.
-- Step 6: When user goes to /genres then user can see the default genre.
-- Step 7: When user posts to /series without JWT then 401 Unauthorized is returned.
-- Step 8: When user goes to /series then user can see no series.
+- Step 2: When user posts to /books without JWT then 401 Unauthorized is returned.
+- Step 3: When user posts to /genres without JWT then 401 Unauthorized is returned.
+- Step 4: When user posts to /series without JWT then 401 Unauthorized is returned.
 
 ### Happy Path v1
 
