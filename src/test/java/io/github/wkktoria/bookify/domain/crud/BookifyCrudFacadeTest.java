@@ -465,4 +465,49 @@ class BookifyCrudFacadeTest {
         assertThat(result.name()).isEqualTo("updated");
     }
 
+    @Test
+    @DisplayName("Should add books to series")
+    void should_add_books_to_series() {
+        // given
+        AuthorDto authorDto = bookifyCrudFacade.addAuthor(new AuthorRequestDto("John", "Doe"));
+        BookDto bookDto1 = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
+                .title("Programming Book")
+                .publicationDate(LocalDate.now())
+                .isbn("123456789123")
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build());
+        BookDto bookDto2 = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
+                .title("Engineering Book")
+                .publicationDate(LocalDate.now())
+                .isbn("123987654321")
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build());
+        BookDto bookDto3 = bookifyCrudFacade.addBookWithAuthor(BookRequestDto.builder()
+                .title("Testing Book")
+                .publicationDate(LocalDate.now())
+                .isbn("123123123123")
+                .pages(100)
+                .authorId(authorDto.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build());
+        SeriesDto seriesDto = bookifyCrudFacade.addSeriesWithBook(SeriesRequestDto.builder()
+                .bookId(bookDto1.id())
+                .name("test")
+                .build());
+
+        // when
+        bookifyCrudFacade.addBookToSeries(bookDto2.id(), seriesDto.id());
+        bookifyCrudFacade.addBookToSeries(bookDto3.id(), seriesDto.id());
+
+        // then
+        SeriesWithAuthorsAndBooksDto series = bookifyCrudFacade.findSeriesByIdWithAuthorsAndBooks(seriesDto.id());
+        assertThat(series.series().id()).isEqualTo(seriesDto.id());
+        assertThat(series.books().size()).isEqualTo(3);
+        assertThat(series.books()).containsExactlyInAnyOrder(bookDto1, bookDto2, bookDto3);
+    }
+
 }
