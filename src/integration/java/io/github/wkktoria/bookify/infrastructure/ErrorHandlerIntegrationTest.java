@@ -11,10 +11,7 @@ import io.github.wkktoria.bookify.domain.crud.dto.GenreDto;
 import io.github.wkktoria.bookify.domain.crud.dto.GenreRequestDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesDto;
 import io.github.wkktoria.bookify.domain.crud.dto.SeriesRequestDto;
-import io.github.wkktoria.bookify.infrastructure.crud.author.controller.error.ErrorAuthorResponseDto;
-import io.github.wkktoria.bookify.infrastructure.crud.book.controller.error.ErrorBookResponseDto;
-import io.github.wkktoria.bookify.infrastructure.crud.genre.controller.error.ErrorGenreResponseDto;
-import io.github.wkktoria.bookify.infrastructure.crud.series.controller.error.ErrorSeriesResponseDto;
+import io.github.wkktoria.bookify.infrastructure.crud.dto.ErrorResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -46,7 +43,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
 
         MvcResult mvcResult = perform.andExpect(status().isNotFound()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorAuthorResponseDto result = objectMapper.readValue(json, ErrorAuthorResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not find author with id=999");
     }
 
@@ -58,7 +55,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
 
         MvcResult mvcResult = perform.andExpect(status().isNotFound()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorBookResponseDto result = objectMapper.readValue(json, ErrorBookResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not find book with id=999");
     }
 
@@ -70,7 +67,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
 
         MvcResult mvcResult = perform.andExpect(status().isNotFound()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorGenreResponseDto result = objectMapper.readValue(json, ErrorGenreResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not find genre with id=999");
     }
 
@@ -100,7 +97,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
         // then
         MvcResult mvcResult = perform.andExpect(status().isConflict()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorGenreResponseDto result = objectMapper.readValue(json, ErrorGenreResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not delete genre with id=" + genreDto.id());
     }
 
@@ -112,7 +109,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
 
         MvcResult mvcResult = perform.andExpect(status().isNotFound()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorSeriesResponseDto result = objectMapper.readValue(json, ErrorSeriesResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not find series with id=999");
     }
 
@@ -141,7 +138,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
         // then
         MvcResult mvcResult = perform.andExpect(status().isConflict()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorSeriesResponseDto result = objectMapper.readValue(json, ErrorSeriesResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not delete series with id=" + seriesDto.id());
     }
 
@@ -174,7 +171,7 @@ class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
         // then
         MvcResult mvcResult = perform.andExpect(status().isConflict()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        ErrorSeriesResponseDto result = objectMapper.readValue(json, ErrorSeriesResponseDto.class);
+        ErrorResponseDto result = objectMapper.readValue(json, ErrorResponseDto.class);
         assertThat(result.message()).isEqualTo("Could not update series with id=" + seriesDto1.id());
     }
 
