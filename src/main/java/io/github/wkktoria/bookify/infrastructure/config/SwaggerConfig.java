@@ -17,7 +17,7 @@ class SwaggerConfig {
                                 Authentication (Google OAuth2)
                                 
                                 Login flow:
-                                1. Open /login endpoint
+                                1. Open /oauth2/authorization/google endpoint
                                 2. You will be redirected to Google
                                 3. After successful login, backend sets accessToken cookie
                                 4. Swagger UI automatically sends this cookie in all requests
