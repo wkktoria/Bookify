@@ -89,9 +89,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "404", description = "Author not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PostMapping
     public ResponseEntity<CreateBookResponseDto> createBook(@io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -125,9 +125,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingPathVariable(@Parameter(description = "Book ID", example = "1")
@@ -143,9 +143,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @DeleteMapping
     public ResponseEntity<DeleteBookResponseDto> deleteBookByIdUsingRequestParam(@Parameter(name = "Book ID", example = "1")
@@ -161,9 +161,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @DeleteMapping("/{bookId}/genre")
     ResponseEntity<DeleteBookResponseDto> deleteBookWithGenre(@Parameter(description = "Book ID", example = "1")
@@ -183,9 +183,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content(schema = @Schema(implementation = ApiValidationErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PutMapping("/{id}")
     public ResponseEntity<UpdateBookResponseDto> updateBook(@Parameter(description = "Book ID", example = "1")
@@ -219,9 +219,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content(schema = @Schema(implementation = ApiValidationErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PatchMapping("/{id}")
     public ResponseEntity<PartiallyUpdateBookResponseDto> partiallyUpdateBook(@Parameter(description = "Book ID", example = "1")
@@ -255,9 +255,9 @@ public class BookRestController {
             @ApiResponse(responseCode = "404", description = "Book or Genre not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PutMapping("/{bookId}/genres/{genreId}")
     public ResponseEntity<String> assignGenreToBook(

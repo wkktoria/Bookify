@@ -82,9 +82,9 @@ public class AuthorRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content(schema = @Schema(implementation = ApiValidationErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PostMapping
     ResponseEntity<AuthorDto> createAuthor(
@@ -112,9 +112,9 @@ public class AuthorRestController {
             @ApiResponse(responseCode = "404", description = "Author not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @DeleteMapping("/{id}")
     ResponseEntity<String> deleteAuthorWithAllBooks(
@@ -133,9 +133,9 @@ public class AuthorRestController {
             @ApiResponse(responseCode = "404", description = "Author or Book not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PutMapping("/{authorId}/books/{bookId}")
     ResponseEntity<String> assignAuthorToBook(
@@ -153,9 +153,9 @@ public class AuthorRestController {
             @ApiResponse(responseCode = "404", description = "Author not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PatchMapping("/{id}")
     ResponseEntity<AuthorDto> updateAuthorById(@Parameter(description = "Author ID", example = "1") @PathVariable final Long id,
@@ -175,9 +175,9 @@ public class AuthorRestController {
             @ApiResponse(responseCode = "200", description = "Author with series and book created",
                     content = @Content(schema = @Schema(implementation = AuthorDto.class))),
             @ApiResponse(responseCode = "401", description = "Missing or invalid authentication",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
             @ApiResponse(responseCode = "403", description = "Insufficient privileges (ADMIN role required)",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PostMapping("/series/book")
     ResponseEntity<AuthorDto> addAuthorWithDefaultSeriesAndBook(@io.swagger.v3.oas.annotations.parameters.RequestBody(
