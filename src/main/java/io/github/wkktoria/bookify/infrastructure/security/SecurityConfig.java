@@ -54,12 +54,11 @@ class SecurityConfig {
                 .userInfoEndpoint(u -> u.oidcUserService(oAuth2UserServiceImpl)));
         http.oauth2ResourceServer(c -> c
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
-                .bearerTokenResolver(cookieTokenResolver));
-        http.sessionManagement(c ->
-                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.exceptionHandling(e -> e
+                .bearerTokenResolver(cookieTokenResolver)
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler));
+        http.sessionManagement(c ->
+                c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/swagger-resources/**").permitAll()
