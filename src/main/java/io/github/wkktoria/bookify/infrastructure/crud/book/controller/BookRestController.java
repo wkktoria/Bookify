@@ -1,7 +1,6 @@
 package io.github.wkktoria.bookify.infrastructure.crud.book.controller;
 
 import io.github.wkktoria.bookify.domain.crud.BookifyCrudFacade;
-import io.github.wkktoria.bookify.domain.crud.dto.AuthorDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookDto;
 import io.github.wkktoria.bookify.domain.crud.dto.BookRequestDto;
 import io.github.wkktoria.bookify.infrastructure.apivalidation.ApiValidationErrorResponseDto;
