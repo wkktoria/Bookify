@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.infrastructure.crud.genre.controller.error;
 
 import io.github.wkktoria.bookify.domain.crud.GenreNotDeletedException;
 import io.github.wkktoria.bookify.domain.crud.GenreNotFoundException;
+import io.github.wkktoria.bookify.infrastructure.crud.book.controller.BookRestController;
 import io.github.wkktoria.bookify.infrastructure.crud.dto.ErrorResponseDto;
 import io.github.wkktoria.bookify.infrastructure.crud.genre.controller.GenreRestController;
 import lombok.extern.log4j.Log4j2;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice(assignableTypes = GenreRestController.class)
+@ControllerAdvice(assignableTypes = {GenreRestController.class, BookRestController.class})
 @Log4j2
 class GenreErrorHandler {
 
