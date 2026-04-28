@@ -42,7 +42,9 @@ class SecurityConfig {
                                                    final JwtAuthConverter jwtAuthConverter,
                                                    final CookieTokenResolver cookieTokenResolver,
                                                    final CookieClearingLogoutHandler cookieClearingLogoutHandler,
-                                                   final OAuth2UserServiceImpl oAuth2UserServiceImpl)
+                                                   final OAuth2UserServiceImpl oAuth2UserServiceImpl,
+                                                   final CustomAuthenticationEntryPoint authenticationEntryPoint,
+                                                   final CustomAccessDeniedHandler accessDeniedHandler)
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(corsConfigurerCustomizer());
@@ -55,6 +57,9 @@ class SecurityConfig {
                 .bearerTokenResolver(cookieTokenResolver));
         http.sessionManagement(c ->
                 c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.exceptionHandling(e -> e
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler));
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/swagger-resources/**").permitAll()
