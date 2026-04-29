@@ -558,4 +558,31 @@ class BookifyCrudFacadeTest {
         assertThat(booksByAuthorId).extracting(BookDto::id).containsExactly(book.id());
     }
 
+    @Test
+    @DisplayName("Should return book by id")
+    void should_return_book_by_id() {
+        // given
+        AuthorRequestDto authorRequest = AuthorRequestDto.builder()
+                .firstname("Firstname1")
+                .lastname("Lastname1")
+                .build();
+        AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
+        BookRequestDto bookRequest = BookRequestDto.builder()
+                .title("Book")
+                .publicationDate(LocalDate.now())
+                .isbn("1234567890")
+                .pages(100)
+                .authorId(author.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto book = bookifyCrudFacade.addBookWithAuthor(bookRequest);
+        Long bookId = book.id();
+
+        // when
+        BookDto bookById = bookifyCrudFacade.findBookById(bookId);
+
+        // then
+        assertThat(bookById).extracting(BookDto::id).isEqualTo(bookId);
+    }
+
 }
