@@ -585,4 +585,64 @@ class BookifyCrudFacadeTest {
         assertThat(bookById).extracting(BookDto::id).isEqualTo(bookId);
     }
 
+    @Test
+    @DisplayName("Should throw BookNotFoundException When book not found by id")
+    void should_throw_book_not_found_exception_when_book_not_found_by_id() {
+        // given
+        assertThat(bookifyCrudFacade.findAllBooks(Pageable.unpaged())).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade.findBookById(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(BookNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find book with id=0");
+    }
+
+    @Test
+    @DisplayName("Should throw GenreNotFoundException When genre not found by id")
+    void should_throw_genre_not_found_exception_when_genre_not_found_by_id() {
+        // given
+        // There is always a default genre in the database.
+        assertThat(bookifyCrudFacade.findAllGenres()).hasSize(1);
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .findGenreByIdWithBooks(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(GenreNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find genre with id=0");
+    }
+
+    @Test
+    @DisplayName("Should throw AuthorNotFoundException When author not found by id")
+    void should_throw_author_not_found_exception_when_author_not_found_by_id() {
+        // given
+        assertThat(bookifyCrudFacade.findAllAuthors(Pageable.unpaged())).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .findAuthorByIdWithBooks(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(AuthorNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find author with id=0");
+    }
+
+    @Test
+    @DisplayName("Should throw SeriesNotFoundException When series not found by id")
+    void should_throw_series_not_found_exception_when_series_not_found_by_id() {
+        // given
+        assertThat(bookifyCrudFacade.findAllSeries()).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .findSeriesByIdWithAuthorsAndBooks(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(SeriesNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find series with id=0");
+    }
+
 }
