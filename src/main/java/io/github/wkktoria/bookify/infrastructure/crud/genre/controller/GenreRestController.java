@@ -41,7 +41,7 @@ public class GenreRestController {
 
     @Operation(summary = "Get all genres", description = "Returns list of genres")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Books retrieved successfully",
+            @ApiResponse(responseCode = "200", description = "Genres retrieved successfully",
                     content = @Content(schema = @Schema(implementation = GetAllGenresResponsesDto.class)))
     })
     @GetMapping
