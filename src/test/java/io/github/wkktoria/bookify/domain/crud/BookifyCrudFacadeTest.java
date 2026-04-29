@@ -510,4 +510,18 @@ class BookifyCrudFacadeTest {
         assertThat(series.books()).containsExactlyInAnyOrder(bookDto1, bookDto2, bookDto3);
     }
 
+    @Test
+    @DisplayName("Should add genre")
+    void should_add_genre() {
+        // given
+        GenreRequestDto genre = new GenreRequestDto("test");
+
+        // when
+        GenreDto genreDto = bookifyCrudFacade.addGenre(genre);
+
+        // then
+        Set<GenreDto> allGenres = bookifyCrudFacade.findAllGenres();
+        assertThat(allGenres).extracting(GenreDto::id).contains(genreDto.id());
+    }
+
 }
