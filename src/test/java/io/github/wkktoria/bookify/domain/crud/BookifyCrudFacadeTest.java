@@ -524,4 +524,38 @@ class BookifyCrudFacadeTest {
         assertThat(allGenres).extracting(GenreDto::id).contains(genreDto.id());
     }
 
+    @Test
+    @DisplayName("Should add author to book")
+    void should_add_author_to_book() {
+        // given
+        AuthorRequestDto authorRequest = AuthorRequestDto.builder()
+                .firstname("Firstname1")
+                .lastname("Lastname1")
+                .build();
+        AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
+        BookRequestDto bookRequest = BookRequestDto.builder()
+                .title("Book")
+                .publicationDate(LocalDate.now())
+                .isbn("1234567890")
+                .pages(100)
+                .authorId(author.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto book = bookifyCrudFacade.addBookWithAuthor(bookRequest);
+        AuthorRequestDto authorToAddRequest = AuthorRequestDto.builder()
+                .firstname("Firstname2")
+                .lastname("Lastname2")
+                .build();
+        AuthorDto authorToAdd = bookifyCrudFacade.addAuthor(authorToAddRequest);
+
+        assertThat(bookifyCrudFacade.findBooksByAuthorId(authorToAdd.id())).isEmpty();
+
+        // when
+        bookifyCrudFacade.addAuthorToBook(authorToAdd.id(), book.id());
+
+        // then
+        Set<BookDto> booksByAuthorId = bookifyCrudFacade.findBooksByAuthorId(authorToAdd.id());
+        assertThat(booksByAuthorId).extracting(BookDto::id).containsExactly(book.id());
+    }
+
 }
