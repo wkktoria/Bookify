@@ -42,7 +42,9 @@ class SecurityConfig {
                                                    final JwtAuthConverter jwtAuthConverter,
                                                    final CookieTokenResolver cookieTokenResolver,
                                                    final CookieClearingLogoutHandler cookieClearingLogoutHandler,
-                                                   final OAuth2UserServiceImpl oAuth2UserServiceImpl)
+                                                   final OAuth2UserServiceImpl oAuth2UserServiceImpl,
+                                                   final CustomAuthenticationEntryPoint authenticationEntryPoint,
+                                                   final CustomAccessDeniedHandler accessDeniedHandler)
             throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(corsConfigurerCustomizer());
@@ -52,7 +54,9 @@ class SecurityConfig {
                 .userInfoEndpoint(u -> u.oidcUserService(oAuth2UserServiceImpl)));
         http.oauth2ResourceServer(c -> c
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
-                .bearerTokenResolver(cookieTokenResolver));
+                .bearerTokenResolver(cookieTokenResolver)
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler));
         http.sessionManagement(c ->
                 c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(authorize -> authorize

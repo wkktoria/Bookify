@@ -41,11 +41,6 @@ spring:
           starttls:
             enabled: true
             required: true
-springdoc:
-  swagger-ui:
-    oauth:
-      client-id: ${OAUTH2_CLIENT_ID}
-    oauth2-redirect-url: https://localhost:8443/swagger-ui/oauth2-redirect.html
 logging:
   level:
     org:
