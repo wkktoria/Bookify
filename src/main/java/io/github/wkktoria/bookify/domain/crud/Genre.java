@@ -21,8 +21,8 @@ import lombok.ToString;
 @Table(name = "genre", indexes = {
         @Index(name = "idx_genre_name", columnList = "name")
 })
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
 @Builder
