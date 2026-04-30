@@ -5,8 +5,12 @@ import io.github.wkktoria.bookify.infrastructure.apivalidation.ApiValidationErro
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,6 +18,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WithMockUser(roles = "ADMIN")
 class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:18-alpine");
+
+    @DynamicPropertySource
+    static void propertyOverride(final DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
+    }
 
     @Test
     void should_return_bad_request_when_empty_and_null_in_create_book_request() throws Exception {

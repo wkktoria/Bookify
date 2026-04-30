@@ -3,11 +3,24 @@ package io.github.wkktoria.bookify.feature;
 import io.github.wkktoria.bookify.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserWantsToCreateEntitiesButEndpointsAreSecuredIntegrationTest extends BaseIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:18-alpine");
+
+    @DynamicPropertySource
+    static void propertyOverride(final DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
+    }
 
     @Test
     void user_wants_to_create_entities_but_endpoints_are_secured() throws Exception {

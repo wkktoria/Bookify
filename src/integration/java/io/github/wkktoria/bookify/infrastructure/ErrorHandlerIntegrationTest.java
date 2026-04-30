@@ -16,8 +16,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -31,6 +35,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ErrorHandlerIntegrationTest extends BaseIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:18-alpine");
+
+    @DynamicPropertySource
+    static void propertyOverride(final DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
+    }
 
     @Autowired
     BookifyCrudFacade bookifyCrudFacade;
