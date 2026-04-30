@@ -510,4 +510,139 @@ class BookifyCrudFacadeTest {
         assertThat(series.books()).containsExactlyInAnyOrder(bookDto1, bookDto2, bookDto3);
     }
 
+    @Test
+    @DisplayName("Should add genre")
+    void should_add_genre() {
+        // given
+        GenreRequestDto genre = new GenreRequestDto("test");
+
+        // when
+        GenreDto genreDto = bookifyCrudFacade.addGenre(genre);
+
+        // then
+        Set<GenreDto> allGenres = bookifyCrudFacade.findAllGenres();
+        assertThat(allGenres).extracting(GenreDto::id).contains(genreDto.id());
+    }
+
+    @Test
+    @DisplayName("Should add author to book")
+    void should_add_author_to_book() {
+        // given
+        AuthorRequestDto authorRequest = AuthorRequestDto.builder()
+                .firstname("Firstname1")
+                .lastname("Lastname1")
+                .build();
+        AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
+        BookRequestDto bookRequest = BookRequestDto.builder()
+                .title("Book")
+                .publicationDate(LocalDate.now())
+                .isbn("1234567890")
+                .pages(100)
+                .authorId(author.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto book = bookifyCrudFacade.addBookWithAuthor(bookRequest);
+        AuthorRequestDto authorToAddRequest = AuthorRequestDto.builder()
+                .firstname("Firstname2")
+                .lastname("Lastname2")
+                .build();
+        AuthorDto authorToAdd = bookifyCrudFacade.addAuthor(authorToAddRequest);
+
+        assertThat(bookifyCrudFacade.findBooksByAuthorId(authorToAdd.id())).isEmpty();
+
+        // when
+        bookifyCrudFacade.addAuthorToBook(authorToAdd.id(), book.id());
+
+        // then
+        Set<BookDto> booksByAuthorId = bookifyCrudFacade.findBooksByAuthorId(authorToAdd.id());
+        assertThat(booksByAuthorId).extracting(BookDto::id).containsExactly(book.id());
+    }
+
+    @Test
+    @DisplayName("Should return book by id")
+    void should_return_book_by_id() {
+        // given
+        AuthorRequestDto authorRequest = AuthorRequestDto.builder()
+                .firstname("Firstname1")
+                .lastname("Lastname1")
+                .build();
+        AuthorDto author = bookifyCrudFacade.addAuthor(authorRequest);
+        BookRequestDto bookRequest = BookRequestDto.builder()
+                .title("Book")
+                .publicationDate(LocalDate.now())
+                .isbn("1234567890")
+                .pages(100)
+                .authorId(author.id())
+                .language(BookLanguageDto.ENGLISH)
+                .build();
+        BookDto book = bookifyCrudFacade.addBookWithAuthor(bookRequest);
+        Long bookId = book.id();
+
+        // when
+        BookDto bookById = bookifyCrudFacade.findBookById(bookId);
+
+        // then
+        assertThat(bookById).extracting(BookDto::id).isEqualTo(bookId);
+    }
+
+    @Test
+    @DisplayName("Should throw BookNotFoundException When book not found by id")
+    void should_throw_book_not_found_exception_when_book_not_found_by_id() {
+        // given
+        assertThat(bookifyCrudFacade.findAllBooks(Pageable.unpaged())).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade.findBookById(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(BookNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find book with id=0");
+    }
+
+    @Test
+    @DisplayName("Should throw GenreNotFoundException When genre not found by id")
+    void should_throw_genre_not_found_exception_when_genre_not_found_by_id() {
+        // given
+        // There is always a default genre in the database.
+        assertThat(bookifyCrudFacade.findAllGenres()).hasSize(1);
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .findGenreByIdWithBooks(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(GenreNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find genre with id=0");
+    }
+
+    @Test
+    @DisplayName("Should throw AuthorNotFoundException When author not found by id")
+    void should_throw_author_not_found_exception_when_author_not_found_by_id() {
+        // given
+        assertThat(bookifyCrudFacade.findAllAuthors(Pageable.unpaged())).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .findAuthorByIdWithBooks(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(AuthorNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find author with id=0");
+    }
+
+    @Test
+    @DisplayName("Should throw SeriesNotFoundException When series not found by id")
+    void should_throw_series_not_found_exception_when_series_not_found_by_id() {
+        // given
+        assertThat(bookifyCrudFacade.findAllSeries()).isEmpty();
+
+        // when
+        Throwable throwable = catchThrowable(() -> bookifyCrudFacade
+                .findSeriesByIdWithAuthorsAndBooks(0L));
+
+        // then
+        assertThat(throwable).isInstanceOf(SeriesNotFoundException.class);
+        assertThat(throwable).hasMessage("Could not find series with id=0");
+    }
+
 }
