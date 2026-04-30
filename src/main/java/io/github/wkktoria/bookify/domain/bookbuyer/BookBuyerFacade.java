@@ -10,13 +10,13 @@ public class BookBuyerFacade {
     private final BookifyCrudFacade bookifyCrudFacade;
     private final AmazonHttpClient amazonHttpClient;
 
-    public void buyBookWithId(final Long id) {
+    public String buyBookWithId(final Long id) {
         BookDto bookDtoById = bookifyCrudFacade.findBookById(id);
         String title = bookDtoById.title();
         String result = amazonHttpClient.buyBookByTitle(title);
 
         if (result.equals("success")) {
-            return;
+            return result;
         }
 
         throw new RuntimeException("An error occurred - could not buy book");
