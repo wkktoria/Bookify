@@ -4,6 +4,7 @@ import io.github.wkktoria.bookify.infrastructure.crud.author.controller.AuthorRe
 import io.github.wkktoria.bookify.infrastructure.crud.book.controller.BookRestController;
 import io.github.wkktoria.bookify.infrastructure.crud.genre.controller.GenreRestController;
 import io.github.wkktoria.bookify.infrastructure.crud.series.controller.SeriesRestController;
+import io.github.wkktoria.bookify.infrastructure.usercrud.controller.RegisterController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,8 @@ import java.util.List;
         BookRestController.class,
         AuthorRestController.class,
         GenreRestController.class,
-        SeriesRestController.class
+        SeriesRestController.class,
+        RegisterController.class
 })
 @Log4j2
 class ApiValidationErrorHandler {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @AllArgsConstructor
 @Log4j2
-class RegisterController {
+public class RegisterController {
 
     private final UserDetailsManager userDetailsManager;
 
