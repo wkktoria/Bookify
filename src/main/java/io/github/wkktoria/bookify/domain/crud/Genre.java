@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -17,7 +18,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "genre")
+@Table(name = "genre", indexes = {
+        @Index(name = "idx_genre_name", columnList = "name")
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
