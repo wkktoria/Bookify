@@ -2,6 +2,7 @@ package io.github.wkktoria.bookify.infrastructure.security;
 
 import io.github.wkktoria.bookify.domain.usercrud.User;
 import io.github.wkktoria.bookify.domain.usercrud.UserConformer;
+import io.github.wkktoria.bookify.domain.usercrud.UserExistsException;
 import io.github.wkktoria.bookify.domain.usercrud.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ class UserDetailsServiceImpl implements UserDetailsManager {
     public void createUser(final UserDetails user) {
         if (userExists(user.getUsername())) {
             log.warn("User could not be saved, because user with username='{}' already exists", user.getUsername());
-            throw new RuntimeException("User not saved - already exists");
+            throw new UserExistsException("User not saved - already exists");
         }
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
