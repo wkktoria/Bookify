@@ -1,7 +1,7 @@
 package io.github.wkktoria.bookify.infrastructure.security;
 
 import io.github.wkktoria.bookify.domain.usercrud.User;
-import io.github.wkktoria.bookify.domain.usercrud.UserConformer;
+import io.github.wkktoria.bookify.domain.usercrud.UserConfirmer;
 import io.github.wkktoria.bookify.domain.usercrud.UserExistsException;
 import io.github.wkktoria.bookify.domain.usercrud.UserRepository;
 import jakarta.transaction.Transactional;
@@ -26,7 +26,7 @@ class UserDetailsServiceImpl implements UserDetailsManager {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserConformer userConformer;
+    private final UserConfirmer userConfirmer;
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
@@ -53,7 +53,7 @@ class UserDetailsServiceImpl implements UserDetailsManager {
         );
         User savedUser = userRepository.save(createdUser);
         log.info("User saved with id={}", savedUser.getId());
-        userConformer.sendConfirmationEmail(createdUser);
+        userConfirmer.sendConfirmationEmail(createdUser);
     }
 
     @Override

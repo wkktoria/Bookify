@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class UserConformer {
+public class UserConfirmer {
 
     private final MailSender mailSender;
     private final UserRepository userRepository;

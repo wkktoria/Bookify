@@ -1,7 +1,7 @@
 package io.github.wkktoria.bookify.infrastructure.usercrud.controller;
 
 import io.github.wkktoria.bookify.domain.usercrud.BookifyUserCrudFacade;
-import io.github.wkktoria.bookify.domain.usercrud.UserConformer;
+import io.github.wkktoria.bookify.domain.usercrud.UserConfirmer;
 import io.github.wkktoria.bookify.domain.usercrud.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,7 +20,7 @@ import java.util.Set;
 class UserController {
 
     private final BookifyUserCrudFacade bookifyUserCrudFacade;
-    private final UserConformer userConformer;
+    private final UserConfirmer userConfirmer;
 
     @GetMapping
     ResponseEntity<AllUsersResponseDto> getUsers() {
@@ -34,7 +34,7 @@ class UserController {
 
     @GetMapping("/confirm")
     String confirm(@RequestParam final String token) {
-        boolean isConfirmed = userConformer.confirmUser(token);
+        boolean isConfirmed = userConfirmer.confirmUser(token);
         return isConfirmed ? "Registration confirmed" : "Invalid confirmation token";
     }
 
